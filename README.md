@@ -1,2 +1,1 @@
-#Test
-This is my test (Marthe)
+This is our README
