@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "qZon/2Ws7PizYyV5SSr9y8ts2CvXbBzyHEyC3L5D/gvHNXiEs0w9a9A94zJXWM77B2LSY8FQf/taP9/HvugGIQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\thea-\\Source\\Repos\\Bachelor2024-GR11\\ReactApp\\ReactApp.Server\\ReactApp.Server.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\thea-\\.nuget\\packages\\microsoft.aspnetcore.spaproxy\\8.0.1\\microsoft.aspnetcore.spaproxy.8.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
