@@ -1,0 +1,14 @@
+.infoContainer {
+    margin: 2em;
+}
+
+.infoDiv {
+    height: 60vh;
+    align-self: flex-start;
+}
+
+.allStepsDiv {
+    height: 20vh;
+    align-self: flex-end;
+    text-align: center;
+}
