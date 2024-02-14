@@ -24,9 +24,11 @@ resource webApp 'Microsoft.Web/sites@2022-03-01' = {
   location: location
   properties: {
     serverFarmId: appServicePlan.id
+    CURRENT_STACK:'dotnet'
     httpsOnly: true
   }
   kind: 'app'
+  netFrameworkVersion:'v8.0'
   dependsOn: [
       appServicePlan
     ]
