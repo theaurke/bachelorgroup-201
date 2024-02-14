@@ -7,15 +7,15 @@ import Col from 'react-bootstrap/Col';
 
 export default function App() {
     return (
-        <Container fluid>
-            <Row>
-                <Col xl={3}>
+        <Container className="vh-100" style={{padding: '1em' }} fluid>
+            <Row style={{ height: '100%' }}>
+                <Col xl={3} >
                     <Sidebar />
                 </Col>
                 <Col>
                     <Main />
                 </Col>
-            </Row>
+            </Row >
         </Container>
     );
 }
