@@ -1,12 +1,11 @@
-import React from 'react';
 
-export default function Step() {
+export default function Step(props) {
+    const { title, description, src} = props;
     return (
-        <div className='stepDiv'>
-            <img alt='stepNr&Visual' />
-            <h5>Title</h5>
-            <p>Description</p>
-
-        </div>
+        <>
+            <img src={src}  alt='stepNr&Visual' />
+            <h6 style={{ color: '#45654C' }}>{title}</h6>
+            <p>{description}</p>
+        </>
     );
 }

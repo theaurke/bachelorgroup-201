@@ -1,4 +1,3 @@
-import React from 'react';
 import Step from './Step';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -19,13 +18,25 @@ export default function Information() {
             </Row>
             <Row className={styles.allStepsDiv}>
                 <Col>
-                     <Step />
+                    <Step
+                        title='Choose resources'
+                        description='Choose one or more resources you want to calculate emissions for.'
+                        src='../public/step1.png'
+                    />
                 </Col>
                 <Col>
-                    <Step />
+                    <Step
+                        title='Fill in the data'
+                        description='Fill in the required data and let the calculator do the rest..'
+                        src='../public/step2.png'
+                    />
                 </Col>
                 <Col>
-                    <Step />
+                    <Step
+                        title='Present the results'
+                        description='See the results from the calculations and convert them to PDF to easy present it.'
+                        src='../public/step3.png'
+                    />
                 </Col>
             </Row>
         </Container>
