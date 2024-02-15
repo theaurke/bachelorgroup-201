@@ -1,11 +1,10 @@
-import React from 'react';
 import Information from './Information';
+import Container from 'react-bootstrap/Container';
 
 export default function Main() {
     return (
-        <main style={{border: '2px solid green'} }>
+        <Container style={{ border: '4px solid #45654C', padding: '0em' }}>
             <Information />
-        </main>
+        </Container>
     );
-       
 }
