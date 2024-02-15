@@ -1,14 +1,27 @@
 .infoContainer {
-    margin: 2em;
+    background-size: cover;
+    background-image: url('../public/background-frontpage.png');
+    text-align: center;
 }
 
 .infoDiv {
-    height: 60vh;
+    height: 70vh;
     align-self: flex-start;
 }
 
 .allStepsDiv {
-    height: 20vh;
+    height: 26vh;
     align-self: flex-end;
-    text-align: center;
+}
+
+.h1 {
+    font-size: 4.8em;
+    color: #45654C;
+    margin-top: 0.8em;
+}
+
+.p {
+   
+    font-size: 1.2em;
+    padding: 3em 0em 0em 15em;
 }
