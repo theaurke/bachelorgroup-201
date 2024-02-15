@@ -1,14 +1,10 @@
-@description('Generate unique String for web app name')
-param webAppName string = uniqueString(resourceGroup().id)
-
 @description('The SKU of App service plan')
 param sku string = 'F1' 
 
 @description('Azure resource deployment location')
-param location string = 'West Europe'
+param location string = 'westeurope'
 
-// var appServicePlanName = toLower('AppServicePlan-${webAppName}')
-var webSiteName = toLower('wapp-${webAppName}')
+var webSiteName = 'ecoestimate'
 
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
