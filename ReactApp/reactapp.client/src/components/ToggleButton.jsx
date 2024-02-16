@@ -1,12 +1,12 @@
-import React from 'react';
+import Col from 'react-bootstrap/Col';
 
 export default function ToggleButton() {
     return (
-        <div className='toggleSidebarDiv'>
-            <button>
-                <img alt='toggleSidebar' />
+        <Col style={{display: 'flex', justifyContent: 'center'} } >
+            <button style={{border: 'none', background: 'none'} }>
+                <img src='toggleWhite.png' alt='toggleSidebar' style={{width: '55px'} } />
             </button>
-            <p>Toggle Sidebar</p>
-        </div>
+            <h5 style={{color: 'white', alignSelf: 'center'} }>Toggle Sidebar</h5>
+        </Col>
     );
 }

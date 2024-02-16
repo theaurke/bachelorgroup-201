@@ -1,0 +1,38 @@
+
+.colStyle {
+    height: 20%;
+    display: flex;
+    justify-content: space-around;
+    border: 2px solid transparent;
+}
+
+.buttonStyle {
+    background: none;
+    font-size: 1.5em;
+    color: white;
+    border: none;
+}
+
+.imgStyle {
+    width: 30px;
+    display: block;
+}
+
+.navBtnStyle {
+    flex: 4;
+}
+
+.imgButton {
+    height: fit-content;
+    align-self: center;
+    padding: 0.5em;
+    border: 2px solid transparent;
+}
+
+.imgButton:hover {
+    border: 2px solid white;
+}
+
+.colStyle:has(.navBtnStyle:hover) {
+    border: 2px solid white;
+}
