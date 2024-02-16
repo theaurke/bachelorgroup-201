@@ -1,6 +1,6 @@
 .infoContainer {
     background-size: cover;
-    background-image: url('../public/background-frontpage.png');
+    background-image: url('background-frontpage.png');
     text-align: center;
 }
 
