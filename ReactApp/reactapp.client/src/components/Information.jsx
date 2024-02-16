@@ -23,7 +23,7 @@ export default function Information() {
                         title='Choose resources'
                         description='Choose one or more resources you want to calculate emissions for.'
                         split={28}
-                        src='../public/step1.png'
+                        src='step1.png'
                     />
                 </Col>
                 <Col>
@@ -31,7 +31,7 @@ export default function Information() {
                         title='Fill in the data'
                         description='Fill in the required data and let the calculator do the rest.'
                         split={29}
-                        src='../public/step2.png'
+                        src='step2.png'
                     />
                 </Col>
                 <Col>
@@ -39,7 +39,7 @@ export default function Information() {
                         title='Present the results'
                         description='See the results from the calculations and convert them to PDF to easy present it.'
                         split={37}
-                        src='../public/step3.png'
+                        src='step3.png'
                     />
                 </Col>
             </Row>
