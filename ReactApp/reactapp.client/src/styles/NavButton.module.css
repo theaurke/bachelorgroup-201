@@ -1,6 +1,5 @@
 
 .colStyle {
-    height: 20%;
     display: flex;
     justify-content: space-around;
     border: 2px solid transparent;
@@ -11,6 +10,7 @@
     font-size: 1.5em;
     color: white;
     border: none;
+    
 }
 
 .imgStyle {
@@ -31,8 +31,10 @@
 
 .imgButton:hover {
     border: 2px solid white;
+    border-radius: 5px;
 }
 
 .colStyle:has(.navBtnStyle:hover) {
     border: 2px solid white;
+    border-radius: 5px;
 }
