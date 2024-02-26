@@ -1,12 +1,29 @@
 import Col from 'react-bootstrap/Col';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 export default function ToggleButton() {
+
+    const renderTooltip = (props) => (
+        <Tooltip id='toggle-tooltip' {...props}>
+            Toggle Sidebar
+        </Tooltip>
+    )
+
     return (
-        <Col style={{display: 'flex', justifyContent: 'center'} } >
-            <button style={{border: 'none', background: 'none'} }>
-                <img src='toggleWhite.png' alt='toggleSidebar' style={{width: '55px'} } />
-            </button>
-            <h5 style={{color: 'white', alignSelf: 'center'} }>Toggle Sidebar</h5>
+        <Col>
+
+            <OverlayTrigger
+                placement='right'
+                delay={{ show: 50, hide: 100 }}
+                overlay={renderTooltip}
+                
+            >
+                <button style={{border: 'none', background: 'none'} }>
+                    <img src='toggleWhite.png' alt='toggleSidebar' style={{width: '55px'} } />
+                </button>
+            </OverlayTrigger>
+
         </Col>
     );
 }
