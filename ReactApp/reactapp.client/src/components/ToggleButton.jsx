@@ -2,7 +2,7 @@ import Col from 'react-bootstrap/Col';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 
-export default function ToggleButton() {
+export default function ToggleButton({toggleSidebar}) {
 
     const renderTooltip = (props) => (
         <Tooltip id='toggle-tooltip' {...props}>
@@ -19,7 +19,7 @@ export default function ToggleButton() {
                 overlay={renderTooltip}
                 
             >
-                <button style={{border: 'none', background: 'none'} }>
+                <button style={{ border: 'none', background: 'none' }} onClick={toggleSidebar}>
                     <img src='toggleWhite.png' alt='toggleSidebar' style={{width: '55px'} } />
                 </button>
             </OverlayTrigger>

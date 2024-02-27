@@ -2,6 +2,7 @@
 .colStyle {
     display: flex;
     justify-content: space-around;
+    align-items: center;
     border: 2px solid transparent;
 }
 
@@ -9,32 +10,24 @@
     background: none;
     font-size: 1.5em;
     color: white;
+    flex: 4;
+    height: 100%;
     border: none;
-    
+}
+
+.imgContainer {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 .imgStyle {
     width: 30px;
-    display: block;
 }
 
-.navBtnStyle {
-    flex: 4;
-}
-
-.imgButton {
-    height: fit-content;
-    align-self: center;
-    padding: 0.5em;
-    border: 2px solid transparent;
-}
-
-.imgButton:hover {
-    border: 2px solid white;
-    border-radius: 5px;
-}
-
-.colStyle:has(.navBtnStyle:hover) {
+.colStyle:has(.hoverStyle:hover) {
     border: 2px solid white;
     border-radius: 5px;
 }

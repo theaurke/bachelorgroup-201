@@ -9,14 +9,14 @@ import styles from '../styles/Navbar.module.css'
 import { useState } from 'react';
 
 
-export default function Navbar() {
+export default function Navbar({toggleSidebar, isSidebarCollapsed}) {
     const [activeTab, setActiveTab] = useState(''); // Initialize active tab state
 
 
     return (
         <Container fluid className={styles.container}>
             <Row style={{ flex: '1', padding: '0.1em' }}>
-                <NavButton text='Start new calculation' src='plusWhite.png' alt='New calculation' />
+                <NavButton text='Start new calculation' src='plusWhite.png' alt='New calculation' isSidebarCollapsed={isSidebarCollapsed} />
             </Row>
 
             <Row style={{flex: '9', padding: '0.1em'}}>
@@ -25,7 +25,7 @@ export default function Navbar() {
                         <Nav variant='pills' className={styles.navContainer}>
                             <Nav.Item className={styles.navItem}>
                                 <Nav.Link eventKey='first' className={`${styles.navLink} ${activeTab === 'first' ? styles.activeTab : ''}`}>
-                                    Tab 1
+                                    Tab 1 blablaba hdfusjagbdf hifwoa
                                 </Nav.Link>
                             </Nav.Item>
                         </Nav>
@@ -34,7 +34,7 @@ export default function Navbar() {
             </Row>
 
             <Row style={{flex: '1'}}>
-                <ToggleButton />
+                <ToggleButton toggleSidebar={toggleSidebar} />
             </Row>
         </Container>
     );
