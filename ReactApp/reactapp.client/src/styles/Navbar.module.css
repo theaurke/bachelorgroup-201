@@ -7,24 +7,19 @@
 
 .navContainer {
     font-size: 1.5em;
-    display: flex;
-    flex-direction: column;
     text-align: center;
 }
 
 .navItem {
-    width: 100%; 
-    display: flex; 
-    justify-content: center;
+    width: 100%;
 }
 
 .navLink {
     color: white !important;
+    display: flex !important;
+    align-items: center;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
-    width: calc(100% - 1px);
-    display: inline-block;
 }
 
 .navLink:hover {
@@ -34,4 +29,25 @@
 .activeTab {
     background-color: white !important;
     color: black !important;
+}
+
+.tabTitle {
+    flex-grow: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.deleteIcon {
+    width: 40px;
+    padding: 0.1em;
+    border: 2px solid transparent;
+    text-overflow: clip;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.deleteIcon:hover {
+    border: 2px solid #45654C;
+    border-radius: 5px;
 }

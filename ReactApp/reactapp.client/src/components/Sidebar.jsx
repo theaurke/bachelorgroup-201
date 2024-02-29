@@ -2,7 +2,7 @@ import Navbar from './Navbar';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 
-export default function Sidebar({ toggleSidebar, sidebarWidth }) {
+export default function Sidebar({ toggleSidebar, sidebarWidth, activeTab, setActiveTab }) {
     const isSidebarCollapsed = sidebarWidth === 1;
 
     return (
@@ -11,7 +11,7 @@ export default function Sidebar({ toggleSidebar, sidebarWidth }) {
                 <img alt='logo' src='logo.png' style={{height: '100%', objectFit: 'contain'} } />
             </Row>
             <Row style={{ backgroundColor: '#45654C', flex: '1', marginTop: '1em' }}>
-                <Navbar toggleSidebar={toggleSidebar} isSidebarCollapsed={isSidebarCollapsed} />
+                <Navbar toggleSidebar={toggleSidebar} isSidebarCollapsed={isSidebarCollapsed} activeTab={activeTab}  setActiveTab={setActiveTab} />
             </Row>
         </Container>
     );
