@@ -31,6 +31,10 @@ export default function Navbar({toggleSidebar, isSidebarCollapsed, activeTab, se
         setTabId(tabId + 1); // Increment tabId for the next tab
     };
 
+    const editTabName = (id, newName) => {
+        setTabs(tabs.map(tab => tab.id === id ? { ...tab, title: newName } : tab));
+    };
+
     const deleteTab = (id) => {
         // Show the warning popup before deletion
         setShowWarningPopup(true);
@@ -75,7 +79,7 @@ export default function Navbar({toggleSidebar, isSidebarCollapsed, activeTab, se
                     <Col style={{padding: '0'} }>
                         <Nav variant='pills' className={styles.navContainer}>
                             {tabs.map((tab) => (
-                                <NavTab key={tab.id} id={tab.id} title={tab.title} isActive={activeTab === tab.id.toString()} onDelete={deleteTab} isSidebarCollapsed={isSidebarCollapsed} />
+                                <NavTab key={tab.id} id={tab.id} title={tab.title} isActive={activeTab === tab.id.toString()} onDelete={deleteTab} isSidebarCollapsed={isSidebarCollapsed} onEdit={editTabName} />
                             ))}
                         </Nav>
                     </Col>

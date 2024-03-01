@@ -38,8 +38,22 @@
     white-space: nowrap;
 }
 
+.optionsIcon {
+    width: 30px;
+    padding: 0.1em;
+    border: 2px solid transparent;
+    text-overflow: clip;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.optionsIcon:hover {
+    border: 2px solid #45654C;
+    border-radius: 5px;
+}
+
 .deleteIcon {
-    width: 40px;
+    width: 35px;
     padding: 0.1em;
     border: 2px solid transparent;
     text-overflow: clip;
