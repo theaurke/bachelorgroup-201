@@ -1,0 +1,30 @@
+.li {
+    list-style: none;
+    border-bottom: 2px solid #45654C;
+}
+
+
+.dropdownBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border: none;
+    border-radius: 0em;
+    background-color: white;
+    padding: 1.5em 1em;
+}
+
+
+.dropdownBtn > h6 {
+    margin: 0em;
+    flex-grow: 1;
+    color: black;
+}
+
+.dropdownBtn > p {
+    margin: 0em;
+   margin-left: auto;
+   font-size: 20px;
+   color: #45654C;
+}
