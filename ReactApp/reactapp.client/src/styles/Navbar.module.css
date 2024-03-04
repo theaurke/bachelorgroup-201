@@ -2,7 +2,7 @@
 .container {
     height: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Align top to bottom */
 }
 
 .navContainer {
@@ -15,7 +15,7 @@
 }
 
 .navLink {
-    color: white !important;
+    color: white !important; /* Override default styling */
     display: flex !important;
     align-items: center;
     white-space: nowrap;
@@ -33,7 +33,7 @@
 
 .tabTitle {
     flex-grow: 1;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis; /* Overflow replaced with '...' */
     overflow: hidden;
     white-space: nowrap;
 }
@@ -41,7 +41,7 @@
 .optionsIcon {
     width: 30px;
     padding: 0.1em;
-    border: 2px solid transparent;
+    border: 2px solid transparent; /* Transparent border to prevent movement of elements on hover effect */
     text-overflow: clip;
     overflow: hidden;
     white-space: nowrap;

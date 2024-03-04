@@ -1,8 +1,8 @@
 
 .colStyle {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
+    justify-content: space-around; /* Space child elements vertically */
+    align-items: center; /* Center child elements horizontally */
     border: 2px solid transparent;
 }
 
@@ -16,7 +16,7 @@
 }
 
 .imgContainer {
-    flex: 1;
+    flex: 1; /* Fill the rest of the space */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,6 +27,7 @@
     width: 30px;
 }
 
+/* Border around Col on button and img (hoverStyle) hover */
 .colStyle:has(.hoverStyle:hover) {
     border: 2px solid white;
     border-radius: 5px;
