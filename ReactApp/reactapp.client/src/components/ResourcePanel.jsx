@@ -5,7 +5,19 @@ import ResourceList from './ResourceList';
 import AddedResourcesList from './AddedResourcesList';
 import TextButton from './TextButton';
 
-export default function ResourcePanel({ handleCalculate, addedResources, setAddedResources, calculated }) {
+
+/**
+ * ResourcePanel component for the application.
+ * Renders a panel with either a button to add resources, a list of resources to choose from, 
+ *  or the list of added resources.
+ * @param {string} layout - The layout main should have.
+ * @param {Function} handleCalculate - Function to updating the layout of main after calculation.
+ * @param {array} addedResources - Array of resources added to the calculation.
+ * @param {Function} setAddedResources - Function to update the addedResources array.
+ * @param {boolean} calculated - Boolean to change content based on if the resources are calculated or not.
+ * @returns {JSX.Element} The JSX representation of the ResourcePanel.
+ */
+export default function ResourcePanel({ layout, handleCalculate, addedResources, setAddedResources, calculated }) {
     const [showList, setShowList] = useState(false); // State managing the visibility of the list of resource to choose from.
 
 
@@ -18,7 +30,7 @@ export default function ResourcePanel({ handleCalculate, addedResources, setAdde
 
         ) : (
 
-                addedResources.length === 0 ? ( // Returning the Add resource button if no resources added in the addedResources list.
+                addedResources?.length === 0 ? ( // Returning the Add resource button if no resources added in the addedResources list.
 
                     <Container style={{ height: '96vh', borderLeft: '4px solid #45654C', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <button className={styles.addResourceButton} onClick={() => setShowList(!showList)}> Add Resource </button>
@@ -45,7 +57,7 @@ export default function ResourcePanel({ handleCalculate, addedResources, setAdde
                                     </Col>
 
                                     <Col style={{ display: 'flex', justifyContent: 'center', marginTop: '2em' }}>
-                                        <TextButton text='Calculate' type='button' onClick={() => handleCalculate(addedResources)} />
+                                        <TextButton text='Calculate' type='button' onClick={() => handleCalculate(layout === 'resource' ? 'result' : 'resource')} />
                                     </Col>
 
                                 </Row>
