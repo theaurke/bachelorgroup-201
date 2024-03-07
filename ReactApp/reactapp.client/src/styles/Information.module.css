@@ -1,27 +1,34 @@
 .infoContainer {
+    height: 96vh;
     background-size: cover;
     background-image: url('background-frontpage.png');
     text-align: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .infoDiv {
-    height: 70vh;
-    align-self: flex-start;
+    flex: 3;
+    height: 77%;
+    display: flex; /* Use flexbox for inner layout */
+    flex-direction: column; /* Stack children vertically */
 }
 
 .allStepsDiv {
-    height: 26vh;
-    align-self: flex-end;
+    flex: 1;
 }
 
 .h1 {
-    font-size: 4.8em;
+    flex: 1;
     color: #45654C;
-    margin-top: 0.8em;
+    margin: 0;
+    padding-top: 0.5em;
+    font-size: 4vw; /* Set font size relative to the viewport width */
 }
 
 .p {
-   
-    font-size: 1.2em;
-    padding: 3em 0em 0em 15em;
+    flex: 1;
+    margin: 0;
+    display: flex;
+    justify-content: end; /* Align content to the right */
 }

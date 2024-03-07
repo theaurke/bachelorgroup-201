@@ -8,11 +8,11 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
  * @param {Function} props.toggleSidebar - Function to toggle the sidebar.
  * @returns {JSX.Element} The JSX representation of the ToggleButton.
  */
-export default function ToggleButton({toggleSidebar}) {
+export default function ToggleButton({ toggleSidebar, isWindowSmall }) {
     // Function to render the tooltip
     const renderTooltip = (props) => (
         <Tooltip id='toggle-tooltip' {...props}>
-            Toggle Sidebar
+            {isWindowSmall ? 'Show Calculations' : 'Toggle Sidebar'}
         </Tooltip>
     )
 

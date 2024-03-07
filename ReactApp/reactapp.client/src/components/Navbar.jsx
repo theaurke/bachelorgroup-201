@@ -18,7 +18,7 @@ import WarningPopup from './WarningPopup';
  * @returns {JSX.Element} The JSX representation of the navbar.
  */
 export default function Navbar(props) {
-    const { toggleSidebar, isSidebarCollapsed, activeTab, setActiveTab } = props;
+    const { toggleSidebar, isSidebarCollapsed, activeTab, setActiveTab, isNavbarCollapsed, setNavbarHeight, isWindowSmall } = props;
 
     // State management for tabs, tabId, warning popup, and tab deletion
     const [tabs, setTabs] = useState([]);
@@ -29,6 +29,9 @@ export default function Navbar(props) {
 
     // Function to add new tab to the Navbar
     const addNewTab = () => {
+        if (isNavbarCollapsed) {
+            setNavbarHeight('40vh');
+        }
         // Set new unique tab id
         const newId = tabId;
         // Create a new tab object with the id and default title
@@ -41,6 +44,7 @@ export default function Navbar(props) {
         // Set the newly added tab as the active tab using function from props
         setActiveTab(newId.toString()); // Convert it to string
         setTabId(tabId + 1); // Increment tabId for the next tab
+
     };
 
     // Function to edit the title of a tab
@@ -92,7 +96,7 @@ export default function Navbar(props) {
             )}
 
             {/* Row for the 'Start new calculation' button */}
-            <Row style={{ flex: '1', padding: '0.1em', maxHeight: '8vh' }}>
+            <Row style={{ padding: '0.1em' }}>
                 <NavButton  
                     // text, src, alt, and isSidebarCollapsed as props
                     text='Start new calculation'
@@ -103,32 +107,34 @@ export default function Navbar(props) {
                 />
             </Row>
 
-            {/* Row for the tabs */}
-            <Row style={{ flex: '9', padding: '0.1em', maxHeight: '60vh', overflowY: 'auto' }}>
-                {/* Using Tab and Nav from react bootstrap to make pill tabs */}
-                <Tab.Container activeKey={activeTab} onSelect={(key) => setActiveTab(key)}>
-                    <Col style={{ padding: '0' }}>
-                        <Nav variant='pills' className={styles.navContainer}>
-                            {/* Map through the tabs and render each tab */}
-                            {tabs.map((tab) => (
-                                <NavTab
-                                    key={tab.id}
-                                    id={tab.id}
-                                    title={tab.title}
-                                    isActive={activeTab === tab.id.toString()}
-                                    onDelete={deleteTab}
-                                    isSidebarCollapsed={isSidebarCollapsed}
-                                    onEdit={editTabName}
-                                />
-                            ))}
-                        </Nav>
-                    </Col>
-                </Tab.Container>
-            </Row>
+            {/* Row for the tabs, rendered conditionally based on isSmallWindow */}
+            {!isNavbarCollapsed && (
+                <Row style={{ flex: '1', padding: '0.1em' }}>
+                    {/* Using Tab and Nav from react bootstrap to make pill tabs */}
+                    <Tab.Container activeKey={activeTab} onSelect={(key) => setActiveTab(key)}>
+                        <Col style={{ padding: '0' }}>
+                            <Nav variant='pills' className={styles.navContainer}>
+                                {/* Map through the tabs and render each tab */}
+                                {tabs.map((tab) => (
+                                    <NavTab
+                                        key={tab.id}
+                                        id={tab.id}
+                                        title={tab.title}
+                                        isActive={activeTab === tab.id.toString()}
+                                        onDelete={deleteTab}
+                                        isSidebarCollapsed={isSidebarCollapsed}
+                                        onEdit={editTabName}
+                                    />
+                                ))}
+                            </Nav>
+                        </Col>
+                    </Tab.Container>
+                </Row>
+            )}
 
             {/* Row for the toggle button */}
-            <Row style={{ flex: '1', maxHeight: '8vh' }}>
-                <ToggleButton toggleSidebar={toggleSidebar} />
+            <Row style={{ marginTop: 'auto'}}>
+                <ToggleButton toggleSidebar={toggleSidebar} isWindowSmall={isWindowSmall} />
             </Row>
         </Container>
     );

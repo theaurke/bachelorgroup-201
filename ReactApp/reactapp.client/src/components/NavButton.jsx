@@ -26,7 +26,8 @@ export default function NavButton(props) {
                 // Render button with image only when sidebar is collapsed
                 <button
                     onClick={onClick}
-                    className={`${styles.imgContainer} ${styles.hoverStyle} ${styles.buttonStyle}`}
+                    className={`${styles.imgContainer} ${styles.buttonStyle}`}
+                    style={{padding:'0.5em'}}
                 >
                     <img className={styles.imgStyle} src={src} alt={alt} />
                 </button>
@@ -34,13 +35,13 @@ export default function NavButton(props) {
                 // Render both text and image buttons when sidebar is expanded
                 <>
                     {/* Button with text */}
-                    <button onClick={onClick} className={`${styles.buttonStyle} ${styles.hoverStyle}`}>
+                        <button onClick={onClick} className={styles.buttonStyle} style={{ padding: '0.5em' }}>
                         {text}
                     </button>
                     {/* Button with image */}
                     <button
                         onClick={onClick}
-                        className={`${styles.imgContainer} ${styles.hoverStyle} ${styles.buttonStyle}`}
+                        className={`${styles.imgContainer} ${styles.buttonStyle}`}
                     >
                         <img className={styles.imgStyle} src={src} alt={alt} />
                     </button>

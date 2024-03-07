@@ -8,6 +8,8 @@
 .navContainer {
     font-size: 1.5em;
     text-align: center;
+    max-height: 50vh;
+    overflow-y: auto;
 }
 
 .navItem {
@@ -64,4 +66,11 @@
 .deleteIcon:hover {
     border: 2px solid #45654C;
     border-radius: 5px;
+}
+
+
+@media screen and (max-width: 992px) {
+    .navContainer {
+        max-height: 20vh;
+    }
 }

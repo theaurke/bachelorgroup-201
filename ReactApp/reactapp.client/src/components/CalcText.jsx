@@ -1,4 +1,7 @@
-
+/**
+ * CalcText component for rendering a describing text and image .
+ * @returns {JSX.Element} The JSX representation of the text and images.
+ */
 export default function CalcText() {
     return (
         <>

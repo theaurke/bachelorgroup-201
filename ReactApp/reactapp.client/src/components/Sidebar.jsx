@@ -12,20 +12,24 @@ import { Container, Row } from 'react-bootstrap';
  * @returns {JSX.Element} The JSX representation of the sidebar.
  */
 export default function Sidebar(props) {
-    const { toggleSidebar, sidebarWidth, activeTab, setActiveTab } = props;
+    const { toggleSidebar, sidebarWidth, activeTab, setActiveTab, navbarHeight, windowWidth, minWindowWidth, setNavbarHeight} = props;
 
     // Check if sidebar is collapsed
-    const isSidebarCollapsed = sidebarWidth === 1;  
+    const isSidebarCollapsed = sidebarWidth === 1;
+    const isWindowSmall = windowWidth < minWindowWidth;
+    const isNavbarCollapsed = navbarHeight === '20vh';
 
     // Return sidebar component with flex column Container, placing the Rows vertically
     return (
-        <Container fluid style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <Container fluid style={{ height: '100%'}}>
             {/* Logo row */}
-            <Row style={{ height: '20%', backgroundColor: '#45654C', textAlign: 'center', padding: '1em' }}>
-                <img alt='logo' src='logo.png' style={{ height: '100%', objectFit: 'contain' }} />
+            <Row style={{ height: '20vh', maxHeight: '25vh', backgroundColor: '#45654C', textAlign: 'center', padding: '0.5em' }}>
+                {!isSidebarCollapsed && (
+                    <img alt='logo' src='logo.png' style={{ height: '90%', margin: 'auto', objectFit: 'contain' }} />
+                )}
             </Row>
             {/* Navigation bar row */}
-            <Row style={{ backgroundColor: '#45654C', flex: '1', marginTop: '1em' }}>
+            <Row style={{ backgroundColor: '#45654C', height: navbarHeight, marginTop: '2vh'}}>
                 {/* Navbar component */}
                 <Navbar
                     // Passing toggleSidebar, isSidebarCollapsed, 
@@ -34,6 +38,9 @@ export default function Sidebar(props) {
                     isSidebarCollapsed={isSidebarCollapsed}
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
+                    isNavbarCollapsed={isNavbarCollapsed}
+                    setNavbarHeight={setNavbarHeight}
+                    isWindowSmall={isWindowSmall}
                 />
             </Row>
         </Container>

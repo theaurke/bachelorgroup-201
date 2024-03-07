@@ -28,7 +28,7 @@
 }
 
 /* Border around Col on button and img (hoverStyle) hover */
-.colStyle:has(.hoverStyle:hover) {
+.colStyle:has(.buttonStyle:hover) {
     border: 2px solid white;
     border-radius: 5px;
 }
