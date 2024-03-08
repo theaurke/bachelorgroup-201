@@ -1,3 +1,4 @@
+import React from 'react';
 import styles from '../styles/ResourceList.module.css'
 import { Container, Row, Col } from 'react-bootstrap';
 import { useState } from 'react';
