@@ -10,7 +10,6 @@ parameters:
   default: false
 
 trigger:
-# - master
 - '*'
 
 variables:
@@ -49,10 +48,10 @@ stages:
         configuration: '$(buildConfiguration)'
     
 
-    - task: VSTest@2
-      inputs:
-        platform: '$(buildPlatform)'
-        configuration: '$(buildConfiguration)'
+  #  - task: VSTest@2
+   #   inputs:
+    #    platform: '$(buildPlatform)'
+     #   configuration: '$(buildConfiguration)'
     
     - task: CopyFiles@2
       displayName: 'Include templates in the artifact'
@@ -60,6 +59,25 @@ stages:
         Contents: |
           main.bicep
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - task: Npm@1
+      displayName: npm run test
+      inputs:
+        command: 'custom'
+        workingDir: 'ReactApp/reactapp.client'
+        customCommand: 'run test:ci'
+
+    - task: PublishTestResults@2
+      displayName: 'supply npm test results to pipelines'
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFiles: 'ReactApp/reactapp.client/junit.xml'
+
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publish code coverage'
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: 'ReactApp/reactapp.client/coverage/cobertura-coverage.xml'
 
     - task: PublishBuildArtifacts@1
       displayName: 'Publish artifact'
