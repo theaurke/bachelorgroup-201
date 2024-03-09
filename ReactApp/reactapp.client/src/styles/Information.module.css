@@ -1,7 +1,7 @@
 .infoContainer {
     height: 96vh;
     background-size: cover;
-    background-image: url('background-frontpage.png');
+    background-image: url('../public/background-frontpage.png');
     text-align: center;
     display: flex;
     flex-direction: column;

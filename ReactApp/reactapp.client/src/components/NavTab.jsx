@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { React, useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import styles from '../styles/Navbar.module.css';
 
@@ -63,6 +63,7 @@ export default function NavTab(props) {
                 {/* Render input field if in edit mode, otherwise render tab title */}
                 {editMode ? (
                     <input
+                        data-testid='inputField'
                         className={styles.tabTitle}
                         type='text'
                         value={newTitle}
@@ -78,7 +79,7 @@ export default function NavTab(props) {
                 {!isSidebarCollapsed && isActive && (
                     <>
                         {/* Edit icon for editing tab title */}
-                        <img src='editPencil.svg' alt='More options' className={styles.optionsIcon} onClick={handleEditName} />
+                        <img data-testid='editIcon' src='editPencil.svg' alt='More options' className={styles.optionsIcon} onClick={handleEditName} />
                         {/* Delete icon for deleting tab */}
                         <img src='deleteBlack.png' alt='Delete' className={styles.deleteIcon} onClick={handleDelete} />
                     </>
