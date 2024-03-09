@@ -1,3 +1,4 @@
+import React from 'react';
 import Col from 'react-bootstrap/Col';
 import styles from '../styles/NavButton.module.css'
 
@@ -29,13 +30,13 @@ export default function NavButton(props) {
                     className={`${styles.imgContainer} ${styles.buttonStyle}`}
                     style={{padding:'0.5em'}}
                 >
-                    <img className={styles.imgStyle} src={src} alt={alt} />
+                    <img data-testid='navBtnImg' className={styles.imgStyle} src={src} alt={alt} />
                 </button>
             ) : (
                 // Render both text and image buttons when sidebar is expanded
                 <>
                     {/* Button with text */}
-                        <button onClick={onClick} className={styles.buttonStyle} style={{ padding: '0.5em' }}>
+                    <button onClick={onClick} className={styles.buttonStyle} style={{ padding: '0.5em' }}>
                         {text}
                     </button>
                     {/* Button with image */}
@@ -43,7 +44,7 @@ export default function NavButton(props) {
                         onClick={onClick}
                         className={`${styles.imgContainer} ${styles.buttonStyle}`}
                     >
-                        <img className={styles.imgStyle} src={src} alt={alt} />
+                        <img data-testid='navBtnImg' className={styles.imgStyle} src={src} alt={alt} />
                     </button>
                 </>
             )}
