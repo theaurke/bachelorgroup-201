@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { React, useState, useEffect } from 'react';
 import { Container, Row, Col, Tab, Nav } from 'react-bootstrap';
 import styles from '../styles/Navbar.module.css';
 import NavButton from './NavButton';
@@ -18,7 +18,8 @@ import WarningPopup from './WarningPopup';
  * @returns {JSX.Element} The JSX representation of the navbar.
  */
 export default function Navbar(props) {
-    const { toggleSidebar, isSidebarCollapsed, activeTab, setActiveTab, isNavbarCollapsed, setNavbarHeight, isWindowSmall } = props;
+    const { toggleSidebar, isSidebarCollapsed, activeTab, setActiveTab,
+                isNavbarCollapsed, setNavbarHeight, isWindowSmall } = props;
 
     // State management for tabs, tabId, warning popup, and tab deletion
     const [tabs, setTabs] = useState([]);
