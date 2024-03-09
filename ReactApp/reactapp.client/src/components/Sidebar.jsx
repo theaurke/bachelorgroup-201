@@ -1,3 +1,4 @@
+import React from 'react';
 import Navbar from './Navbar';
 import { Container, Row } from 'react-bootstrap';
 
@@ -41,6 +42,7 @@ export default function Sidebar(props) {
                     isNavbarCollapsed={isNavbarCollapsed}
                     setNavbarHeight={setNavbarHeight}
                     isWindowSmall={isWindowSmall}
+                    data-testid='navbarComponent'
                 />
             </Row>
         </Container>
