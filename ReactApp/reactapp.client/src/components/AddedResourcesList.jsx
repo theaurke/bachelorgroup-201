@@ -44,12 +44,12 @@ export default function AddedResourcesList({ addedResources, setAddedResources }
             {/* Going through the list and making a list point for each resource */}
             {addedResources.map(({ resourceText, id, formData }) => (
 
-                <li key={id} className={styles.li} style={{
+                <li data-testid={`resourcesListpoint-${id}`} key={id} className={styles.li} style={{
                     height: openDropdown[id] ? '80vh' : '10vh'
                 }}>
 
                     {/* Dropdown button*/}
-                    <button className={styles.dropdownBtn} onClick={() => handleClick(id)}>
+                    <button data-testid='dropdownButton' className={styles.dropdownBtn} onClick={() => handleClick(id)}>
                         <h6>{resourceText}</h6>
                         <p>{ openDropdown[id]? '\u2BC5' : '\u2BC6'}</p>
                     </button>
