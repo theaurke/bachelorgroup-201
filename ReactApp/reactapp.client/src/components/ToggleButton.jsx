@@ -1,3 +1,4 @@
+import React from 'react';
 import Col from 'react-bootstrap/Col';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
