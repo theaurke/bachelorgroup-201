@@ -37,7 +37,7 @@ export default function Main({ activeTab }) {
         //If there is an activeTab and the list at the activeTab index does not match the activeList
         if (activeTab && tabList[activeTab - 1]?.list !== activeList) {
             const updatedList = [...tabList];
-            updatedList[activeTab - 1].list = activeList; //updating the list at the activeTab index
+            updatedList[activeTab - 1] = { ...updatedList[activeTab - 1], list: activeList }; //updating the list at the activeTab index
             setTabList(updatedList);
         }
     }, [activeList]); // Only re-run when activeList changes
@@ -49,7 +49,7 @@ export default function Main({ activeTab }) {
         //If there is an activeTab and the layout at the activeTab index does not match the layout
         if (activeTab && tabList[activeTab - 1]?.layout !== layout) {
             const updatedList = [...tabList];
-            updatedList[activeTab - 1].layout = layout; //updating the layout at the activeTab index
+            updatedList[activeTab - 1] = { ...updatedList[activeTab - 1], layout: layout }; //updating the layout at the activeTab index
             setTabList(updatedList);
         }
     }, [layout]); // Only re-run when layout changes
@@ -64,7 +64,7 @@ export default function Main({ activeTab }) {
                 {!activeTab ? (
                     <Information />
                 ) : (
-                    <Row>
+                    <Row data-testid='resourceContent'>
 
                         {/*Checking which layout is set at the activeTab index, and filling the row based on that.*/}
                         {tabList[activeTab - 1]?.layout === 'resource'  ? (  
