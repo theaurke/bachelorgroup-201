@@ -1,3 +1,4 @@
+import React from 'react';
 import Step from './Step';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
