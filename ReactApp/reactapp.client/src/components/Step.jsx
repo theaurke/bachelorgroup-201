@@ -13,9 +13,9 @@ export default function Step(props) {
     const endDesc = description.slice(split);
     return (
         <>
-            <img src={src} alt={title} />
-            <h6 style={{ color: '#45654C' }}>{title}</h6>
-            <p>{firstDesc} <br /> {endDesc}</p>
+            <img data-testid='stepImg' src={src} alt={title} />
+            <h6 data-testid='stepTitle'  style={{ color: '#45654C' }}>{title}</h6>
+            <p data-testid='stepDesc'>{firstDesc} <br /> {endDesc}</p>
         </>
     );
 }
