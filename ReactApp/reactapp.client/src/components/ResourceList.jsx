@@ -35,13 +35,13 @@ export default function ResourceList({ addedResources, setAddedResources, setSho
 
         !showInput ? (
 
-            <ul className={styles.resourceList}>
+            <ul data-testid={'resourceList'}  className={styles.resourceList}>
 
                 {/*Going through the list of resources and making a point with button for each.*/}
                 {resources.map((text, index) => (
 
                     <li key={index} className={styles.resourceLi}>
-                        <button className={styles.resourceButton}
+                        <button data-testid={`resourceButton-${index}`}  className={styles.resourceButton}
                             onClick={() => {
                                 setShowInput(true);
                                 setResource(prev => ({ ...prev, id: resourceID, resourceText: text }));
