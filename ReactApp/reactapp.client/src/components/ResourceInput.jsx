@@ -8,7 +8,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
     const buttonText = resourceFormData ? (edit ? ['Remove', 'Edit'] : ['Clear', 'Save']) : ['Clear', 'Add']; // Variable to set the right buttontext based on where the inputfield is and if it is editable or not.
     const [instance, setInstance] = useState('B1ls'); // State to manage the chosen instance.
     const [region, setRegion] = useState('Norway West'); // State to manage the chosen region.
-    const [time, setTime] = useState('0'); // State to manage the chosen time.
+    const [time, setTime] = useState(0); // State to manage the chosen time.
 
 
     // Lists of instance and region options for the dropdown menu.
@@ -43,9 +43,11 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
             time
         };
 
+        const buttonText = event.target.textContent; // Getting the text of the button clicked.
+
         // Checking if the button is add, save or edit to use the right handleSubmit function.
-        if (event.buttonText === 'Edit') {
-            handleSubmit(event.buttonText, resourceID);
+        if (buttonText === 'Edit') {
+            handleSubmit(buttonText, resourceID);
         } else {
             handleSubmit(formData);
         }
@@ -59,7 +61,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
         if (buttontext === 'Clear') {  // Resetting the states to default values.
             setInstance('B1ls');
             setRegion('Norway West');
-            setTime('0');
+            setTime(0);
         } else {
             handleSubmit(buttontext, resourceID); //Function for handling removal of resource.
         }
@@ -73,7 +75,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
         <Container className={styles.containerStyle} style={{ borderLeft: resourceFormData ? 'none' : '4px solid #45654C', padding: '0em', backgroundColor: 'white' }}>
 
             {/* Banner with resourcename, only visible when adding a resource to the list */}
-            <h4 className={styles.resourceBanner} style={{ display: resourceFormData ? 'none' : 'flex' } }> {resourceText} </h4>
+            <h4 data-testid='inputTitle' className={styles.resourceBanner} style={{ display: resourceFormData ? 'none' : 'flex' } }> {resourceText} </h4>
 
 
             <Form className={styles.formStyle} onSubmit={submitForm}>
@@ -81,8 +83,8 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                 {/*Dropdown with searchfield for choosing instance*/}
                 <Row className={"mt-5"}>
                     <Form.Group as={Col} controlId="formInstance">
-                        <Form.Label>Instance</Form.Label>
-                        <Select value={{ value: instance, label: instance }} options={instanceOptions} isDisabled={edit} onChange={(e) => setInstance(e.value)} />
+                        <Form.Label id='instance'>Instance</Form.Label>
+                        <Select aria-labelledby='instance' value={{ value: instance, label: instance }} options={instanceOptions} isDisabled={edit} onChange={(e) => setInstance(e.value)} />
                     </Form.Group>
                 </Row>
 
@@ -90,8 +92,8 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                 {/*Dropdown with searchfield for choosing region*/}
                 <Row className={"mb-3"}>
                     <Form.Group as={Col} controlId="formRegion">
-                        <Form.Label>Region</Form.Label>
-                        <Select value={{ value: region, label: region }} options={regionOptions} isDisabled={edit} onChange={(e) => setRegion(e.value)} />
+                        <Form.Label id='region'>Region</Form.Label>
+                        <Select aria-labelledby='region' value={{ value: region, label: region }} options={regionOptions} isDisabled={edit} onChange={(e) => setRegion(e.value)} />
                     </Form.Group>
                 </Row>
 
@@ -108,7 +110,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                 {/* Range for choosing time, connected with the time input field */}
                 <Row className={"mt-0"}>
                     <Form.Group as={Col} controlId="formTimeRange">
-                        <Form.Range value={time} onChange={(e) => setTime(e.target.value)} min="0" max="24" disabled={edit} />
+                        <Form.Range value={time} onChange={(e) => setTime(e.target.value)} min={0} max={24} disabled={edit} />
                     </Form.Group>
                 </Row>
 
