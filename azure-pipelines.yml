@@ -28,7 +28,7 @@ schedules:
   displayName: Daily midnight trigger
   branches:
     include:
-    - RegionDatabase
+    - master
 
 stages:
 - stage: Build
