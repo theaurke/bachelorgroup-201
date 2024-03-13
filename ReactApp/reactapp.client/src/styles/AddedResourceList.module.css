@@ -1,6 +1,8 @@
 .li {
     list-style: none;
     border-bottom: 2px solid #45654C;
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -10,21 +12,20 @@
     align-items: center;
     width: 100%;
     border: none;
-    border-radius: 0em;
     background-color: white;
-    padding: 1.5em 1em;
+    flex: 1;
 }
 
 
 .dropdownBtn > h6 {
-    margin: 0em;
+    margin: 0;
     flex-grow: 1;
     color: black;
 }
 
 .dropdownBtn > p {
-    margin: 0em;
-   margin-left: auto;
-   font-size: 20px;
-   color: #45654C;
+    margin: 0;
+    margin-left: auto;
+    font-size: 20px;
+    color: #45654C;
 }

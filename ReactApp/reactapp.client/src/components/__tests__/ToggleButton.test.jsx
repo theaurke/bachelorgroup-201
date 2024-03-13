@@ -22,20 +22,5 @@ describe('ToggleButton Component Test', () => {
         fireEvent.click(button);
         expect(toggleSidebar).toHaveBeenCalled();
     });
-
-    test('renders button with "Show Calculations" tooltip when isWindowSmall is true', async () => {
-        const toggleSidebar = jest.fn();
-
-        const { getByAltText, getByText } = render(<ToggleButton toggleSidebar={toggleSidebar} isWindowSmall={true} />);
-
-        const button = getByAltText('toggleSidebar');
-        expect(button).toBeInTheDocument();
-
-
-        fireEvent.mouseEnter(button);
-        await waitFor(() => {
-            expect(getByText('Show Calculations')).toBeInTheDocument();
-        });
-    });
     
 });

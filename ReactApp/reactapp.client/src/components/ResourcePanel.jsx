@@ -26,47 +26,47 @@ export default function ResourcePanel({ layout, handleCalculate, addedResources,
     return (
 
         showList ? ( // Returning the resource list if showList is true.
-
-            <ResourceList setAddedResources={setAddedResources} addedResources={addedResources} setShowList={setShowList} />
-
+            <Container fluid style={{ height: '100%', padding: '0' }} >
+                <ResourceList setAddedResources={setAddedResources} addedResources={addedResources} setShowList={setShowList} />
+            </Container>
         ) : (
 
-                addedResources?.length === 0 ? ( // Returning the Add resource button if no resources added in the addedResources list.
+            addedResources?.length === 0 ? ( // Returning the Add resource button if no resources added in the addedResources list.
 
-                    <Container style={{ height: '96vh', borderLeft: '4px solid #45654C', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <button data-testid='addResourceButton'  className={styles.addResourceButton} onClick={() => setShowList(!showList)}> Add Resource </button>
-                    </Container>
+                <Container style={{ height: '100%', borderLeft: '4px solid #45654C', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <button data-testid='addResourceButton'  className={styles.addResourceButton} onClick={() => setShowList(!showList)}> Add Resource </button>
+                </Container>
 
-                ) : (
+            ) : (
 
-                        <Container className={styles.container} style={{ padding: '0em', margin: '0em', overflowY: 'scroll', borderRight: calculated ? '4px solid #45654C' : 'none', borderLeft: !calculated ? '4px solid #45654C' : 'none'}}>
+                <Container fluid className={styles.container} style={{ padding: '0', borderRight: calculated ? '4px solid #45654C' : 'none', borderLeft: !calculated ? '4px solid #45654C' : 'none' }}>
 
-                            <Row style={{ padding: '0em', margin: '0em' }}>
-                                <h4 data-testid='addedResourceList' className={styles.banner}> Added Resources </h4>
-                            </Row>
+                    <Row style={{ margin: '0em' }}>
+                        <h4 data-testid='addedResourceList' className={styles.banner}> Added Resources </h4>
+                    </Row>
 
-                            <Row style={{ padding: '0em', margin: '0em', height: '80vh' }}>
-                                <AddedResourcesList addedResources={addedResources} setAddedResources={setAddedResources} />
-                            </Row>
+                    <Row style={{ height: '100%', margin: '0em', overflowY: 'auto' }}>
+                        <AddedResourcesList addedResources={addedResources} setAddedResources={setAddedResources} />
+                    </Row>
 
-                            {!calculated && ( // Rendering the TextButtons if resources are not calculated.
+                    {!calculated && ( // Rendering the TextButtons if resources are not calculated.
 
-                                <Row data-testid='addedResourcesButtons' style={{ padding: '0em', margin: '0em 0em 2em 0em', zIndex: '1', borderTop: '2px solid #45654C', position: 'relative' }}>
+                        <Row data-testid='addedResourcesButtons' style={{ padding: '2em', margin: '0', borderTop: '2px solid #45654C' }}>
     
-                                    <Col  style={{ display: 'flex', justifyContent: 'center', marginTop: '2em' }}>
-                                        <TextButton text='Add Resource' type='button' onClick={() => setShowList(!showList)} />
-                                    </Col>
+                            <Col style={{ display: 'flex', justifyContent: 'center', padding:'0' }}>
+                                <TextButton text='Add Resource' type='button' onClick={() => setShowList(!showList)} />
+                            </Col>
 
-                                    <Col style={{ display: 'flex', justifyContent: 'center', marginTop: '2em' }}>
-                                        <TextButton text='Calculate' type='button' onClick={() => handleCalculate(layout === 'resource' ? 'result' : 'resource')} />
-                                    </Col>
+                            <Col style={{ display: 'flex', justifyContent: 'center', padding:'0' }}>
+                                <TextButton text='Calculate' type='button' onClick={() => handleCalculate(layout === 'resource' ? 'result' : 'resource')} />
+                            </Col>
 
-                                </Row>
+                        </Row>
 
-                            )}
+                    )}
 
-                        </Container>
-                )
+                </Container>
+            )
         )
     );
 }

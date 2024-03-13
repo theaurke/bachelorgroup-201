@@ -58,22 +58,22 @@ export default function Main({ activeTab }) {
 
     // Returning the main part of the application with either the information page or the set layout.
     return (
-        <Container fluid style={{ height: '100%', padding: '0em', border: '4px solid #45654C' }}>
+        <Container fluid style={{ height: '100%', padding: '0em', border: '4px solid #45654C'}}>
 
-            {/*Checking if there are any active tabs, and setting the main to the informationg page if not.*/ }
+            {/*Checking if there are any active tabs, and setting the main to the information page if not.*/ }
                 {!activeTab ? (
                     <Information />
                 ) : (
-                    <Row data-testid='resourceContent'>
+                    <Row data-testid='resourceContent' style={{ margin:'0', height: '100%' }}>
 
                         {/*Checking which layout is set at the activeTab index, and filling the row based on that.*/}
                         {tabList[activeTab - 1]?.layout === 'resource'  ? (  
 
                             <>
-                                <Col>
+                                <Col style={{ height: '100%', padding: '0' }}>
                                     <ResultPanel  />
                                 </Col>
-                                <Col style={{ height: '96vh' }}>
+                                <Col style={{ height: '100%', padding:'0' }}>
                                     <ResourcePanel handleCalculate={setLayout} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={false} />
                                 </Col>
                             </>
@@ -81,10 +81,10 @@ export default function Main({ activeTab }) {
                         ) : (
 
                             <>
-                                <Col>
-                                        <ResourcePanel handleCalculate={setLayout} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={true} />
+                                <Col style={{ height: '100%', padding: '0' }}>
+                                    <ResourcePanel handleCalculate={setLayout} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={true} />
                                 </Col>
-                                <Col style={{ height: '96vh' }}>
+                                <Col style={{ height: '100%', padding: '0' }}>
                                     <ResultPanel  />
                                 </Col>
                             </>

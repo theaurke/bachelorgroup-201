@@ -13,13 +13,13 @@ export default function ToggleButton({ toggleSidebar, isWindowSmall }) {
     // Function to render the tooltip
     const renderTooltip = (props) => (
         <Tooltip id='toggle-tooltip' {...props}>
-            {isWindowSmall ? 'Show Calculations' : 'Toggle Sidebar'}
+            Toggle Sidebar
         </Tooltip>
     )
 
     // Render the ToggleButton component
     return (
-        <Col>
+        <Col style={{ padding: '0', width: '100%' }}>
             {/* Overlay trigger for the tooltip */}
             <OverlayTrigger
                 placement='right'
@@ -28,8 +28,8 @@ export default function ToggleButton({ toggleSidebar, isWindowSmall }) {
                 
             >
                 {/* Button to toggle the sidebar */}
-                <button style={{ border: 'none', background: 'none' }} onClick={toggleSidebar}>
-                    <img src='toggleWhite.png' alt='toggleSidebar' style={{width: '55px'} } />
+                <button style={{ border: 'none', background: 'none', padding: isWindowSmall ? '0' : '1em' }} onClick={toggleSidebar}>
+                    <img src='toggleWhite.png' alt='toggleSidebar' style={{width: '100%', maxWidth: '55px' } } />
                 </button>
             </OverlayTrigger>
 

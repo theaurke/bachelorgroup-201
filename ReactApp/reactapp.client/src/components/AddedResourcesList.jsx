@@ -39,13 +39,13 @@ export default function AddedResourcesList({ addedResources, setAddedResources }
 
     // Returning a list where each point is a dropdown button for a resource, and the dropdown contains the input field either editable or not.
     return (
-        <ul style={{ padding: '0em', margin: '0em' }}>
+        <ul style={{ padding: '0em', margin: '0em', height: '100%' }}>
 
             {/* Going through the list and making a list point for each resource */}
             {addedResources.map(({ resourceText, id, formData }) => (
 
                 <li data-testid={`resourcesListpoint-${id}`} key={id} className={styles.li} style={{
-                    height: openDropdown[id] ? '80vh' : '10vh'
+                    height: openDropdown[id] ? '100%' : '10vh'
                 }}>
 
                     {/* Dropdown button*/}
@@ -58,9 +58,8 @@ export default function AddedResourcesList({ addedResources, setAddedResources }
                     <div style={{
                         display: openDropdown[id] ? 'grid' : 'none',
                         zIndex: openDropdown[id] ? '1000' : '-1',
-                        height: '80vh',
-                        padding: '0em',
-                        position: 'relative'
+                        flex: '7.5',
+                        padding: '0em'
                     }}>
                         <ResourceInput resourceText={resourceText} resourceFormData={formData} resourceID={id} edit={edit} handleSubmit={handleSubmit} />
                     </div>

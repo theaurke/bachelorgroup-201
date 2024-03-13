@@ -18,8 +18,7 @@ import WarningPopup from './WarningPopup';
  * @returns {JSX.Element} The JSX representation of the navbar.
  */
 export default function Navbar(props) {
-    const { toggleSidebar, isSidebarCollapsed, activeTab, setActiveTab,
-                isNavbarCollapsed, setNavbarHeight, isWindowSmall } = props;
+    const { toggleSidebar, isSidebarCollapsed, activeTab, setActiveTab, isWindowSmall } = props;
 
     // State management for tabs, tabId, warning popup, and tab deletion
     const [tabs, setTabs] = useState([]);
@@ -30,9 +29,6 @@ export default function Navbar(props) {
 
     // Function to add new tab to the Navbar
     const addNewTab = () => {
-        if (isNavbarCollapsed) {
-            setNavbarHeight('40vh');
-        }
         // Set new unique tab id
         const newId = tabId;
         // Create a new tab object with the id and default title
@@ -84,7 +80,7 @@ export default function Navbar(props) {
 
     return (
         // Container component to hold the navbar content
-        <Container fluid className={styles.container}>
+        <Container fluid className={styles.container} >
             {/* Display warning popup if showWarningPopup is true */}
             {showWarningPopup && (
                 <WarningPopup
@@ -98,20 +94,22 @@ export default function Navbar(props) {
 
             {/* Row for the 'Start new calculation' button */}
             <Row style={{ padding: '0.1em' }}>
-                <NavButton  
-                    // text, src, alt, and isSidebarCollapsed as props
-                    text='Start new calculation'
-                    src='plusWhite.png'
-                    alt='New calculation'
-                    isSidebarCollapsed={isSidebarCollapsed}
-                    onClick={addNewTab} // Handler function onclick
-                />
+                {((!isWindowSmall) || (isWindowSmall && !isSidebarCollapsed)) && (
+                    <NavButton
+                        // text, src, alt, and isSidebarCollapsed as props
+                        text='Start new calculation'
+                        src='plusWhite.png'
+                        alt='New calculation'
+                        isSidebarCollapsed={isSidebarCollapsed}
+                        onClick={addNewTab} // Handler function onclick
+                    />
+                )}
             </Row>
 
-            {/* Row for the tabs, rendered conditionally based on isSmallWindow */}
-            {!isNavbarCollapsed && (
-                <Row style={{ flex: '1', padding: '0.1em' }}>
-                    {/* Using Tab and Nav from react bootstrap to make pill tabs */}
+            {/* Row for the tabs */}
+            <Row style={{ padding: '0.1em', overflowY: 'auto', height: '100%' }}>
+                {/* Using Tab and Nav from react bootstrap to make pill tabs */}
+                {((!isWindowSmall) || (isWindowSmall && !isSidebarCollapsed)) && (
                     <Tab.Container activeKey={activeTab} onSelect={(key) => setActiveTab(key)}>
                         <Col style={{ padding: '0' }}>
                             <Nav variant='pills' className={styles.navContainer}>
@@ -130,11 +128,12 @@ export default function Navbar(props) {
                             </Nav>
                         </Col>
                     </Tab.Container>
-                </Row>
-            )}
+                )}
+            </Row>
+            
 
             {/* Row for the toggle button */}
-            <Row style={{ marginTop: 'auto'}}>
+            <Row style={{ marginTop: 'auto' }}>
                 <ToggleButton toggleSidebar={toggleSidebar} isWindowSmall={isWindowSmall} />
             </Row>
         </Container>

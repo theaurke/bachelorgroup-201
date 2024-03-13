@@ -8,7 +8,7 @@ import Container from 'react-bootstrap/Container';
  */
 export default function ResultPanel() {
     return (
-        <Container fluid style={{padding: '0', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', margin:'0'}}>
+        <Container fluid style={{ padding: '0', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', margin: '0' }}>
             <CalcText />
         </Container>
         

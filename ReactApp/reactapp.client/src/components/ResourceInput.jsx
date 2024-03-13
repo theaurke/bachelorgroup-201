@@ -69,8 +69,6 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
     }
 
 
-    
-
     return (
         <Container className={styles.containerStyle} style={{ borderLeft: resourceFormData ? 'none' : '4px solid #45654C', padding: '0em', backgroundColor: 'white' }}>
 

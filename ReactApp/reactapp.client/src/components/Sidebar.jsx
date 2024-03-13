@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from './Navbar';
+import ToggleButton from './ToggleButton';
 import { Container, Row } from 'react-bootstrap';
 
 /**
@@ -13,24 +14,28 @@ import { Container, Row } from 'react-bootstrap';
  * @returns {JSX.Element} The JSX representation of the sidebar.
  */
 export default function Sidebar(props) {
-    const { toggleSidebar, sidebarWidth, activeTab, setActiveTab, navbarHeight, windowWidth, minWindowWidth, setNavbarHeight} = props;
+    const { toggleSidebar, sidebarWidth, activeTab, setActiveTab, isWindowSmall } = props;
 
     // Check if sidebar is collapsed
     const isSidebarCollapsed = sidebarWidth === 1;
-    const isWindowSmall = windowWidth < minWindowWidth;
-    const isNavbarCollapsed = navbarHeight === '20vh';
 
     // Return sidebar component with flex column Container, placing the Rows vertically
     return (
-        <Container fluid style={{ height: '100%'}}>
-            {/* Logo row */}
-            <Row style={{ height: '20vh', maxHeight: '25vh', backgroundColor: '#45654C', textAlign: 'center', padding: '0.5em' }}>
+        <Container fluid style={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between'
+        }}>
+            {/* Logo row */ }
+            <Row style={{ height: '20%', backgroundColor: '#45654C', textAlign: 'center', padding: '0.5em' }}>
                 {!isSidebarCollapsed && (
                     <img alt='logo' src='logo.png' style={{ height: '90%', margin: 'auto', objectFit: 'contain' }} />
                 )}
             </Row>
+
             {/* Navigation bar row */}
-            <Row style={{ backgroundColor: '#45654C', height: navbarHeight, marginTop: '2vh'}}>
+            <Row style={{ backgroundColor: '#45654C', height: isWindowSmall ? '80%' : '78%' }}>
                 {/* Navbar component */}
                 <Navbar
                     // Passing toggleSidebar, isSidebarCollapsed, 
@@ -39,12 +44,11 @@ export default function Sidebar(props) {
                     isSidebarCollapsed={isSidebarCollapsed}
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
-                    isNavbarCollapsed={isNavbarCollapsed}
-                    setNavbarHeight={setNavbarHeight}
                     isWindowSmall={isWindowSmall}
                     data-testid='navbarComponent'
                 />
             </Row>
         </Container>
     );
+
 }

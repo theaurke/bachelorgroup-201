@@ -1,5 +1,5 @@
 .infoContainer {
-    height: 96vh;
+    height: 100%;
     background-size: cover;
     background-image: url('../public/background-frontpage.png');
     text-align: center;
