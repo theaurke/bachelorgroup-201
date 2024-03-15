@@ -1,9 +1,9 @@
-namespace ConsoleApp1;
+namespace ReactApp;
 
 using Newtonsoft.Json;
 using Microsoft.Data.SqlClient;
 
-public static class Functions
+public static class ElMapAPI
 {
     /// <summary>
     /// Method to read and parse all available zones from the API and save it in a dictionary
@@ -121,20 +121,23 @@ public static class Functions
     {
         try
         {
-            string updateData = "UPDATE dbo.Region SET region_value = @region_value, updatedAt = @updatedAt";
+            string updateData = "UPDATE dbo.Region SET region_value = @region_value, updatedAt = @updatedAt, nowTime = @nowTime WHERE name = @name";
             using (SqlCommand updateCommand = new SqlCommand(updateData, connection))
             {
                 updateCommand.Parameters.AddWithValue("@region_value", data.CarbonIntensity);
                 updateCommand.Parameters.AddWithValue("@updatedAt", data.UpdatedAt);
+                updateCommand.Parameters.AddWithValue("@name", data.ZoneID);
+                updateCommand.Parameters.AddWithValue("@nowTime", DateTime.Now);
                 updateCommand.ExecuteNonQuery();
             }
-            Console.WriteLine($"Successfully updated data: {data.ZoneID}");
+            Console.WriteLine($"Successfully updated data: {data.ZoneID}, intensity: {data.CarbonIntensity}");
         }
         catch (Exception ex)
         {
             Console.WriteLine($"An error occurred during database update: {ex.Message}");
         }
     }
+
 
     /// <summary>
     /// Method to insert data into the database

@@ -17,4 +17,5 @@ public class CarbonData
     public string CountryName { get; set; }
     public int CarbonIntensity { get; set; }
     public DateTime UpdatedAt { get; set; }
+    public DateTime Now { get; }
 }

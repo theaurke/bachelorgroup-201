@@ -1,9 +1,9 @@
-﻿using ConsoleApp1;
+﻿using ReactApp;
 using Microsoft.Data.SqlClient;
 
-class Program
+public static class DatabaseAPI
 {
-    static async Task Main()
+    public static async Task InsertDataDB()
     {
         try
         {
@@ -19,11 +19,11 @@ class Program
                 connection.Open();
                 
                 // Fetch data from API and parse response
-                var carbonDataList = await Functions.CarbonIntensityList();
+                var carbonDataList = await ElMapAPI.CarbonIntensityList();
                 
                 foreach (var data in carbonDataList)
                 {
-                    Functions.CheckAndUpdateDatabase(connection, data);
+                    ElMapAPI.CheckAndUpdateDatabase(connection, data);
                 }
             }
         }

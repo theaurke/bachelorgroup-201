@@ -22,13 +22,14 @@ variables:
   
 pool:
   vmImage: $(vmImageName)
+    
 
-schedules:
-- cron: '0 0 * * *'
-  displayName: Daily midnight trigger
-  branches:
-    include:
-    - master
+#schedules:
+#- cron: '0 0 * * *'
+#  displayName: Daily midnight trigger
+#  branches:
+#    include:
+#    - RegionDatabase
 
 stages:
 - stage: Build
