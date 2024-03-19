@@ -19,3 +19,13 @@ public class CarbonData
     public DateTime UpdatedAt { get; set; }
     public DateTime Now { get; }
 }
+
+
+public class VMData 
+{
+    public int CPU_Num { get; set; }
+    public decimal? GPU_Num { get; set; } // Using nullable decimal for GPU Num because the value can be null
+    public decimal Embodied_Emissions { get; set; }
+    public int CPU_TDP { get; set; }
+    public int? GPU_TDP { get; set; } // Using nullable int for GPU TDP since the value can be null
+}

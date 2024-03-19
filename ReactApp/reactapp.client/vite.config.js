@@ -49,6 +49,10 @@ export default defineConfig({
             '^/region': {
                 target: 'https://localhost:7091/',
                 secure: false
+            },
+            '^/vm': {
+                target: 'https://localhost:7091/',
+                secure: false
             }
         },
         port: 5173,

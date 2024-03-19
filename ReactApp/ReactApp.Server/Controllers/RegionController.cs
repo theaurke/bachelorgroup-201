@@ -36,7 +36,7 @@ namespace ReactApp.Server.Controllers
                     return names;
                 });
 
-                // Return country names as HTTP reponse
+                // Return country names as HTTP response
                 return Ok(countryNames);
             }
             catch (Exception ex)
@@ -48,7 +48,7 @@ namespace ReactApp.Server.Controllers
         }
 
 
-        //For å hente carbonintensity for en region  /region/carbonintensity
+        // Fetch carbon intensity for a region  /region/carbonintensity
         [HttpGet("carbonIntensity/{region}")]
         public async Task<ActionResult<int>> GetCarbonIntensity(string region)
         {
@@ -58,7 +58,7 @@ namespace ReactApp.Server.Controllers
                 string query = "SELECT TOP 1 region_value FROM Region WHERE country = @region";
                 SqlParameter[] parameters = [new SqlParameter("@region", region)];
 
-                // Execute the query asynchronously and retrieve the result
+                // Execute query and retrieve the result
                 var intensity = await DatabaseAPI.ExtractDataDB(query, parameters, reader =>
                 {
                     if (reader.Read())
@@ -69,7 +69,7 @@ namespace ReactApp.Server.Controllers
                     
                 });
 
-                // Return carbon intensity as HTTP reponse
+                // Return carbon intensity as HTTP response
                 return Ok(intensity);
             }
             catch (Exception ex)
@@ -81,13 +81,13 @@ namespace ReactApp.Server.Controllers
         }
 
 
-        //For å hente pue for en region /region/pue
+        // Fetch PUE for a region /region/pue
         [HttpGet("pue/{region}")]
         public async Task<ActionResult<double>> GetPUE(string region)
         {
             try
             {
-                // Example query to get PUE for the specified region
+                // Query to get PUE for the specified region
                 string query = @"
                     SELECT TOP 1 PUE.pue_value
                     FROM Region
@@ -95,12 +95,12 @@ namespace ReactApp.Server.Controllers
                     WHERE Region.country = @region";
                 SqlParameter[] parameters = new SqlParameter[] { new SqlParameter("@region", region) };
 
-                // Execute the query asynchronously and retrieve the result
+                // Execute query and retrieve the result
                 var pue = await DatabaseAPI.ExtractDataDB(query, parameters, reader =>
                 {
                     if (reader.Read())
                     {
-                        return reader.GetDouble(0); // Assuming the PUE is in the first column
+                        return reader.GetDouble(0);
                     }
                     return 0.0; // Default value if no data found
                 });

@@ -4,3 +4,8 @@ GET {{ReactApp.Server_HostAddress}}/region/
 Accept: application/json
 
 ###
+
+GET {{ReactApp.Server_HostAddress}}/vm/
+Accept: application/json
+
+###
