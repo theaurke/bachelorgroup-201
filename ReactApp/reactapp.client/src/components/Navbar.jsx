@@ -18,7 +18,7 @@ import WarningPopup from './WarningPopup';
  * @returns {JSX.Element} The JSX representation of the navbar.
  */
 export default function Navbar(props) {
-    const { toggleSidebar, isSidebarCollapsed, activeTab, setActiveTab, isWindowSmall } = props;
+    const { toggleSidebar, isSidebarCollapsed, activeTab, setActiveTab, isWindowSmall, handleConvertToPDF } = props;
 
     // State management for tabs, tabId, warning popup, and tab deletion
     const [tabs, setTabs] = useState([]);
@@ -134,6 +134,7 @@ export default function Navbar(props) {
 
             {/* Row for the toggle button */}
             <Row style={{ marginTop: 'auto' }}>
+                <button type='button' onClick={handleConvertToPDF}>Convert All Tabs to PDF</button>
                 <ToggleButton toggleSidebar={toggleSidebar} isWindowSmall={isWindowSmall} />
             </Row>
         </Container>

@@ -2,7 +2,7 @@ import Information from './Information';
 import { Container, Col, Row }  from 'react-bootstrap';
 import ResourcePanel from './ResourcePanel';
 import ResultPanel from './ResultPanel';
-import { useState, useEffect } from 'react';
+
 
 
 /**
@@ -11,50 +11,8 @@ import { useState, useEffect } from 'react';
  * @param {number} activeTab - The ID of the activeTab.
  * @returns {JSX.Element} The JSX representation of the main content.
  */
-export default function Main({ activeTab }) {
-    const [layout, setLayout] = useState('resource'); // State to manage the layout of the page.   
-    const [activeList, setActiveList] = useState([]); // State to manage the resources added to the list to be calculated.
-    const [tabList, setTabList] = useState([]); // State to manage the tabs with their content
-
-
-    // Updating the layout and activeList when activeTab changes
-    useEffect(() => {
-        if (activeTab) {
-            // If a list does not exist at the index of the active tab, initialize it with an empty list
-            if (!tabList[activeTab - 1]) {
-                setTabList((prev) => [...prev, { list: [], layout: 'resource' }]); // Add a new object to the tabList containing an empty list and the default layout
-            }
-            // Set activeList and layout to the list and layout associated with the active tab
-            setActiveList(tabList[activeTab - 1]?.list || []);
-            setLayout(tabList[activeTab - 1]?.layout || 'resource');
-        }
-    }, [activeTab]); // Only re-run when activeTab changes
-
-
-
-    // Update the tabList when activeList changes
-    useEffect(() => {
-        //If there is an activeTab and the list at the activeTab index does not match the activeList
-        if (activeTab && tabList[activeTab - 1]?.list !== activeList) {
-            const updatedList = [...tabList];
-            updatedList[activeTab - 1] = { ...updatedList[activeTab - 1], list: activeList }; //updating the list at the activeTab index
-            setTabList(updatedList);
-        }
-    }, [activeList]); // Only re-run when activeList changes
-
-
-
-    // Update the tabList when layout changes
-    useEffect(() => {
-        //If there is an activeTab and the layout at the activeTab index does not match the layout
-        if (activeTab && tabList[activeTab - 1]?.layout !== layout) {
-            const updatedList = [...tabList];
-            updatedList[activeTab - 1] = { ...updatedList[activeTab - 1], layout: layout }; //updating the layout at the activeTab index
-            setTabList(updatedList);
-        }
-    }, [layout]); // Only re-run when layout changes
-
-
+export default function Main({ activeTab, tabList, setLayout, layout, setActiveList, activeList }) {
+    
 
     // Returning the main part of the application with either the information page or the set layout.
     return (

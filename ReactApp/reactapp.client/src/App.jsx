@@ -7,6 +7,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 // Importing Sidebar and Main components from their respective files
 import Sidebar from './components/Sidebar';
 import Main from './components/Main';
+import { createRoot } from 'react-dom/client';
+import ResultPanel from './components/ResultPanel';
 
 
 /**
@@ -69,6 +71,78 @@ export default function App() {
 
     };
 
+
+    const [layout, setLayout] = useState('resource'); // State to manage the layout of the page.   
+    const [activeList, setActiveList] = useState([]); // State to manage the resources added to the list to be calculated.
+    const [tabList, setTabList] = useState([]); // State to manage the tabs with their content
+
+
+    // Updating the layout and activeList when activeTab changes
+    useEffect(() => {
+        if (activeTab) {
+            // If a list does not exist at the index of the active tab, initialize it with an empty list
+            if (!tabList[activeTab - 1]) {
+                setTabList((prev) => [...prev, { list: [], layout: 'resource' }]); // Add a new object to the tabList containing an empty list and the default layout
+            }
+            // Set activeList and layout to the list and layout associated with the active tab
+            setActiveList(tabList[activeTab - 1]?.list || []);
+            setLayout(tabList[activeTab - 1]?.layout || 'resource');
+        }
+    }, [activeTab]); // Only re-run when activeTab changes
+
+
+
+    // Update the tabList when activeList changes
+    useEffect(() => {
+        //If there is an activeTab and the list at the activeTab index does not match the activeList
+        if (activeTab && tabList[activeTab - 1]?.list !== activeList) {
+            const updatedList = [...tabList];
+            updatedList[activeTab - 1] = { ...updatedList[activeTab - 1], list: activeList }; //updating the list at the activeTab index
+            setTabList(updatedList);
+        }
+    }, [activeList]); // Only re-run when activeList changes
+
+
+
+    // Update the tabList when layout changes
+    useEffect(() => {
+        //If there is an activeTab and the layout at the activeTab index does not match the layout
+        if (activeTab && tabList[activeTab - 1]?.layout !== layout) {
+            const updatedList = [...tabList];
+            updatedList[activeTab - 1] = { ...updatedList[activeTab - 1], layout: layout }; //updating the layout at the activeTab index
+            setTabList(updatedList);
+        }
+    }, [layout]); // Only re-run when layout changes
+
+
+
+    //Converting multiple tabs to PDF
+    const handleConvertToPDF = () => {
+
+        if (tabList.length !== 0) {
+            const newWindow = window.open('', '_blank'); // Open a new window
+
+            const renderTabToWindow = (tabIndex) => {
+                const container = newWindow.document.createElement('div');
+                newWindow.document.body.appendChild(container);
+
+                // Render the ResultPanel component into the container
+                createRoot(container).render(<ResultPanel addedResources={tabList[tabIndex]} />);
+            };
+
+            // Loop through each tab and render its content in the new window
+            for (let i = 0; i < tabList.length; i++) {
+                renderTabToWindow(i);
+            }
+
+            setTimeout(() => {
+                // Print the window
+                newWindow.print();
+            }, 1000);
+        }
+    };
+
+
     // Returns layout and content of App, using Container, Row and Col.
     // The Container is fluid, meaning it's width is 100% across all viewport.
     // Sidebar Col has lg breakpoint that is set to span 'sidebarWidth' columns,
@@ -90,6 +164,7 @@ export default function App() {
                         activeTab={activeTab}
                         setActiveTab={setActiveTab}
                         isWindowSmall={isWindowSmall}
+                        handleConvertToPDF={handleConvertToPDF}
                     />
                 </Col>
                 <Col style={{
@@ -98,7 +173,7 @@ export default function App() {
                     marginLeft: isWindowSmall && sidebarWidth === 6 ? '-41.67%' : 0
                 }}
                 >
-                    <Main activeTab={activeTab} />
+                    <Main activeTab={activeTab} tabList={tabList} setLayout={setLayout} layout={layout} setActiveList={setActiveList} activeList={activeList} />
                 </Col>
             </Row >
         </Container>

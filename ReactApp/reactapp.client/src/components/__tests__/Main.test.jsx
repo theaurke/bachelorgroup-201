@@ -22,9 +22,20 @@ describe('Main component', () => {
 
     test('renders resource panel when active tabs', () => {
         const activeTab = 1;
+        const tabList = [1, 2];
+        const setLayout = jest.fn();
+        const layout = 'resource';
+        const setActiveList = jest.fn();
+        const activeList = [{ id: 1, resourceText: 'Virtual Machine', formdata: {} },
+        { id: 2, resourceText: 'Dedicated Host', formdata: {} }];
 
         const { getByTestId } = render(
-            <Main activeTab={activeTab} />
+            <Main activeTab={activeTab}
+                tabList={tabList}
+                setLayout={setLayout}
+                layout={layout}
+                setActiveList={setActiveList}
+                activeList={activeList} />
         );
 
         const resourceContent = getByTestId("resourceContent");

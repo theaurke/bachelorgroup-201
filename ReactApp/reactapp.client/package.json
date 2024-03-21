@@ -16,7 +16,8 @@
         "react": "^18.2.0",
         "react-bootstrap": "^2.10.1",
         "react-dom": "^18.2.0",
-        "react-select": "^5.8.0"
+        "react-select": "^5.8.0",
+        "react-to-pdf": "^1.0.1"
     },
     "devDependencies": {
         "@babel/core": "^7.24.0",
@@ -48,9 +49,15 @@
             "\\.css$": "<rootDir>/MockModule.cjs"
         },
         "testEnvironment": "jsdom",
-        "coverageReporters": ["text", "cobertura", "html"],
+        "coverageReporters": [
+            "text",
+            "cobertura",
+            "html"
+        ],
         "reporters": [
-            "default", "jest-junit"]
+            "default",
+            "jest-junit"
+        ]
     },
     "jest-junit": {
         "suiteNameTemplate": "{filepath}",
