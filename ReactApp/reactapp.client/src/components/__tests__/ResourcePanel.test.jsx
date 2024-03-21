@@ -1,9 +1,17 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import ResourcePanel from '../ResourcePanel.jsx';
 import '@testing-library/jest-dom';
+import fetchMock from 'jest-fetch-mock';
+import { act } from 'react-dom/test-utils';
 
+// Set up fetch mock before running tests
+beforeEach(async () => {
+    fetchMock.enableMocks();
 
+    await fetchMock.mockResponseOnce(JSON.stringify(['B1ls', 'B2ms', 'B3ls']));
+    await fetchMock.mockResponseOnce(JSON.stringify(['Norway East', 'Norway West']));
+});
 
 
 describe('ResourcePanel Component Test', () => {
@@ -49,11 +57,15 @@ describe('ResourcePanel Component Test', () => {
         );
 
         const addResourceButton = getByTestId("addResourceButton");
-        fireEvent.click(addResourceButton);
+        act(() => {
+            fireEvent.click(addResourceButton);
+        });
 
 
-        const listElement = getByRole('list');
-        expect(listElement).toBeInTheDocument();
+        waitFor(() => {
+            const listElement = getByRole('list');
+            expect(listElement).toBeInTheDocument();
+        });
     });
 
 
@@ -101,7 +113,9 @@ describe('ResourcePanel Component Test', () => {
         );
 
         const calculateButton = getByText("Calculate");
-        fireEvent.click(calculateButton);
+        act(() => {
+            fireEvent.click(calculateButton);
+        });
 
 
         expect(handleCalculate).toHaveBeenCalledTimes(1);
@@ -132,7 +146,4 @@ describe('ResourcePanel Component Test', () => {
         expect(addedResourcesButtons).not.toBeInTheDocument();
     });
    
-
-
-
 });

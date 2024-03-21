@@ -20,6 +20,7 @@ export default function AddedResourcesList({ addedResources, setAddedResources }
 
     // Function to update the dropdown to open or closed based on is current state.
     const handleClick = (id) => {
+
         setOpenDropdown(prev => {
             const updatedDropdowns = [...prev];
             updatedDropdowns[id] = !updatedDropdowns[id];
@@ -27,15 +28,28 @@ export default function AddedResourcesList({ addedResources, setAddedResources }
         });
     };
 
-    // Function that handles removal of resource from list, and setting the edit state to the opposite making the input able to edit.
-    const handleSubmit = (buttontext, id) => {
+    // Function that handles removal of resource from list, and saving new formdata to exsisting resource.
+    const handleSubmit = (buttontext, id, formData) => {
+
+        // Checking if button is remove
         if (buttontext === 'Remove') {
-            setAddedResources(prev => prev.filter(resource => resource.id !== id));
+            setAddedResources(prev => prev.filter(resource => resource.id !== id)); // Making a new list with all resources expect the one matching the id.
         } else {
-            setEdit(!edit);
+
+            // Updating the formdata at the given index.
+            setAddedResources(prev => {
+                const index = prev.findIndex(resource => resource.id === id); // Finding the resource index.
+                if (index !== -1) {
+                    const updatedResources = [...prev];
+                    updatedResources[index] = { ...updatedResources[index], formData: formData }; // Updating the formdata.
+                    return updatedResources;
+                } 
+            });
         }
         
     }
+
+
 
     // Returning a list where each point is a dropdown button for a resource, and the dropdown contains the input field either editable or not.
     return (
@@ -61,7 +75,7 @@ export default function AddedResourcesList({ addedResources, setAddedResources }
                         flex: '7.5',
                         padding: '0em'
                     }}>
-                        <ResourceInput resourceText={resourceText} resourceFormData={formData} resourceID={id} edit={edit} handleSubmit={handleSubmit} />
+                        <ResourceInput resourceText={resourceText} resourceFormData={formData} resourceID={id} edit={edit} handleSubmit={handleSubmit} setEdit={setEdit} />
                     </div>
 
                 </li>

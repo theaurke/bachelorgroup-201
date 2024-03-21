@@ -1,9 +1,14 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import ResourceList from '../ResourceList.jsx';
 import '@testing-library/jest-dom';
+import { act } from 'react-dom/test-utils';
+import fetchMock from 'jest-fetch-mock';
 
-
+// Set up fetch mock before running tests
+beforeEach(() => {
+    fetchMock.enableMocks();
+});
 
 describe('ResourceList Component', () => {
 
@@ -36,10 +41,14 @@ describe('ResourceList Component', () => {
         const resourceButton = getByTestId('resourceButton-0');
 
         expect(resourceButton).toBeInTheDocument();
-        fireEvent.click(resourceButton);
+        act(() => {
+            fireEvent.click(resourceButton);
+        });
 
-        const resourceTitle = getByTestId('inputTitle');
-        expect(resourceTitle).toBeInTheDocument();
+        waitFor(() => {
+            const resourceTitle = getByTestId('inputTitle');
+            expect(resourceTitle).toBeInTheDocument();
+        });
 
     });
     

@@ -4,23 +4,44 @@ import TextButton from './TextButton';
 import { useState, useEffect } from 'react';
 import Select from 'react-select'
 
-export default function ResourceInput({ resourceText, resourceFormData, resourceID, handleSubmit, edit }) {
+export default function ResourceInput({ resourceText, resourceFormData, resourceID, handleSubmit, edit, setEdit }) {
     const buttonText = resourceFormData ? (edit ? ['Remove', 'Edit'] : ['Clear', 'Save']) : ['Clear', 'Add']; // Variable to set the right buttontext based on where the inputfield is and if it is editable or not.
-    const [instance, setInstance] = useState('B1ls'); // State to manage the chosen instance.
-    const [region, setRegion] = useState('Norway West'); // State to manage the chosen region.
+    const [instance, setInstance] = useState('Choose instance'); // State to manage the chosen instance.
+    const [region, setRegion] = useState('Choose region'); // State to manage the chosen region.
     const [time, setTime] = useState(0); // State to manage the chosen time.
+    const [action, setAction] = useState('Add'); // State to manage which button is clicked.
 
 
     // Lists of instance and region options for the dropdown menu.
-    const instanceOptions = [
-        { value: 'B1ls', label: 'B1ls' },
-        { value: 'B1ms', label: 'B1ms' }
-    ]
+    const [instanceOptions, setInstanceOptions] = useState([]); // State to store VM instance options fetched from the server.
+    const [regionOptions, setRegionOptions] = useState([]); // State to store region options fetched from the server.
 
-    const regionOptions = [
-        { value: 'Norway West', label: 'Norway West' },
-        { value: 'Norway East', label: 'Norway East' }
-    ]
+    // Fetch VM instance options from the server
+    useEffect(() => {
+        fetch('/vm')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch VM sizes: ${response.statusText}`');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setInstanceOptions(data.map(size => ({ value: size, label: size })));
+            })
+            .catch(error => console.error('Error fetching VM sizes:', error));
+
+        fetch('/region')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch regions: ${response.statusText}`');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setRegionOptions(data.map(region => ({ value: region, label: region })));
+            })
+            .catch(error => console.error('Error fetching regions:', error));
+    }, []);
 
 
     // If resourceInput component is called with formData the states are updated with the data from the form.
@@ -43,13 +64,25 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
             time
         };
 
-        const buttonText = event.target.textContent; // Getting the text of the button clicked.
-
-        // Checking if the button is add, save or edit to use the right handleSubmit function.
-        if (buttonText === 'Edit') {
-            handleSubmit(buttonText, resourceID);
+        // Checking if it was the edit button that was clicked.
+        if (action === 'Edit') {
+            setEdit(!edit); // Enabling the forms input fields.
         } else {
-            handleSubmit(formData);
+
+            // Can't save or add if no valid data is chosen
+            if (formData.instance !== 'Choose instance' && formData.region !== 'Choose region') {
+
+                // Checking if the button clicked was save
+                if (action === 'Save') {
+                    setEdit(!edit); // Disabling the forms inputfields.
+                    handleSubmit(action, resourceID, formData); // Updating the formData in the resourceList
+                } else {
+                    handleSubmit(formData); // Saving the formData in the resourceList
+                }
+            }
+            else {
+                console.error('Data for instance or region is not valid');
+            }
         }
     };
 
@@ -59,11 +92,12 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
 
         // Checking if the button is Clear or Remove.
         if (buttontext === 'Clear') {  // Resetting the states to default values.
-            setInstance('B1ls');
-            setRegion('Norway West');
+            setInstance('Choose instance');
+            setRegion('Choose region');
             setTime(0);
-        } else {
-            handleSubmit(buttontext, resourceID); //Function for handling removal of resource.
+        } 
+        else {
+            handleSubmit(buttontext, resourceID); // Function for handling removal of resource.
         }
         
     }
@@ -82,7 +116,13 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                 <Row className={"mt-5"}>
                     <Form.Group as={Col} controlId="formInstance">
                         <Form.Label id='instance'>Instance</Form.Label>
-                        <Select aria-labelledby='instance' value={{ value: instance, label: instance }} options={instanceOptions} isDisabled={edit} onChange={(e) => setInstance(e.value)} />
+                        <Select
+                            aria-labelledby='instance'
+                            value={{ value: instance, label: instance }}
+                            options={instanceOptions}
+                            isDisabled={edit}
+                            onChange={(e) => setInstance(e.value)}
+                        />
                     </Form.Group>
                 </Row>
 
@@ -91,7 +131,13 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                 <Row className={"mb-3"}>
                     <Form.Group as={Col} controlId="formRegion">
                         <Form.Label id='region'>Region</Form.Label>
-                        <Select aria-labelledby='region' value={{ value: region, label: region }} options={regionOptions} isDisabled={edit} onChange={(e) => setRegion(e.value)} />
+                        <Select
+                            aria-labelledby='region'
+                            value={{ value: region, label: region }}
+                            options={regionOptions}
+                            isDisabled={edit}
+                            onChange={(e) => setRegion(e.value)}
+                        />
                     </Form.Group>
                 </Row>
 
@@ -100,7 +146,13 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                 <Row className={"mb-0"}>
                     <Form.Group as={Row} controlId="formTimeInput">
                         <Form.Label column sm="2" > Time </Form.Label>
-                        <Form.Control type="number" value={time} onChange={(e) => setTime(e.target.value)} style={{ width: '10%', textAlign: 'center' }} disabled={edit} />
+                        <Form.Control
+                            type="number"
+                            value={time}
+                            onChange={(e) => setTime(e.target.value)}
+                            style={{ width: '10%', textAlign: 'center' }}
+                            disabled={edit}
+                        />
                     </Form.Group>
                 </Row>
 
@@ -119,7 +171,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                         <TextButton text={buttonText[0]} type='button' onClick={() => handleClick(buttonText[0])} />
                     </Col>
                     <Col style={{ display: 'flex', justifyContent: 'center' }}>
-                        <TextButton text={buttonText[1]} type='submit'/>
+                        <TextButton text={buttonText[1]} type='submit' onClick={() => setAction(buttonText[1])} />
                     </Col>
                    
                 </Row>

@@ -1,13 +1,19 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import AddedResourcesList from '../AddedResourcesList.jsx';
 import '@testing-library/jest-dom';
+import fetchMock from 'jest-fetch-mock';
+import { act } from 'react-dom/test-utils';
 
+// Set up fetch mock before running tests
+beforeEach(() => {
+    fetchMock.enableMocks();
+});
 
 
 describe('AddedResourcesList component', () => {
 
-    test('renders list points for elemnt in the added resources list', () => {
+    test('renders list points for element in the added resources list', () => {
         const addedResources = [{ id: 1, resourceText: 'Virtual Machine', formdata: {} },
                                 { id: 2, resourceText: 'Dedicated Host', formdata: {} }];
         const setAddedResources = jest.fn();
@@ -25,8 +31,8 @@ describe('AddedResourcesList component', () => {
 
     });
 
-
-    test('renders formData when clicking dropdown button', () => {
+    
+    test('renders formData when clicking dropdown button', async () => {
         const addedResources = [{ id: 1, resourceText: 'Virtual Machine', formdata: {instance: 'B1ls', region:'Norway East', time:5} }];
         const setAddedResources = jest.fn();
 
@@ -36,14 +42,18 @@ describe('AddedResourcesList component', () => {
         );
 
         const dropdownButton = getByTestId("dropdownButton");
-        fireEvent.click(dropdownButton);
+        await act(async () => {
+            fireEvent.click(dropdownButton);
+        
 
         setTimeout(() => {
             expect(queryByText("B1ls")).toBeInTheDocument();
             expect(queryByText("Norway East")).toBeInTheDocument();
             expect(queryByText("5")).toBeInTheDocument();
         }, 500);
+        });
 
     });
+    
 
 });

@@ -2,7 +2,12 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import Main from '../Main.jsx';
 import '@testing-library/jest-dom';
+import fetchMock from 'jest-fetch-mock';
 
+// Set up fetch mock before running tests
+beforeEach(() => {
+    fetchMock.enableMocks();
+});
 
 
 describe('Main component', () => {
