@@ -2,7 +2,7 @@ import Information from './Information';
 import { Container, Col, Row }  from 'react-bootstrap';
 import ResourcePanel from './ResourcePanel';
 import ResultPanel from './ResultPanel';
-
+import { useState, useEffect } from 'react';
 
 
 /**
@@ -12,7 +12,67 @@ import ResultPanel from './ResultPanel';
  * @returns {JSX.Element} The JSX representation of the main content.
  */
 export default function Main({ activeTab, tabList, setLayout, layout, setActiveList, activeList }) {
-    
+    const [calcData, setCalcData] = useState([]); // State to hold the fetched calculation data
+
+    // Function to handle calculation submit
+    const handleCalculate = async (l) => {
+        setLayout(l);   // Set new layout
+
+        console.log(activeList);
+
+
+        // Array to store promises for each fetch request, avoid potential timing issues
+        const fetchPromises = activeList.map(async resource => {
+            // Fetch VM data based on form data submitted on calculate
+            const vmResponse = await fetch('/vm/' + resource.formData.instance);
+            if (!vmResponse.ok) {
+                throw new Error('Failed to fetch VM data');
+            }
+            const vmData = await vmResponse.json();
+
+
+            // Fetch region data based on form data
+            const carbonIntensityResponse = await fetch('/region/carbonIntensity/' + resource.formData.region);
+            if (!carbonIntensityResponse.ok) {
+                throw new Error('Failed to fetch carbon intensity');
+            }
+            const carbonIntensityData = await carbonIntensityResponse.json();
+
+            const pueResponse = await fetch('/region/pue/' + resource.formData.region);
+            if (!pueResponse.ok) {
+                throw new Error('Failed to fetch PUE');
+            }
+            const pueData = await pueResponse.json();
+
+            return {
+                vmData: vmData,
+                carbonIntensity: carbonIntensityData,
+                pue: pueData
+            };
+        });
+
+        // Wait for all fetch requests to complete
+        try {
+            const responseData = await Promise.all(fetchPromises);
+
+            // Update calcData state with all fetched data
+            setCalcData(responseData);
+        } catch (error) {
+            console.error('Error fetching VM data:', error);
+        }
+
+
+        // Use calcData for calculations. 
+        // (calcData.carbonIntensity, calcData.pue, calcData.vmData.cpu_num, etc.)
+
+    };
+
+    // Log vmData whenever it changes
+    useEffect(() => {
+        console.log(calcData);
+    }, [calcData]);
+
+
 
     // Returning the main part of the application with either the information page or the set layout.
     return (
@@ -32,7 +92,7 @@ export default function Main({ activeTab, tabList, setLayout, layout, setActiveL
                                     <ResultPanel  />
                                 </Col>
                                 <Col style={{ height: '100%', padding:'0' }}>
-                                    <ResourcePanel handleCalculate={setLayout} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={false} />
+                                    <ResourcePanel handleCalculate={handleCalculate} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={false} />
                                 </Col>
                             </>
 
@@ -40,7 +100,7 @@ export default function Main({ activeTab, tabList, setLayout, layout, setActiveL
 
                             <>
                                 <Col style={{ height: '100%', padding: '0' }}>
-                                    <ResourcePanel handleCalculate={setLayout} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={true} />
+                                    <ResourcePanel handleCalculate={handleCalculate} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={true} />
                                 </Col>
                                 <Col style={{ height: '100%', padding: '0' }}>
                                     <ResultPanel  />
