@@ -18,8 +18,6 @@ export default function Main({ activeTab, tabList, setLayout, layout, setActiveL
     const handleCalculate = async (l) => {
         setLayout(l);   // Set new layout
 
-        console.log(activeList);
-
 
         // Array to store promises for each fetch request, avoid potential timing issues
         const fetchPromises = activeList.map(async resource => {
@@ -60,16 +58,14 @@ export default function Main({ activeTab, tabList, setLayout, layout, setActiveL
         } catch (error) {
             console.error('Error fetching VM data:', error);
         }
-
-
-        // Use calcData for calculations. 
-        // (calcData.carbonIntensity, calcData.pue, calcData.vmData.cpu_num, etc.)
-
+        
     };
 
     // Log vmData whenever it changes
     useEffect(() => {
-        console.log(calcData);
+        calcData.map(data => {
+            console.log(data);
+        })
     }, [calcData]);
 
 
@@ -89,7 +85,7 @@ export default function Main({ activeTab, tabList, setLayout, layout, setActiveL
 
                             <>
                                 <Col style={{ height: '100%', padding: '0' }}>
-                                    <ResultPanel  />
+                                    <ResultPanel calculated={false} />
                                 </Col>
                                 <Col style={{ height: '100%', padding:'0' }}>
                                     <ResourcePanel handleCalculate={handleCalculate} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={false} />
@@ -102,8 +98,8 @@ export default function Main({ activeTab, tabList, setLayout, layout, setActiveL
                                 <Col style={{ height: '100%', padding: '0' }}>
                                     <ResourcePanel handleCalculate={handleCalculate} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={true} />
                                 </Col>
-                                <Col style={{ height: '100%', padding: '0' }}>
-                                    <ResultPanel  />
+                                    <Col style={{ height: '100%', padding: '0' }}>
+                                        <ResultPanel calculated={true} calcData={calcData} />
                                 </Col>
                             </>
 

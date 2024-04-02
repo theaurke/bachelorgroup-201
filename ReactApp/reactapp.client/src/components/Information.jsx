@@ -1,9 +1,7 @@
 import React from 'react';
 import Step from './Step';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import styles from '../styles/Information.module.css'
+import { Container, Row, Col } from 'react-bootstrap';
+import styles from '../styles/Information.module.css';
 
 export default function Information() {
     return (

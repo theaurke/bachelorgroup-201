@@ -1,6 +1,5 @@
 import React from 'react';
 import Navbar from './Navbar';
-import ToggleButton from './ToggleButton';
 import { Container, Row } from 'react-bootstrap';
 
 /**

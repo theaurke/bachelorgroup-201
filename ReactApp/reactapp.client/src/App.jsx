@@ -150,7 +150,7 @@ export default function App() {
     return (
         <Container className="vh-100" style={{ padding: '1em', overflowY: 'auto', minWidth: isWindowSmall ? '768px' : 'auto' }} fluid>
             <Row style={{ height: '96vh', minHeight: '600px' }}>
-                <Col {...(isWindowSmall ? { xs: sidebarWidth } : { lg: sidebarWidth })}
+                <Col data-testid='sidebar_col' {...(isWindowSmall ? { xs: sidebarWidth } : { lg: sidebarWidth })}
                     style={{
                         height: '100%',
                         zIndex: '100'

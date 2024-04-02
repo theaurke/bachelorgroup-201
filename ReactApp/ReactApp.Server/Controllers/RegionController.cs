@@ -83,7 +83,7 @@ namespace ReactApp.Server.Controllers
 
         // Fetch PUE for a region /region/pue
         [HttpGet("pue/{region}")]
-        public async Task<ActionResult<double>> GetPUE(string region)
+        public async Task<ActionResult<decimal>> GetPUE(string region)
         {
             try
             {
@@ -93,16 +93,18 @@ namespace ReactApp.Server.Controllers
                     FROM Region
                     JOIN PUE ON Region.region = PUE.regionID
                     WHERE Region.country = @region";
-                SqlParameter[] parameters = new SqlParameter[] { new SqlParameter("@region", region) };
+                SqlParameter[] parameters = [new SqlParameter("@region", region)];
 
                 // Execute query and retrieve the result
                 var pue = await DatabaseAPI.ExtractDataDB(query, parameters, reader =>
                 {
                     if (reader.Read())
                     {
-                        return reader.GetDouble(0);
+                        return reader.GetDecimal(0);
+                        
                     }
-                    return 0.0; // Default value if no data found
+                    // Return 0 if no data found
+                    return default(decimal);
                 });
 
                 // Return PUE as the HTTP response
