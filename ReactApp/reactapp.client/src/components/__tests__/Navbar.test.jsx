@@ -26,11 +26,13 @@ describe('Navbar Component Test', () => {
         const props = {
             toggleSidebar: jest.fn(),
             isSidebarCollapsed: false,
-            activeTab: '1',
+            activeTab: {id: '1', title:'Calculation 1'},
             setActiveTab: jest.fn(),
             isNavbarCollapsed: false,
             setNavbarHeight: jest.fn(),
-            isWindowSmall: false
+            isWindowSmall: false,
+            tabList: [{ id: '1', title: 'Calculation 1', list: [], layout: 'resource' }],
+            setTabList: jest.fn()
         };
 
         const { getByText, queryByText, getByAltText } = render(<Navbar {...props} />);

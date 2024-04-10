@@ -13,10 +13,11 @@ beforeEach(() => {
 describe('Main component', () => {
 
     test('renders information page when no active tabs', () => {
-        const activeTab = '';
+        const activeTab = {};
+        const tabList = [];
 
         const { getByText } = render(
-            <Main activeTab={activeTab} />
+            <Main activeTab={activeTab} tabList={tabList} />
         );
 
         const stepText = getByText("Fill in the data");
@@ -26,7 +27,7 @@ describe('Main component', () => {
 
 
     test('renders resource panel when active tabs', () => {
-        const activeTab = 1;
+        const activeTab = { id: 1, title: 'Calculation 1' };
         const tabList = [1, 2];
         const setLayout = jest.fn();
         const layout = 'resource';

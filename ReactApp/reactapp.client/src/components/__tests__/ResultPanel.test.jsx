@@ -6,12 +6,12 @@ import '@testing-library/jest-dom';
 
 describe('ResultPanel Component Test', () => {
 
-    test('renders CalcText if calculated is false', () => {
-        const calculated = false;
+    test('renders CalcText if layout is resource', () => {
+        const layout = 'resource';
 
 
         const { getByText } = render(
-            <ResultPanel calculated={calculated} />
+            <ResultPanel layout={layout} />
         );
 
         const textElement = getByText(/Calculate the estimated/i);
@@ -19,15 +19,15 @@ describe('ResultPanel Component Test', () => {
         expect(textElement).toBeInTheDocument();
     });
 
-    test('renders CalcResult if calculated is true', () => {
-        const calculated = true;
+    test('renders CalcResult if layout is result', () => {
+        const layout = 'result';
 
 
         const { getByText } = render(
-            <ResultPanel calculated={calculated} />
+            <ResultPanel layout={layout} />
         );
 
-        const textElement = getByText(/Total Emissions/i);
+        const textElement = getByText(/Convert to pdf/i);
 
         expect(textElement).toBeInTheDocument();
     });

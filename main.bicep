@@ -1,5 +1,5 @@
 @description('The SKU of App service plan')
-param sku string = 'F1' 
+param sku string = 'B1' 
 
 @description('Azure resource deployment location')
 param location string = 'westeurope'

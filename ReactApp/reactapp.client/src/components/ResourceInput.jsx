@@ -1,4 +1,4 @@
-import { Container, Form, Row, Col } from 'react-bootstrap';
+import { Container, Form, Row, Col, InputGroup } from 'react-bootstrap';
 import styles from '../styles/InputList.module.css'
 import TextButton from './TextButton';
 import { useState, useEffect } from 'react';
@@ -8,7 +8,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
     const buttonText = resourceFormData ? (edit ? ['Remove', 'Edit'] : ['Clear', 'Save']) : ['Clear', 'Add']; // Variable to set the right buttontext based on where the inputfield is and if it is editable or not.
     const [instance, setInstance] = useState('Choose instance'); // State to manage the chosen instance.
     const [region, setRegion] = useState('Choose region'); // State to manage the chosen region.
-    const [time, setTime] = useState(0); // State to manage the chosen time.
+    const [time, setTime] = useState({ year: 0, month: 0, day: 0, hour: 0 }); // State to manage the chosen time.
     const [action, setAction] = useState('Add'); // State to manage which button is clicked.
 
 
@@ -58,10 +58,11 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
     // Function to handle submission of the form.
     const submitForm = (event) => {
         event.preventDefault();
+
         const formData = {
             instance,
             region,
-            time
+            time,
         };
 
         // Checking if it was the edit button that was clicked.
@@ -143,24 +144,51 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
 
 
                 {/* Input field for choosing time */}
-                <Row className={"mb-0"}>
+                <Row className={"mb-3"}>
                     <Form.Group as={Row} controlId="formTimeInput">
-                        <Form.Label column sm="2" > Time </Form.Label>
-                        <Form.Control
-                            type="number"
-                            value={time}
-                            onChange={(e) => setTime(e.target.value)}
-                            style={{ width: '10%', textAlign: 'center' }}
-                            disabled={edit}
-                        />
-                    </Form.Group>
-                </Row>
-
-
-                {/* Range for choosing time, connected with the time input field */}
-                <Row className={"mt-0"}>
-                    <Form.Group as={Col} controlId="formTimeRange">
-                        <Form.Range value={time} onChange={(e) => setTime(e.target.value)} min={0} max={24} disabled={edit} />
+                        <Form.Label id='time'> Running time </Form.Label>
+                        <Row style={{ display: 'flex', justifyContent: 'center', margin: '0', padding: '0' }}>
+                            <InputGroup style={{ width: '25%', textAlign: 'center' }}>
+                                <Form.Control
+                                    type="number"
+                                    placeholder="Year"
+                                    value={time.year}
+                                    onChange={(e) => setTime({ ...time, year: e.target.value })}
+                                    disabled={edit}
+                                />
+                                <InputGroup.Text>Years</InputGroup.Text>
+                            </InputGroup>
+                            <InputGroup style={{ width: '25%', textAlign: 'center' }}>
+                                <Form.Control
+                                    type="number"
+                                    placeholder="Month"
+                                    value={time.month}
+                                    onChange={(e) => setTime({ ...time, month: e.target.value })}
+                                    disabled={edit}
+                                />
+                                <InputGroup.Text>Months</InputGroup.Text>
+                            </InputGroup>
+                            <InputGroup style={{ width: '25%', textAlign: 'center' }}>
+                                <Form.Control
+                                    type="number"
+                                    placeholder="Day"
+                                    value={time.day}
+                                    onChange={(e) => setTime({ ...time, day: e.target.value })}
+                                    disabled={edit}
+                                />
+                                <InputGroup.Text>Days</InputGroup.Text>
+                            </InputGroup>
+                            <InputGroup style={{ width: '25%', textAlign: 'center' }}>
+                                <Form.Control
+                                    type="number"
+                                    placeholder="Hour"
+                                    value={time.hour}
+                                    onChange={(e) => setTime({ ...time, hour: e.target.value })}
+                                    disabled={edit}
+                                />
+                                <InputGroup.Text>Hours</InputGroup.Text>
+                            </InputGroup>
+                        </Row>
                     </Form.Group>
                 </Row>
 

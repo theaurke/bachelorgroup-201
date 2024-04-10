@@ -13,7 +13,7 @@ import { Container, Row } from 'react-bootstrap';
  * @returns {JSX.Element} The JSX representation of the sidebar.
  */
 export default function Sidebar(props) {
-    const { toggleSidebar, sidebarWidth, activeTab, setActiveTab, isWindowSmall, handleConvertToPDF } = props;
+    const { toggleSidebar, sidebarWidth, activeTab, setActiveTab, isWindowSmall, handleConvertToPDF, tabList, setTabList } = props;
 
     // Check if sidebar is collapsed
     const isSidebarCollapsed = sidebarWidth === 1;
@@ -46,6 +46,8 @@ export default function Sidebar(props) {
                     isWindowSmall={isWindowSmall}
                     data-testid='navbarComponent'
                     handleConvertToPDF={handleConvertToPDF}
+                    tabList={tabList}
+                    setTabList={setTabList}
                 />
             </Row>
         </Container>

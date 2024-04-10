@@ -25,7 +25,7 @@ describe('ResourceInput Component', () => {
         const handleSubmit = jest.fn();
         const edit = false;
 
-        const { getByRole, getByText, getByLabelText, getByTestId } = render(
+        const { getByText, getByLabelText, getByTestId, getByPlaceholderText } = render(
             <ResourceInput
                 resourceText={resourceText}
                 resourceFormData={resourceFormData}
@@ -37,14 +37,19 @@ describe('ResourceInput Component', () => {
 
         const instanceInput = getByLabelText('Instance');
         const regionInput = getByLabelText('Region');
-        const timeInput = getByRole('spinbutton');
-        const timeRangeInput = getByRole('slider');
+        const timeInputs = [
+            getByPlaceholderText('Year'),
+            getByPlaceholderText('Month'),
+            getByPlaceholderText('Day'),
+            getByPlaceholderText('Hour'),
+        ];
 
 
         expect(instanceInput).not.toBeDisabled();
         expect(regionInput).not.toBeDisabled();
-        expect(timeInput).not.toBeDisabled();
-        expect(timeRangeInput).not.toBeDisabled();
+        timeInputs.forEach(input => {
+            expect(input).not.toBeDisabled();
+        });
 
 
         const instanceValue = getByText('Choose instance');
@@ -54,8 +59,9 @@ describe('ResourceInput Component', () => {
         expect(getComputedStyle(inputTitle).display).toBe('flex');
         expect(instanceValue).toBeInTheDocument();
         expect(regionValue).toBeInTheDocument();
-        expect(timeInput).toHaveValue(0);
-        expect(timeRangeInput).toHaveValue('0');
+        timeInputs.forEach(input => {
+            expect(input).toHaveValue(0);
+        });
 
 
         const clearButton = getByText('Clear');
@@ -71,12 +77,13 @@ describe('ResourceInput Component', () => {
 
     test('renders the form with chosen data and the "Remove" and "Edit" buttons', () => {
         const resourceText = 'Virtual Machine'
-        const resourceFormData = { instance: 'B1ms', region: 'Norway East', time: 5 };
+        const resourceFormData = {
+            instance: 'B1ms', region: 'Norway East', time: { year: 0, month: 0, day: 0, hour: 5 } };
         const resourceID = 1;
         const handleSubmit = jest.fn();
         const edit = true;
 
-        const { getByRole, getByText, getByLabelText, getByTestId } = render(
+        const { getByText, getByLabelText, getByTestId, getByPlaceholderText } = render(
             <ResourceInput
                 resourceText={resourceText}
                 resourceFormData={resourceFormData}
@@ -87,13 +94,18 @@ describe('ResourceInput Component', () => {
 
         const instanceInput = getByLabelText('Instance');
         const regionInput = getByLabelText('Region');
-        const timeInput = getByRole('spinbutton');
-        const timeRangeInput = getByRole('slider');
+        const timeInputs = [
+            getByPlaceholderText('Year'),
+            getByPlaceholderText('Month'),
+            getByPlaceholderText('Day'),
+            getByPlaceholderText('Hour'),
+        ];
 
         expect(instanceInput).toBeDisabled();
         expect(regionInput).toBeDisabled();
-        expect(timeInput).toBeDisabled();
-        expect(timeRangeInput).toBeDisabled();
+        timeInputs.forEach(input => {
+            expect(input).toBeDisabled();
+        });
 
         const instanceValue = getByText('B1ms');
         const regionValue = getByText('Norway East');
@@ -102,8 +114,13 @@ describe('ResourceInput Component', () => {
         expect(getComputedStyle(inputTitle).display).toBe('none');
         expect(instanceValue).toBeInTheDocument();
         expect(regionValue).toBeInTheDocument();
-        expect(timeInput).toHaveValue(5);
-        expect(timeRangeInput).toHaveValue('5');
+        timeInputs.forEach((input, index) => {
+            if (index === timeInputs.length - 1) {
+                expect(input).toHaveValue(5);
+            } else {
+                expect(input).toHaveValue(0);
+            }
+        });
 
 
         const removeButton = getByText('Remove');
@@ -118,12 +135,12 @@ describe('ResourceInput Component', () => {
 
     test('renders the form with chosen data and the "Clear" and "Save" buttons', () => {
         const resourceText = 'Virtual Machine'
-        const resourceFormData = { instance: 'B1ms', region: 'Norway East', time: 5 };
+        const resourceFormData = { instance: 'B1ms', region: 'Norway East', time: { year: 0, month: 0, day: 0, hour: 5 } };
         const resourceID = 1;
         const handleSubmit = jest.fn();
         const edit = false;
 
-        const { getByRole, getByText, getByLabelText, getByTestId } = render(
+        const { getByText, getByLabelText, getByTestId, getByPlaceholderText } = render(
             <ResourceInput
                 resourceText={resourceText}
                 resourceFormData={resourceFormData}
@@ -134,13 +151,18 @@ describe('ResourceInput Component', () => {
 
         const instanceInput = getByLabelText('Instance');
         const regionInput = getByLabelText('Region');
-        const timeInput = getByRole('spinbutton');
-        const timeRangeInput = getByRole('slider');
+        const timeInputs = [
+            getByPlaceholderText('Year'),
+            getByPlaceholderText('Month'),
+            getByPlaceholderText('Day'),
+            getByPlaceholderText('Hour'),
+        ];
 
         expect(instanceInput).not.toBeDisabled();
         expect(regionInput).not.toBeDisabled();
-        expect(timeInput).not.toBeDisabled();
-        expect(timeRangeInput).not.toBeDisabled();
+        timeInputs.forEach(input => {
+            expect(input).not.toBeDisabled();
+        });
 
         const instanceValue = getByText('B1ms');
         const regionValue = getByText('Norway East');
@@ -149,8 +171,13 @@ describe('ResourceInput Component', () => {
         expect(getComputedStyle(inputTitle).display).toBe('none');
         expect(instanceValue).toBeInTheDocument();
         expect(regionValue).toBeInTheDocument();
-        expect(timeInput).toHaveValue(5);
-        expect(timeRangeInput).toHaveValue('5');
+        timeInputs.forEach((input, index) => {
+            if (index === timeInputs.length - 1) {
+                expect(input).toHaveValue(5);
+            } else {
+                expect(input).toHaveValue(0);
+            }
+        });
 
 
         const clearButton = getByText('Clear');
@@ -165,12 +192,12 @@ describe('ResourceInput Component', () => {
 
     test('renders changes in the form', async () => {
         const resourceText = 'Virtual Machine'
-        const resourceFormData = { instance: 'B1ms', region: 'Norway East', time: 5 };
+        const resourceFormData = { instance: 'B1ms', region: 'Norway East', time: { year: 0, month: 0, day: 0, hour: 5 } };
         const resourceID = 1;
         const handleSubmit = jest.fn();
         const edit = false;
 
-        const { getByRole, getByText, getByLabelText } = render(
+        const { getByText, getByLabelText, getByPlaceholderText } = render(
             <ResourceInput
                 resourceText={resourceText}
                 resourceFormData={resourceFormData}
@@ -185,26 +212,41 @@ describe('ResourceInput Component', () => {
 
             const instanceInput = getByLabelText('Instance');
             const regionInput = getByLabelText('Region');
-            const timeInput = getByRole('spinbutton');
-            const timeRangeInput = getByRole('slider');
+            const timeInputs = [
+                getByPlaceholderText('Year'),
+                getByPlaceholderText('Month'),
+                getByPlaceholderText('Day'),
+                getByPlaceholderText('Hour'),
+            ];
 
             fireEvent.change(instanceInput, { target: { value: 'B1ls', label: 'B1ls' } });
             fireEvent.change(regionInput, { target: { value: 'Norway West', label: 'Norway West' } });
-            fireEvent.change(timeInput, { target: { value: 7 } });
-            fireEvent.change(timeRangeInput, { target: { value: '7' } });
+            fireEvent.change(timeInputs[1], { target: { value: 7 } });
         });
 
         waitFor(() => {
             const instanceValue = getByText('B1ls');
             const regionValue = getByText('Norway West');
-            const timeInput = getByRole('spinbutton');
-            const timeRangeInput = getByRole('slider');
+            const timeValues = [
+                getByPlaceholderText('Year'),
+                getByPlaceholderText('Month'),
+                getByPlaceholderText('Day'),
+                getByPlaceholderText('Hour'),
+            ];
 
 
             expect(instanceValue).toBeInTheDocument();
             expect(regionValue).toBeInTheDocument();
-            expect(timeInput.getAttribute('value')).toBe('7');
-            expect(timeRangeInput.getAttribute('value')).toBe('7');
+            timeValues.forEach((value, index) => {
+
+                if (index === timeValues.length - 1) {
+                    expect(value).toHaveValue(5);
+                } else if (index === 1) {
+                    expect(value).toHaveValue(7);
+                } else { 
+                    expect(value).toHaveValue(0);
+                }
+            });
         });
        
     });
@@ -222,7 +264,7 @@ describe('ResourceInput Component', () => {
         const edit = false;
 
 
-        const { getByText, getByRole, getByLabelText } = render(
+        const { getByText, getByLabelText, getByPlaceholderText } = render(
             <ResourceInput
                 resourceText={resourceText}
                 resourceFormData={resourceFormData}
@@ -236,14 +278,17 @@ describe('ResourceInput Component', () => {
 
         const instanceInput = getByLabelText('Instance');
         const regionInput = getByLabelText('Region');
-        const timeInput = getByRole('spinbutton');
-        const timeRangeInput = getByRole('slider');
+        const timeInputs = [
+            getByPlaceholderText('Year'),
+            getByPlaceholderText('Month'),
+            getByPlaceholderText('Day'),
+            getByPlaceholderText('Hour'),
+        ];
 
         act(() => {
             fireEvent.change(instanceInput, { target: { value: 'B1ls', label: 'B1ls' } });
             fireEvent.change(regionInput, { target: { value: 'Norway West', label: 'Norway West' } });
-            fireEvent.change(timeInput, { target: { value: 7 } });
-            fireEvent.change(timeRangeInput, { target: { value: '7' } });
+            fireEvent.change(timeInputs[1], { target: { value: 7 } });
        
             const addButton = getByText('Add');
             fireEvent.submit(addButton);
@@ -254,7 +299,7 @@ describe('ResourceInput Component', () => {
             expect(handleSubmit).toHaveBeenCalledWith({
                 instance: 'B1ls',
                 region: 'Norway West',
-                time: 7
+                time: {year: 0, month: 7, day: 0, hour: 5}
             });
         });
     });
@@ -268,7 +313,7 @@ describe('ResourceInput Component', () => {
         const edit = false;
 
 
-        const { getByText, getByRole } = render(
+        const { getByText, getByPlaceholderText } = render(
             <ResourceInput
                 resourceText={resourceText}
                 resourceFormData={resourceFormData}
@@ -277,15 +322,20 @@ describe('ResourceInput Component', () => {
                 handleSubmit={handleSubmit} />
         );
 
-        const timeInput = getByRole('spinbutton');
-        const timeRangeInput = getByRole('slider');
         const instanceValue = getByText('Choose instance');
         const regionValue = getByText('Choose region');
+        const timeInputs = [
+            getByPlaceholderText('Year'),
+            getByPlaceholderText('Month'),
+            getByPlaceholderText('Day'),
+            getByPlaceholderText('Hour'),
+        ];
 
         expect(instanceValue).toBeInTheDocument();
         expect(regionValue).toBeInTheDocument();
-        expect(timeInput).toHaveValue(0);
-        expect(timeRangeInput).toHaveValue('0');
+        timeInputs.forEach(input => {
+            expect(input).toHaveValue(0);
+        });
 
         const addButton = getByText('Add');
 
@@ -303,7 +353,7 @@ describe('ResourceInput Component', () => {
 
     test('calls handleSubmit when clicking "Save" button', () => {
         const resourceText = 'Virtual Machine';
-        const resourceFormData = { instance: 'B1ls', region: 'Norway East', time: 5 };
+        const resourceFormData = { instance: 'B1ls', region: 'Norway East', time: { year: 0, month: 7, day: 0, hour: 5 } };
         const resourceID = 1;
         const handleSubmit = jest.fn();
         const edit = false;
@@ -333,7 +383,7 @@ describe('ResourceInput Component', () => {
             expect(handleSubmit).toHaveBeenCalledWith('Save', 1, {
                 instance: 'B1ls',
                 region: 'Norway East',
-                time: 5
+                time: { year: 0, month: 7, day: 0, hour: 5 }
             });
         });
 
@@ -342,7 +392,7 @@ describe('ResourceInput Component', () => {
 
     test('calls setEdit when clicking "Edit" button', () => {
         const resourceText = 'Virtual Machine';
-        const resourceFormData = { instance: 'B1ls', region: 'Norway East', time: 5 };
+        const resourceFormData = { instance: 'B1ls', region: 'Norway East', time: { year: 0, month: 7, day: 0, hour: 5 } };
         const resourceID = 1;
         const handleSubmit = jest.fn();
         const edit = true;
@@ -371,7 +421,7 @@ describe('ResourceInput Component', () => {
 
     test('calls handleSubmit when clicking "Remove" button', () => {
         const resourceText = 'Virtual Machine';
-        const resourceFormData = { instance: 'B1ls', region: 'Norway East', time: 5 };
+        const resourceFormData = { instance: 'B1ls', region: 'Norway East', time: { year: 0, month: 7, day: 0, hour: 5 } };
         const resourceID = 1;
         const handleSubmit = jest.fn();
         const edit = true;
@@ -401,7 +451,7 @@ describe('ResourceInput Component', () => {
 
     test('resets form to default when clicking "Clear" button', () => {
         const resourceText = 'Virtual Machine';
-        const resourceFormData = { instance: 'B1ms', region: 'Norway East', time: 5 };
+        const resourceFormData = { instance: 'B1ms', region: 'Norway East', time: { year: 0, month: 7, day: 0, hour: 5 } };
         const resourceID = 1;
         const handleSubmit = jest.fn();
         const edit = false;
@@ -424,14 +474,19 @@ describe('ResourceInput Component', () => {
         waitFor(() => {
             const instanceValue = getByText('Choose instance');
             const regionValue = getByText('Choose region');
-            const timeInput = getByRole('spinbutton');
-            const timeRangeInput = getByRole('slider');
+            const timeInputs = [
+                getByPlaceholderText('Year'),
+                getByPlaceholderText('Month'),
+                getByPlaceholderText('Day'),
+                getByPlaceholderText('Hour'),
+            ];
 
 
             expect(instanceValue).toBeInTheDocument();
             expect(regionValue).toBeInTheDocument();
-            expect(timeInput.getAttribute('value')).toBe('0');
-            expect(timeRangeInput.getAttribute('value')).toBe('0');
+            timeInputs.forEach(input => {
+                expect(input).toHaveValue(0);
+            });
         });
     });
 

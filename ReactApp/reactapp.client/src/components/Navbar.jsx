@@ -18,7 +18,7 @@ import WarningPopup from './WarningPopup';
  * @returns {JSX.Element} The JSX representation of the navbar.
  */
 export default function Navbar(props) {
-    const { toggleSidebar, isSidebarCollapsed, activeTab, setActiveTab, isWindowSmall, handleConvertToPDF } = props;
+    const { toggleSidebar, isSidebarCollapsed, activeTab, setActiveTab, isWindowSmall, handleConvertToPDF, tabList, setTabList } = props;
 
     // State management for tabs, tabId, warning popup, and tab deletion
     const [tabs, setTabs] = useState([]);
@@ -33,15 +33,15 @@ export default function Navbar(props) {
         const newId = tabId;
         // Create a new tab object with the id and default title
         const newTab = {
-            id: newId,
+            id: newId.toString(), 
             title: `Calculation ${newId}`
         };
         // Append the new tab to the list of existing tabs
         setTabs([...tabs, newTab]);
-        // Set the newly added tab as the active tab using function from props
-        setActiveTab(newId.toString()); // Convert it to string
         setTabId(tabId + 1); // Increment tabId for the next tab
 
+        // Set the newly added tab as the active tab using function from props
+        setActiveTab(newTab); 
     };
 
     // Function to edit the title of a tab
@@ -68,15 +68,30 @@ export default function Navbar(props) {
         setTabs(updatedTabs);
         // Hide the warning popup after deletion
         setShowWarningPopup(false);
+
+        // Deleting the same tab from the tabList
+        const updatedTabList = tabList.filter(list => list.id !== tabToDelete);
+        setTabList(updatedTabList);
     };
 
+
+    // Runs everytime tabs updates
     useEffect(() => {
         // Check if the active tab has been deleted
-        if (!tabs.some(tab => tab.id === parseInt(activeTab))) {
-            // If the active tab has been deleted, set activeTab to empty string
-            setActiveTab('');
+        if (!tabs.some(tab => tab.id === activeTab.id)) {
+            // If the active tab has been deleted, set activeTab to empty object
+            setActiveTab({});
         }
-    }, [tabs, activeTab, setActiveTab]);
+
+        // Finding the tab in the tabs list that is the activeTab, and checking if the title is changed
+        const editedTab = tabs.find(tab => tab.id === activeTab.id && tab.title !== activeTab.title);
+
+        // Checking if a tab was found
+        if (editedTab) { 
+            setActiveTab(editedTab); // Updating the activeTab with the new tab title
+        }
+
+    }, [tabs]); 
 
     return (
         // Container component to hold the navbar content
@@ -110,21 +125,28 @@ export default function Navbar(props) {
             <Row style={{ padding: '0.1em', overflowY: 'auto', height: '100%' }}>
                 {/* Using Tab and Nav from react bootstrap to make pill tabs */}
                 {((!isWindowSmall) || (isWindowSmall && !isSidebarCollapsed)) && (
-                    <Tab.Container activeKey={activeTab} onSelect={(key) => setActiveTab(key)}>
+                    <Tab.Container activeKey={activeTab.id} onSelect={(key) => {
+                        const selectedTab = tabs.find(tab => tab.id === key);
+                        if (selectedTab) {
+                            setActiveTab(selectedTab);
+                        }
+                    }}>
                         <Col style={{ padding: '0' }}>
                             <Nav variant='pills' className={styles.navContainer}>
                                 {/* Map through the tabs and render each tab */}
-                                {tabs.map((tab) => (
-                                    <NavTab
-                                        key={tab.id}
-                                        id={tab.id}
-                                        title={tab.title}
-                                        isActive={activeTab === tab.id.toString()}
-                                        onDelete={deleteTab}
-                                        isSidebarCollapsed={isSidebarCollapsed}
-                                        onEdit={editTabName}
-                                    />
-                                ))}
+                                {tabs.map((tab) => {
+                                    return (
+                                        <NavTab
+                                            key={tab.id}
+                                            id={tab.id}
+                                            title={tab.title}
+                                            isActive={activeTab.id === tab.id}
+                                            onDelete={deleteTab}
+                                            isSidebarCollapsed={isSidebarCollapsed}
+                                            onEdit={editTabName}
+                                        />
+                                    );
+                                })}
                             </Nav>
                         </Col>
                     </Tab.Container>

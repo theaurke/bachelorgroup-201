@@ -1,10 +1,5 @@
-// Importing useState hook from React library
 import { React, useState, useEffect } from 'react';
-
-// Importing necessary components from react-bootstrap library
 import { Container, Row, Col } from 'react-bootstrap';
-
-// Importing Sidebar and Main components from their respective files
 import Sidebar from './components/Sidebar';
 import Main from './components/Main';
 import { createRoot } from 'react-dom/client';
@@ -21,16 +16,12 @@ import ResultPanel from './components/ResultPanel';
 export default function App() {
 
     const minWindowWidth = 992; // Large breakpoint in Bootstrap Grid
-    // Using useState hook to manage state for if window is small or not, and layout of Main is different
-    const [isWindowSmall, setIsWindowSmall] = useState(window.innerWidth < minWindowWidth ? true : false);
+    const [isWindowSmall, setIsWindowSmall] = useState(window.innerWidth < minWindowWidth ? true : false); // Using useState hook to manage state for if window is small or not, and layout of Main is different
+    const [sidebarWidth, setSidebarWidth] = useState(isWindowSmall ? 1 : 3); // useState hook to manage state for sidebar width
+    const [activeTab, setActiveTab] = useState({}); // useState to manage state for active calculation tab at the "top"(App),
+                                                    // so it can be passed to Main after change from Sidebar
 
-    // useState hook to manage state for sidebar width
-    const [sidebarWidth, setSidebarWidth] = useState(isWindowSmall ? 1 : 3);
-
-    // useState to manage state for active calculation tab at the "top"(App), 
-    // so it can be passed to Main after change from Sidebar
-    const [activeTab, setActiveTab] = useState('');
-
+    // Handling window resizing based on sidebarWidth
     useEffect(() => {
         // Function to handle resizing of the window
         const handleResize = () => {
@@ -57,7 +48,8 @@ export default function App() {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [sidebarWidth]);
+    }, [sidebarWidth]); //Only re-run when sidebarWidth changes
+
 
     // Function to toggle sidebar width or navbar height on toggle button click from Navbar
     const toggleSidebar = () => {
@@ -75,18 +67,26 @@ export default function App() {
     const [layout, setLayout] = useState('resource'); // State to manage the layout of the page.   
     const [activeList, setActiveList] = useState([]); // State to manage the resources added to the list to be calculated.
     const [tabList, setTabList] = useState([]); // State to manage the tabs with their content
+    const [calcData, setCalcData] = useState([]); // State to hold the fetched calculation data
 
 
     // Updating the layout and activeList when activeTab changes
     useEffect(() => {
-        if (activeTab) {
-            // If a list does not exist at the index of the active tab, initialize it with an empty list
-            if (!tabList[activeTab - 1]) {
-                setTabList((prev) => [...prev, { list: [], layout: 'resource' }]); // Add a new object to the tabList containing an empty list and the default layout
+        if (activeTab.id) {
+
+            // Finding the index of the activeTab
+            const tabIndex = tabList.findIndex(tab => tab.id === activeTab.id);
+
+            // Checking if the index of the activeTab exists
+            if (tabIndex === -1) {
+                setTabList((prev) => [...prev, { id: activeTab.id, title: activeTab.title, list: [], calcData: [], layout: 'resource' }]); // Add a new object to the tabList containing an id, empty list and the default layout 
             }
+
             // Set activeList and layout to the list and layout associated with the active tab
-            setActiveList(tabList[activeTab - 1]?.list || []);
-            setLayout(tabList[activeTab - 1]?.layout || 'resource');
+            setActiveList(tabList[tabIndex]?.list || []);
+            setLayout(tabList[tabIndex]?.layout || 'resource');
+            setCalcData(tabList[tabIndex]?.calcData || []);
+            
         }
     }, [activeTab]); // Only re-run when activeTab changes
 
@@ -94,29 +94,101 @@ export default function App() {
 
     // Update the tabList when activeList changes
     useEffect(() => {
-        //If there is an activeTab and the list at the activeTab index does not match the activeList
-        if (activeTab && tabList[activeTab - 1]?.list !== activeList) {
+
+        // Finding the index of the activeTab
+        const tabIndex = tabList.findIndex(tab => tab.id === activeTab.id);
+
+        if (tabIndex !== -1 && tabList[tabIndex]?.list !== activeList) {
             const updatedList = [...tabList];
-            updatedList[activeTab - 1] = { ...updatedList[activeTab - 1], list: activeList }; //updating the list at the activeTab index
+            updatedList[tabIndex] = { ...updatedList[tabIndex], list: activeList }; //updating the list at the activeTab index
             setTabList(updatedList);
         }
+
     }, [activeList]); // Only re-run when activeList changes
 
 
 
     // Update the tabList when layout changes
     useEffect(() => {
-        //If there is an activeTab and the layout at the activeTab index does not match the layout
-        if (activeTab && tabList[activeTab - 1]?.layout !== layout) {
+
+        // Finding the index of the activeTab
+        const tabIndex = tabList.findIndex(tab => tab.id === activeTab.id);
+
+        if (tabIndex !== -1 && tabList[tabIndex]?.layout !== layout) {
             const updatedList = [...tabList];
-            updatedList[activeTab - 1] = { ...updatedList[activeTab - 1], layout: layout }; //updating the layout at the activeTab index
+            updatedList[tabIndex] = { ...updatedList[tabIndex], layout: layout }; //updating the layout at the activeTab index
             setTabList(updatedList);
         }
+
     }, [layout]); // Only re-run when layout changes
 
 
+    // Update the tabList when calcData changes
+    useEffect(() => {
 
-    //Converting multiple tabs to PDF
+        // Finding the index of the activeTab
+        const tabIndex = tabList.findIndex(tab => tab.id === activeTab.id);
+
+        if (tabIndex !== -1 && tabList[tabIndex]?.calcData !== calcData) {
+            const updatedList = [...tabList];
+            updatedList[tabIndex] = { ...updatedList[tabIndex], calcData: calcData }; //updating the calcData at the activeTab index
+            setTabList(updatedList);
+        }
+
+    }, [calcData]); // Only re-run when calcData changes
+
+
+    // Function to handle calculation submit
+    const handleCalculate = async (l) => {
+        setLayout(l);   // Set new layout
+
+
+        // Array to store promises for each fetch request, avoid potential timing issues
+        const fetchPromises = activeList.map(async resource => {
+            // Fetch VM data based on form data submitted on calculate
+            const vmResponse = await fetch('/vm/' + resource.formData.instance);
+            if (!vmResponse.ok) {
+                throw new Error('Failed to fetch VM data');
+            }
+            const vmData = await vmResponse.json();
+
+
+            // Fetch region data based on form data
+            const carbonIntensityResponse = await fetch('/region/carbonIntensity/' + resource.formData.region);
+            if (!carbonIntensityResponse.ok) {
+                throw new Error('Failed to fetch carbon intensity');
+            }
+            const carbonIntensityData = await carbonIntensityResponse.json();
+
+            const pueResponse = await fetch('/region/pue/' + resource.formData.region);
+            if (!pueResponse.ok) {
+                throw new Error('Failed to fetch PUE');
+            }
+            const pueData = await pueResponse.json();
+
+            return {
+                resource: resource.resourceText,
+                vmData: vmData,
+                carbonIntensity: carbonIntensityData,
+                pue: pueData,
+                time: resource.formData.time
+            };
+        });
+
+        // Wait for all fetch requests to complete
+        try {
+            const responseData = await Promise.all(fetchPromises);
+
+            // Update calcData state with all fetched data
+            setCalcData(responseData);
+        } catch (error) {
+            console.error('Error fetching VM data:', error);
+        }
+
+    };
+
+
+    // Converting multiple tabs to PDF
     const handleConvertToPDF = () => {
 
         if (tabList.length !== 0) {
@@ -127,7 +199,7 @@ export default function App() {
                 newWindow.document.body.appendChild(container);
 
                 // Render the ResultPanel component into the container
-                createRoot(container).render(<ResultPanel addedResources={tabList[tabIndex]} />);
+                createRoot(container).render(<ResultPanel layout={tabList[tabIndex].layout} calcData={tabList[tabIndex].calcData} tabname={tabList[tabIndex].title} />);
             };
 
             // Loop through each tab and render its content in the new window
@@ -165,6 +237,8 @@ export default function App() {
                         setActiveTab={setActiveTab}
                         isWindowSmall={isWindowSmall}
                         handleConvertToPDF={handleConvertToPDF}
+                        tabList={tabList}
+                        setTabList={setTabList}
                     />
                 </Col>
                 <Col style={{
@@ -173,7 +247,13 @@ export default function App() {
                     marginLeft: isWindowSmall && sidebarWidth === 6 ? '-41.67%' : 0
                 }}
                 >
-                    <Main activeTab={activeTab} tabList={tabList} setLayout={setLayout} layout={layout} setActiveList={setActiveList} activeList={activeList} />
+                    <Main
+                        activeTab={activeTab}
+                        tabList={tabList}
+                        layout={layout}
+                        setActiveList={setActiveList}
+                        activeList={activeList}
+                        handleCalculate={handleCalculate} />
                 </Col>
             </Row >
         </Container>
