@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from './Navbar';
 import { Container, Row } from 'react-bootstrap';
+import styles from '../styles/Sidebar.module.css';
 
 /**
  * Sidebar component for the application.
@@ -20,21 +21,16 @@ export default function Sidebar(props) {
 
     // Return sidebar component with flex column Container, placing the Rows vertically
     return (
-        <Container fluid style={{
-            height: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between'
-        }}>
+        <Container className={styles.container} fluid>
             {/* Logo row */ }
-            <Row style={{ height: '20%', backgroundColor: '#45654C', textAlign: 'center', padding: '0.5em' }}>
+            <Row className={styles.logoRow}>
                 {!isSidebarCollapsed && (
-                    <img alt='logo' src='logo.png' style={{ height: '90%', margin: 'auto', objectFit: 'contain' }} />
+                    <img alt='logo' src='logo.png' className={styles.logo} />
                 )}
             </Row>
 
             {/* Navigation bar row */}
-            <Row style={{ backgroundColor: '#45654C', height: isWindowSmall ? '80%' : '78%' }}>
+            <Row className={styles.navbarRow} style={{ height: isWindowSmall ? '81%' : '78%' }} >
                 {/* Navbar component */}
                 <Navbar
                     // Passing toggleSidebar, isSidebarCollapsed, 

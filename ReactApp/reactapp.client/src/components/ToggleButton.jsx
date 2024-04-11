@@ -1,6 +1,7 @@
 import React from 'react';
 import Col from 'react-bootstrap/Col';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import styles from '../styles/Navbar.module.css';
 
 /**
  * ToggleButton component for the application.
@@ -9,7 +10,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
  * @param {Function} props.toggleSidebar - Function to toggle the sidebar.
  * @returns {JSX.Element} The JSX representation of the ToggleButton.
  */
-export default function ToggleButton({ toggleSidebar, isWindowSmall }) {
+export default function ToggleButton({ toggleSidebar }) {
     // Function to render the tooltip
     const renderTooltip = (props) => (
         <Tooltip id='toggle-tooltip' {...props}>
@@ -19,17 +20,16 @@ export default function ToggleButton({ toggleSidebar, isWindowSmall }) {
 
     // Render the ToggleButton component
     return (
-        <Col style={{ padding: '0', width: '100%' }}>
+        <Col className={styles.toggleContainer} style={{ padding:'0' }}>
             {/* Overlay trigger for the tooltip */}
             <OverlayTrigger
                 placement='right'
                 delay={{ show: 50, hide: 100 }}
                 overlay={renderTooltip}
-                
             >
                 {/* Button to toggle the sidebar */}
-                <button style={{ border: 'none', background: 'none', padding: isWindowSmall ? '0' : '1em' }} onClick={toggleSidebar}>
-                    <img src='toggleWhite.png' alt='toggleSidebar' style={{width: '100%', maxWidth: '55px' } } />
+                <button className={styles.toggleBtn} onClick={toggleSidebar} >
+                    <img src='toggleWhite.png' alt='toggleSidebar' className={styles.toggleImg} style={{ padding: '0' }} />
                 </button>
             </OverlayTrigger>
 

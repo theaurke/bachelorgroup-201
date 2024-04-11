@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/ResourceList.module.css'
+import styles from '../styles/Resource.module.css'
 import { Container, Row, Col } from 'react-bootstrap';
 import { useState } from 'react';
 import ResourceList from './ResourceList';
@@ -33,31 +33,31 @@ export default function ResourcePanel({ layout, handleCalculate, addedResources,
 
             addedResources?.length === 0 ? ( // Returning the Add resource button if no resources added in the addedResources list.
 
-                <Container style={{ height: '100%', borderLeft: '4px solid #45654C', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Container className={styles.addBtnContainer}>
                     <button data-testid='addResourceButton'  className={styles.addResourceButton} onClick={() => setShowList(!showList)}> Add Resource </button>
                 </Container>
 
             ) : (
 
-                <Container fluid className={styles.container} style={{ padding: '0', borderRight: calculated ? '4px solid #45654C' : 'none', borderLeft: !calculated ? '4px solid #45654C' : 'none' }}>
+                <Container fluid className={styles.panelContainer} style={{ padding: '0', borderRight: calculated ? '4px solid #45654C' : 'none', borderLeft: !calculated ? '4px solid #45654C' : 'none' }}>
 
-                    <Row style={{ margin: '0em' }}>
+                    <Row style={{ margin:'0' }} >
                         <h4 data-testid='addedResourceList' className={styles.banner}> Added Resources </h4>
                     </Row>
 
-                    <Row style={{ height: '100%', margin: '0em', overflowY: 'auto' }}>
+                    <Row className={styles.addedListRow} style={{ margin:'0' }}>
                         <AddedResourcesList addedResources={addedResources} setAddedResources={setAddedResources} />
                     </Row>
 
                     {!calculated && ( // Rendering the TextButtons if resources are not calculated.
 
-                        <Row data-testid='addedResourcesButtons' style={{ padding: '2em', margin: '0', borderTop: '2px solid #45654C' }}>
+                                <Row data-testid='addedResourcesButtons' className={styles.textBtnRow} style={{ margin: '0' }} >
     
-                            <Col style={{ display: 'flex', justifyContent: 'center', padding:'0' }}>
+                            <Col >
                                 <TextButton text='Add Resource' type='button' onClick={() => setShowList(!showList)} />
                             </Col>
 
-                            <Col style={{ display: 'flex', justifyContent: 'center', padding:'0' }}>
+                            <Col >
                                 <TextButton text='Calculate' type='button' onClick={() => handleCalculate(layout === 'resource' ? 'result' : 'resource')} />
                             </Col>
 

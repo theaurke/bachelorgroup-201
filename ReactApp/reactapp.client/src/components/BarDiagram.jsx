@@ -8,6 +8,8 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
+import * as Chart from 'chart.js';
+import styles from '../styles/Result.module.css';
 
 ChartJS.register(
     CategoryScale,
@@ -107,7 +109,7 @@ export default function BarDiagram({ info, emissions }) {
    
 
     return (
-        <div style={{margin: '1em 0em'} }>
+        <div className={styles.barDiv} >
             <Bar data={data} options={options} />
         </div>
     );

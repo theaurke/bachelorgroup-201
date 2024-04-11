@@ -1,4 +1,4 @@
-import styles from '../styles/ResourceList.module.css'
+import styles from '../styles/Resource.module.css'
 import { useState, useEffect } from 'react';
 import ResourceInput from './ResourceInput';
 

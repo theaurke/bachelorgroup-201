@@ -53,7 +53,7 @@ export default function AddedResourcesList({ addedResources, setAddedResources }
 
     // Returning a list where each point is a dropdown button for a resource, and the dropdown contains the input field either editable or not.
     return (
-        <ul style={{ padding: '0em', margin: '0em', height: '100%' }}>
+        <ul className={styles.ul} style={{ padding:'0' }}>
 
             {/* Going through the list and making a list point for each resource */}
             {addedResources.map(({ resourceText, id, formData }) => (

@@ -59,7 +59,7 @@ export default function NavTab(props) {
     return (
         // Nav item and link components for the tab
         <Nav.Item className={styles.navItem}>
-            <Nav.Link eventKey={id} className={`${styles.navLink} ${isActive ? styles.activeTab : ''}`}>
+            <Nav.Link eventKey={id} className={`${styles.navLink} ${isActive ? styles.activeTab : ''}`} style={{ color: isActive ? 'black' : 'white', display: 'flex', backgroundColor: isActive ? 'white' : ''}}>
                 {/* Render input field if in edit mode, otherwise render tab title */}
                 {editMode ? (
                     <input
@@ -77,12 +77,12 @@ export default function NavTab(props) {
                 )}
                 {/* Render edit and delete icons if sidebar is expanded and tab is active */}
                 {!isSidebarCollapsed && isActive && (
-                    <>
+                    <div>
                         {/* Edit icon for editing tab title */}
                         <img data-testid='editIcon' src='editPencil.svg' alt='More options' className={styles.optionsIcon} onClick={handleEditName} />
                         {/* Delete icon for deleting tab */}
                         <img src='deleteBlack.png' alt='Delete' className={styles.deleteIcon} onClick={handleDelete} />
-                    </>
+                    </div>
                 )} 
                 
                     

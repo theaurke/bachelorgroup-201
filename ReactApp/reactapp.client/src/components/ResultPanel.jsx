@@ -3,7 +3,8 @@ import CalcText from './CalcText';
 import CalcResult from './CalcResult';
 import Container from 'react-bootstrap/Container';
 import { usePDF } from 'react-to-pdf';
-import styles from '../styles/ResourceList.module.css'
+import styles from '../styles/Result.module.css'
+import stylesResource from '../styles/Resource.module.css'
 
 /**
  * ResultPanel component for rendering a panel to display calculation results.
@@ -14,17 +15,17 @@ export default function ResultPanel({ layout, calcData, tabname }) {
     
 
     return (
-        <Container fluid ref={targetRef}  style={{ padding: '0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%', margin: '0' }}>
+        <Container fluid ref={targetRef} className={styles.resultContainer} style={{ padding:'0' }}>
             {layout == 'result' ? (
                 <>
                     <CalcResult calcData={calcData} tabname={tabname} />
-                    <div style={{ padding: '0.5em 0em', position: 'fixed', bottom: '2em' }}>
-                        <button type='button' className={styles.addResourceButton} onClick={() => toPDF()}>Convert to pdf</button>
+                    <div style={{ padding: '1em' }}>
+                        <button type='button' className={stylesResource.addResourceButton} onClick={() => toPDF()}>Convert to pdf</button>
                     </div>
                 </>
                 
             ) : (
-               <CalcText />
+                <CalcText />
             )}
         </Container>
         

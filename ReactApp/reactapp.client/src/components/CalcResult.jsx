@@ -3,7 +3,7 @@ import DoughnutDiagram from './DoughnutDiagram';
 import BarDiagram from './BarDiagram';
 import ScoreDiagram from './ScoreDiagram';
 import { Col, Row } from 'react-bootstrap';
-import styles from '../styles/CalcResult.module.css';
+import styles from '../styles/Result.module.css';
 
 
 /**
@@ -68,10 +68,10 @@ export default function CalcResult({ calcData, tabname}) {
                 <p>Loading...</p>
             ) : (
                 <>
-                    <Row style={{width: '100%'} }>
+                    <Row style={{ width: '100%', minHeight: '300px'}} >
                        <DoughnutDiagram emissions={emissions} totalEmission={totalEmission} />
                     </Row>
-                    <Row>
+                    <Row style={{ width: '100%' }} >
                         <BarDiagram info={'Energy'} emissions={emissions} />
                         <BarDiagram info={'Region'} emissions={emissions} />
                         <BarDiagram info={'Embodied'} emissions={emissions} />

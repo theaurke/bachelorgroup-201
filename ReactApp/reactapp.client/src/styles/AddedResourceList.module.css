@@ -1,10 +1,14 @@
+.ul {
+    height: 100%;
+    margin: 0;
+}
+
 .li {
     list-style: none;
     border-bottom: 2px solid #45654C;
     display: flex;
     flex-direction: column;
 }
-
 
 .dropdownBtn {
     display: flex;
@@ -15,7 +19,6 @@
     background-color: white;
     flex: 1;
 }
-
 
 .dropdownBtn > h6 {
     margin: 0;

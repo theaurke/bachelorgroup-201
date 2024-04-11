@@ -1,0 +1,52 @@
+.resultCol{
+    height: 100%;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    border-bottom: 2px solid #45654C;
+    margin-top: 1em;
+}
+
+.pdfButton {
+    margin-top: auto; 
+    padding: 1em; 
+    font-size: 1.2em; 
+    font-weight: bold;
+    color: white;
+    background-color: #45654C; 
+    border: 2px solid transparent;
+}
+
+.pdfButton:hover {
+    color: black;
+    background-color: white;
+    border: 2px solid #45654C;
+}
+
+
+/* ----- BarDiagram ----- */
+.barDiv {
+    margin: 1em 0;
+    display: flex;
+    justify-content: center;
+}
+
+
+/* ----- ResultPanel ----- */
+.resultContainer {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* ----- CalcText ----- */
+.div {
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

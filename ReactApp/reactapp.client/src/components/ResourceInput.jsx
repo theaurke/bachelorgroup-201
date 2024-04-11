@@ -1,5 +1,5 @@
 import { Container, Form, Row, Col, InputGroup } from 'react-bootstrap';
-import styles from '../styles/InputList.module.css'
+import styles from '../styles/Resource.module.css'
 import TextButton from './TextButton';
 import { useState, useEffect } from 'react';
 import Select from 'react-select'
@@ -103,9 +103,16 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
         
     }
 
+    const timeInputStyle = {
+        padding: '0 0.2em',
+        flex: '1',
+        minWidth: '9em',
+        maxWidth: '11em'
+    };
+
 
     return (
-        <Container className={styles.containerStyle} style={{ borderLeft: resourceFormData ? 'none' : '4px solid #45654C', padding: '0em', backgroundColor: 'white' }}>
+        <Container className={styles.inputContainer} style={{ borderLeft: resourceFormData ? 'none' : '4px solid #45654C', padding: '0' }}>
 
             {/* Banner with resourcename, only visible when adding a resource to the list */}
             <h4 data-testid='inputTitle' className={styles.resourceBanner} style={{ display: resourceFormData ? 'none' : 'flex' } }> {resourceText} </h4>
@@ -147,8 +154,8 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                 <Row className={"mb-3"}>
                     <Form.Group as={Row} controlId="formTimeInput">
                         <Form.Label id='time'> Running time </Form.Label>
-                        <Row style={{ display: 'flex', justifyContent: 'center', margin: '0', padding: '0' }}>
-                            <InputGroup style={{ width: '25%', textAlign: 'center' }}>
+                        <Row style={{ margin: '0', padding: '0' }} >
+                            <InputGroup style={timeInputStyle} >
                                 <Form.Control
                                     type="number"
                                     placeholder="Year"
@@ -158,7 +165,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                                 />
                                 <InputGroup.Text>Years</InputGroup.Text>
                             </InputGroup>
-                            <InputGroup style={{ width: '25%', textAlign: 'center' }}>
+                            <InputGroup style={timeInputStyle} >
                                 <Form.Control
                                     type="number"
                                     placeholder="Month"
@@ -168,7 +175,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                                 />
                                 <InputGroup.Text>Months</InputGroup.Text>
                             </InputGroup>
-                            <InputGroup style={{ width: '25%', textAlign: 'center' }}>
+                            <InputGroup style={timeInputStyle} >
                                 <Form.Control
                                     type="number"
                                     placeholder="Day"
@@ -178,7 +185,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                                 />
                                 <InputGroup.Text>Days</InputGroup.Text>
                             </InputGroup>
-                            <InputGroup style={{ width: '25%', textAlign: 'center' }}>
+                            <InputGroup style={timeInputStyle} >
                                 <Form.Control
                                     type="number"
                                     placeholder="Hour"

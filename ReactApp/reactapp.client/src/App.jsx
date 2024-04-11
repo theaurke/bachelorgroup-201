@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import Main from './components/Main';
 import { createRoot } from 'react-dom/client';
 import ResultPanel from './components/ResultPanel';
+import styles from './styles/App.module.css';
 
 
 /**
@@ -220,13 +221,12 @@ export default function App() {
     // Sidebar Col has lg breakpoint that is set to span 'sidebarWidth' columns,
     // while Main Col span the rest of the space.
     return (
-        <Container className="vh-100" style={{ padding: '1em', overflowY: 'auto', minWidth: isWindowSmall ? '768px' : 'auto' }} fluid>
-            <Row style={{ height: '96vh', minHeight: '600px' }}>
-                <Col data-testid='sidebar_col' {...(isWindowSmall ? { xs: sidebarWidth } : { lg: sidebarWidth })}
-                    style={{
-                        height: '100%',
-                        zIndex: '100'
-                    }}
+        <Container className={styles.container} style={{ minWidth: isWindowSmall ? '768px' : 'auto' }} fluid>
+            <Row className={styles.row}>
+                <Col 
+                    className={styles.sidebarCol}
+                    data-testid='sidebar_col'
+                    {...(isWindowSmall ? { xs: sidebarWidth } : { lg: sidebarWidth })}
                 >
                     <Sidebar
                         // Passing toggleSidebar, sidebarWidth, activeTab, 
@@ -241,11 +241,12 @@ export default function App() {
                         setTabList={setTabList}
                     />
                 </Col>
-                <Col style={{
-                    height: '100%',
-                    // Move Main so that Sidebar Col has overlay effect
-                    marginLeft: isWindowSmall && sidebarWidth === 6 ? '-41.67%' : 0
-                }}
+                <Col 
+                    className={styles.mainCol}
+                    style={{
+                        // Move Main so that Sidebar Col has overlay effect
+                        marginLeft: isWindowSmall && sidebarWidth === 6 ? '-41.67%' : 0
+                    }}
                 >
                     <Main
                         activeTab={activeTab}

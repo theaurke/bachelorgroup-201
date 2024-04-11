@@ -1,0 +1,116 @@
+/* ----- ResourceList ----- */
+.resourceList {
+    display: flex;
+    flex-direction: column; /* Align top to bottom */
+    height: 100%;
+    border-left: 4px solid #45654C;
+    overflow-y: auto;
+    margin: 0em;
+}
+
+.resourceLi {
+    margin-bottom: 1px; /* Space between rows */
+    min-height: 10vh;
+    list-style-type: none;
+    margin-left: -2em;
+    height: 100%;
+}
+
+.resourceButton {
+    background-color: #45654C;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    border: none;
+}
+
+.resourceButton:hover {
+    background-color: white;
+    color: #45654C;
+}
+
+
+/* ----- ResourcePanel ----- */
+.addBtnContainer {
+    height: 100%;
+    border-left: 4px solid #45654C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.panelContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-align: center;
+}
+
+.banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0em;
+    height: 50px;
+    background-color: #45654C;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.addedListRow {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.textBtnRow {
+    border-top: 2px solid #45654C;
+    padding: 2em;
+}
+
+
+/* ----- RecourceInput ----- */
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100%;
+}
+
+.resourceBanner {
+    padding: 0.5em;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #45654C;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.formStyle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 80%;
+    height: 100%;
+    margin-bottom: 2em;
+}
+
+
+/* ----- Result/ResourcePanel ----- */
+.addResourceButton {
+    background-color: #45654C;
+    padding: 15px 80px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    border: none;
+}

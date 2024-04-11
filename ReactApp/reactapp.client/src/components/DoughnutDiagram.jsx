@@ -78,7 +78,7 @@ export default function DoughnutDiagram({ emissions, totalEmission }) {
         layout: {
             padding: {
                 top: 10,
-                bottom: 20,
+                bottom: 40,
             }
         },
         responsive: true,
@@ -92,7 +92,7 @@ export default function DoughnutDiagram({ emissions, totalEmission }) {
             const { ctx } = chart;
 
             ctx.save();
-            ctx.font = 'bolder 20px sans-serif';
+            ctx.font = 'bolder 1.2em sans-serif';    //20px
             ctx.fillStyle = 'black';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
@@ -151,7 +151,7 @@ export default function DoughnutDiagram({ emissions, totalEmission }) {
                     ctx.fillStyle = dataset.backgroundColor[index];
                     ctx.fillRect(rectX - 5, rectY, textWidth + 10, 15); 
 
-                    ctx.font = 'bolder 11px sans-serif';
+                    ctx.font = 'bolder 0.7em sans-serif'; //11px
                     ctx.textAlign = textXpos;
                     ctx.textBaseline = 'middle';
                     ctx.fillStyle = 'rgb(255, 255, 255)'; //dataset.backgroundColor[index];

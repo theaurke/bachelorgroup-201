@@ -1,0 +1,21 @@
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.logoRow {
+    height: 20%;
+    background-color: #45654C;
+    padding-top: 1em;
+}
+
+.logo {
+    height: 90%;
+    object-fit: contain;
+}
+
+.navbarRow {
+    background-color: #45654C;
+}

@@ -108,7 +108,7 @@ export default function Navbar(props) {
             )}
 
             {/* Row for the 'Start new calculation' button */}
-            <Row style={{ padding: '0.1em' }}>
+            <Row className={styles.navBtnRow }>
                 {((!isWindowSmall) || (isWindowSmall && !isSidebarCollapsed)) && (
                     <NavButton
                         // text, src, alt, and isSidebarCollapsed as props
@@ -122,15 +122,18 @@ export default function Navbar(props) {
             </Row>
 
             {/* Row for the tabs */}
-            <Row style={{ padding: '0.1em', overflowY: 'auto', height: '100%' }}>
+            <Row className={styles.tabsRow} >
                 {/* Using Tab and Nav from react bootstrap to make pill tabs */}
                 {((!isWindowSmall) || (isWindowSmall && !isSidebarCollapsed)) && (
-                    <Tab.Container activeKey={activeTab.id} onSelect={(key) => {
-                        const selectedTab = tabs.find(tab => tab.id === key);
-                        if (selectedTab) {
-                            setActiveTab(selectedTab);
+                    <Tab.Container
+                        activeKey={activeTab.id}
+                        onSelect={(key) => {
+                            const selectedTab = tabs.find(tab => tab.id === key);
+                            if (selectedTab) {
+                                setActiveTab(selectedTab);
+                            }
                         }
-                    }}>
+                    }>
                         <Col style={{ padding: '0' }}>
                             <Nav variant='pills' className={styles.navContainer}>
                                 {/* Map through the tabs and render each tab */}
@@ -155,9 +158,11 @@ export default function Navbar(props) {
             
 
             {/* Row for the toggle button */}
-            <Row style={{ marginTop: 'auto' }}>
-                <button type='button' onClick={handleConvertToPDF}>Convert All Tabs to PDF</button>
-                <ToggleButton toggleSidebar={toggleSidebar} isWindowSmall={isWindowSmall} />
+            <Row style={{ padding: '0.1em' }}>
+                {((!isWindowSmall) || (isWindowSmall && !isSidebarCollapsed)) && (
+                    <button type='button' className={styles.pdfBtn} onClick={handleConvertToPDF}>Convert All Tabs to PDF</button>
+                )}
+                <ToggleButton toggleSidebar={toggleSidebar} />
             </Row>
         </Container>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/TextButton.module.css';
+import styles from '../styles/App.module.css';
 
 /**
  * TextButton component for rendering a button with text.
