@@ -24,7 +24,7 @@ describe('ResourceList Component', () => {
         const listOfResources = getByTestId('resourceList');
 
         expect(listOfResources).toBeInTheDocument();
-        expect(listOfResources.children.length).toBeGreaterThan(1);
+        expect(listOfResources.children.length).toBeGreaterThan(0);
 
     });
 

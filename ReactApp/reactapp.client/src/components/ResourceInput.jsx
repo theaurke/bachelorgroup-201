@@ -1,4 +1,4 @@
-import { Container, Form, Row, Col, InputGroup } from 'react-bootstrap';
+import { Container, Form, Row, Col, InputGroup, Alert } from 'react-bootstrap';
 import styles from '../styles/Resource.module.css'
 import TextButton from './TextButton';
 import { useState, useEffect } from 'react';
@@ -10,11 +10,14 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
     const [region, setRegion] = useState('Choose region'); // State to manage the chosen region.
     const [time, setTime] = useState({ year: 0, month: 0, day: 0, hour: 0 }); // State to manage the chosen time.
     const [action, setAction] = useState('Add'); // State to manage which button is clicked.
+    const [instanceError, setInstanceError] = useState(false);
+    const [regionError, setRegionError] = useState(false);
 
 
     // Lists of instance and region options for the dropdown menu.
     const [instanceOptions, setInstanceOptions] = useState([]); // State to store VM instance options fetched from the server.
     const [regionOptions, setRegionOptions] = useState([]); // State to store region options fetched from the server.
+    const [loading, setLoading] = useState(true);
 
     // Fetch VM instance options from the server
     useEffect(() => {
@@ -52,12 +55,62 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
             setTime(resourceFormData.time);
         }
     }, [resourceFormData]);
-    
 
+
+    useEffect(() => {
+        if (instanceOptions && regionOptions) {
+            setLoading(false);
+        } else {
+            setLoading(true);
+        }
+    }, [instanceOptions, regionOptions]);
+
+
+    // Setting error to false if a region or instance is chosen
+    useEffect(() => {
+        if (instance !== 'Choose instance') {
+            setInstanceError(false);
+        } 
+
+        if (region !== 'Choose region') {
+            setRegionError(false);
+        } 
+
+    }, [instance, region]); // Only re-running when instance or region updates
+
+
+    // Function to validate form
+    const validateForm = () => {
+        let isValid = true;
+
+        // Checking if instance is chosen
+        if (instance === 'Choose instance') {
+            setInstanceError(true);
+            isValid = false;
+        } else {
+            setInstanceError(false);
+        }
+
+        // Checking if region is chosen
+        if (region === 'Choose region') {
+            setRegionError(true);
+            isValid = false;
+        } else {
+            setRegionError(false);
+        }
+
+        return isValid;
+    };
+    
 
     // Function to handle submission of the form.
     const submitForm = (event) => {
         event.preventDefault();
+
+        // Checking if form is valid
+        if (!validateForm()) {
+            return;
+        }
 
         const formData = {
             instance,
@@ -70,19 +123,12 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
             setEdit(!edit); // Enabling the forms input fields.
         } else {
 
-            // Can't save or add if no valid data is chosen
-            if (formData.instance !== 'Choose instance' && formData.region !== 'Choose region') {
-
-                // Checking if the button clicked was save
-                if (action === 'Save') {
-                    setEdit(!edit); // Disabling the forms inputfields.
-                    handleSubmit(action, resourceID, formData); // Updating the formData in the resourceList
-                } else {
-                    handleSubmit(formData); // Saving the formData in the resourceList
-                }
-            }
-            else {
-                console.error('Data for instance or region is not valid');
+            // Checking if the button clicked was save
+            if (action === 'Save') {
+                setEdit(!edit); // Disabling the forms inputfields.
+                handleSubmit(action, resourceID, formData); // Updating the formData in the resourceList
+            } else {
+                handleSubmit(formData); // Saving the formData in the resourceList
             }
         }
     };
@@ -103,11 +149,18 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
         
     }
 
+
+    // Styling for the time input field
     const timeInputStyle = {
-        padding: '0 0.2em',
-        flex: '1',
-        minWidth: '9em',
-        maxWidth: '11em'
+        minWidth: '3em',
+        maxWidth: '4em'
+    };
+
+    // Styling for the time input field label
+    const timeLabelStyle = {
+        margin: '0.4em 0',
+        flex: 1,
+        flexWrap: 'nowrap',
     };
 
 
@@ -130,7 +183,12 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                             options={instanceOptions}
                             isDisabled={edit}
                             onChange={(e) => setInstance(e.value)}
+                            isLoading={loading}
+                            loadingMessage={'Loading instances...'}
                         />
+                        {instanceError && (
+                            <Alert variant="danger">Please choose an instance.</Alert>
+                        )}
                     </Form.Group>
                 </Row>
 
@@ -145,7 +203,12 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                             options={regionOptions}
                             isDisabled={edit}
                             onChange={(e) => setRegion(e.value)}
+                            isLoading={loading}
+                            loadingMessage={'Loading regions...'}
                         />
+                        {regionError && (
+                            <Alert variant="danger">Please choose a region.</Alert>
+                        )}
                     </Form.Group>
                 </Row>
 
@@ -155,43 +218,47 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                     <Form.Group as={Row} controlId="formTimeInput">
                         <Form.Label id='time'> Running time </Form.Label>
                         <Row style={{ margin: '0', padding: '0' }} >
-                            <InputGroup style={timeInputStyle} >
+                            <InputGroup style={timeLabelStyle}>
                                 <Form.Control
                                     type="number"
                                     placeholder="Year"
                                     value={time.year}
                                     onChange={(e) => setTime({ ...time, year: e.target.value })}
                                     disabled={edit}
+                                    style={timeInputStyle}
                                 />
                                 <InputGroup.Text>Years</InputGroup.Text>
                             </InputGroup>
-                            <InputGroup style={timeInputStyle} >
+                            <InputGroup style={timeLabelStyle} >
                                 <Form.Control
                                     type="number"
                                     placeholder="Month"
                                     value={time.month}
                                     onChange={(e) => setTime({ ...time, month: e.target.value })}
                                     disabled={edit}
+                                    style={timeInputStyle}
                                 />
                                 <InputGroup.Text>Months</InputGroup.Text>
                             </InputGroup>
-                            <InputGroup style={timeInputStyle} >
+                            <InputGroup style={timeLabelStyle} >
                                 <Form.Control
                                     type="number"
                                     placeholder="Day"
                                     value={time.day}
                                     onChange={(e) => setTime({ ...time, day: e.target.value })}
                                     disabled={edit}
+                                    style={timeInputStyle}
                                 />
                                 <InputGroup.Text>Days</InputGroup.Text>
                             </InputGroup>
-                            <InputGroup style={timeInputStyle} >
+                            <InputGroup style={timeLabelStyle} >
                                 <Form.Control
                                     type="number"
                                     placeholder="Hour"
                                     value={time.hour}
                                     onChange={(e) => setTime({ ...time, hour: e.target.value })}
                                     disabled={edit}
+                                    style={timeInputStyle}
                                 />
                                 <InputGroup.Text>Hours</InputGroup.Text>
                             </InputGroup>

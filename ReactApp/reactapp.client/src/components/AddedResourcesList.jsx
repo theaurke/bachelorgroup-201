@@ -2,9 +2,10 @@ import styles from '../styles/AddedResourceList.module.css';
 import ResourceInput from './ResourceInput';
 import { useState, useEffect } from 'react';
 
-export default function AddedResourcesList({ addedResources, setAddedResources }) {
+export default function AddedResourcesList({ addedResources, setAddedResources, handleCalculate, setLayout }) {
     const [openDropdown, setOpenDropdown] = useState({}); // State to manage opening the dropdown clicked on.
     const [edit, setEdit] = useState(true); // State to manage whether the inout field is editable or not.
+    const [saved, setSaved] = useState(false); // State to manage if resource is edited or not.
 
 
 
@@ -33,7 +34,14 @@ export default function AddedResourcesList({ addedResources, setAddedResources }
 
         // Checking if button is remove
         if (buttontext === 'Remove') {
+
             setAddedResources(prev => prev.filter(resource => resource.id !== id)); // Making a new list with all resources expect the one matching the id.
+
+            if (addedResources.length === 1) {
+                setLayout('resource');
+            }
+               
+
         } else {
 
             // Updating the formdata at the given index.
@@ -42,18 +50,32 @@ export default function AddedResourcesList({ addedResources, setAddedResources }
                 if (index !== -1) {
                     const updatedResources = [...prev];
                     updatedResources[index] = { ...updatedResources[index], formData: formData }; // Updating the formdata.
+                    setSaved(true); // Set saved to true
                     return updatedResources;
-                } 
+                } else {
+                    return prev; // Return prev if index is -1
+                }
             });
+
         }
         
     }
+
+    // Call handleCalculate whenever addedResources changes and saved is true
+    useEffect(() => {
+
+        if (saved) {
+            setSaved(false);
+            handleCalculate('result');
+        }
+        
+    }, [addedResources]);
 
 
 
     // Returning a list where each point is a dropdown button for a resource, and the dropdown contains the input field either editable or not.
     return (
-        <ul className={styles.ul} style={{ padding:'0' }}>
+        <ul className={styles.ul} style={{ padding: '0' }}>
 
             {/* Going through the list and making a list point for each resource */}
             {addedResources.map(({ resourceText, id, formData }) => (
@@ -64,8 +86,8 @@ export default function AddedResourcesList({ addedResources, setAddedResources }
 
                     {/* Dropdown button*/}
                     <button data-testid='dropdownButton' className={styles.dropdownBtn} onClick={() => handleClick(id)}>
-                        <h6>{resourceText}</h6>
-                        <p>{ openDropdown[id]? '\u2BC5' : '\u2BC6'}</p>
+                        <h6>{resourceText + " " + (id + 1)}</h6>
+                        <img src={openDropdown[id] ? 'uparrow.png' : 'downarrow.png'} alt={openDropdown[id] ? 'uparrow' : 'downarrow'}></img>
                     </button>
 
                     {/* Dropdown content*/}
@@ -75,7 +97,7 @@ export default function AddedResourcesList({ addedResources, setAddedResources }
                         flex: '7.5',
                         padding: '0em'
                     }}>
-                        <ResourceInput resourceText={resourceText} resourceFormData={formData} resourceID={id} edit={edit} handleSubmit={handleSubmit} setEdit={setEdit} />
+                        <ResourceInput resourceText={resourceText} resourceFormData={formData} resourceID={id} edit={edit} handleSubmit={handleSubmit} setEdit={setEdit}/>
                     </div>
 
                 </li>

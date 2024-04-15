@@ -168,7 +168,9 @@ export default function App() {
             const pueData = await pueResponse.json();
 
             return {
-                resource: resource.resourceText,
+                resource: resource.resourceText + " " + (resource.id + 1),
+                region: resource.formData.region,
+                instance: resource.formData.instance,
                 vmData: vmData,
                 carbonIntensity: carbonIntensityData,
                 pue: pueData,
@@ -252,6 +254,7 @@ export default function App() {
                         activeTab={activeTab}
                         tabList={tabList}
                         layout={layout}
+                        setLayout={setLayout}
                         setActiveList={setActiveList}
                         activeList={activeList}
                         handleCalculate={handleCalculate} />

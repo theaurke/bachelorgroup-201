@@ -29,5 +29,5 @@ public class VMData
     public int CPU_TDP { get; set; }
     public int? GPU_TDP { get; set; } // Using nullable int for GPU TDP since the value can be null
 
-    public decimal PkWh => (decimal)(((CPU_Num * CPU_TDP) + 4 + (GPU_Num * GPU_TDP)) / 1000);
+    public decimal PkWh => (decimal)(((CPU_Num * CPU_TDP) + 10 + (GPU_Num * GPU_TDP)) / 1000);
 }

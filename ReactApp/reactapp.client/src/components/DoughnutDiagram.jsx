@@ -45,7 +45,7 @@ export default function DoughnutDiagram({ emissions, totalEmission }) {
         labels: emissions.map(item => item.resource.toString()),
         datasets: [
             {
-                data: emissions.map(item => item.emission),
+                data: emissions.map(item => item.emissionTime),
                 backgroundColor: backgroundColor,
             },
         ],
@@ -62,13 +62,6 @@ export default function DoughnutDiagram({ emissions, totalEmission }) {
             },
             datalabels: {
                 display: false,
-                color: 'white',
-                textAlign: 'center',
-                font: {
-                    size: '12',
-                    weight: 'bold'
-                },
-                formatter: (value) => `${value}gCO2eq`
             },
             textCenter: {
                 totalEmission: totalEmission,
@@ -92,14 +85,14 @@ export default function DoughnutDiagram({ emissions, totalEmission }) {
             const { ctx } = chart;
 
             ctx.save();
-            ctx.font = 'bolder 1.2em sans-serif';    //20px
+            ctx.font = 'bolder 1.2em sans-serif';
             ctx.fillStyle = 'black';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(`${pluginOptions.totalEmission}`,
+            ctx.fillText(`${pluginOptions.totalEmission >= 1000 ? (pluginOptions.totalEmission / 1000).toFixed(1) : pluginOptions.totalEmission}`,
                 chart.getDatasetMeta(0).data[0].x,
                 chart.getDatasetMeta(0).data[0].y - 8);
-            ctx.fillText('total gCO2eq',
+            ctx.fillText(`total ${pluginOptions.totalEmission >= 1000 ? 'kgCO2eq' : 'gCO2eq'}`,
                 chart.getDatasetMeta(0).data[0].x,
                 chart.getDatasetMeta(0).data[0].y + 14);
 
@@ -135,7 +128,8 @@ export default function DoughnutDiagram({ emissions, totalEmission }) {
                     ctx.stroke();
 
                     const textXpos = x >= halfWidth ? 'left' : 'right';
-                    const text = `${chart.data.datasets[0].data[index]}gCO2eq`;
+                    const value = chart.data.datasets[0].data[index];
+                    const text = value >= 10000 ? `${(value / 1000).toFixed(2)} kgCO2eq` : `${value} gCO2eq`;
                     const textWidth = ctx.measureText(text.trim()).width;
 
                     // Calculate the position for the rectangle based on the text position
@@ -151,11 +145,10 @@ export default function DoughnutDiagram({ emissions, totalEmission }) {
                     ctx.fillStyle = dataset.backgroundColor[index];
                     ctx.fillRect(rectX - 5, rectY, textWidth + 10, 15); 
 
-                    ctx.font = 'bolder 0.7em sans-serif'; //11px
+                    ctx.font = 'bolder 0.7em sans-serif';
                     ctx.textAlign = textXpos;
                     ctx.textBaseline = 'middle';
-                    ctx.fillStyle = 'rgb(255, 255, 255)'; //dataset.backgroundColor[index];
-                    //ctx.fillText(text, xLine + extraSpace, yLine);
+                    ctx.fillStyle = 'rgb(255, 255, 255)';
                     ctx.fillText(text, xLine, rectY + 8);
                 })
 

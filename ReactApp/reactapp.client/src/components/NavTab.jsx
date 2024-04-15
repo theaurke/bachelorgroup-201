@@ -47,6 +47,11 @@ export default function NavTab(props) {
         if (event.key === 'Enter') {
             handleSaveName();
         }
+
+        // Allowing spce in tab names
+        if (event.key === " " || event.key === "Spacebar") {
+            setNewTitle(prevTitle => prevTitle + ' ');
+        }
     };
 
     // Function to handle input blur events
@@ -59,7 +64,9 @@ export default function NavTab(props) {
     return (
         // Nav item and link components for the tab
         <Nav.Item className={styles.navItem}>
-            <Nav.Link eventKey={id} className={`${styles.navLink} ${isActive ? styles.activeTab : ''}`} style={{ color: isActive ? 'black' : 'white', display: 'flex', backgroundColor: isActive ? 'white' : ''}}>
+            <Nav.Link eventKey={id}
+                className={`${styles.navLink} ${isActive ? styles.activeTab : ''}`}
+                style={{ color: isActive ? 'black' : 'white', display: 'flex', backgroundColor: isActive ? 'white' : '' }}>
                 {/* Render input field if in edit mode, otherwise render tab title */}
                 {editMode ? (
                     <input

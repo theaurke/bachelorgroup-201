@@ -20,6 +20,7 @@ ChartJS.register(
     Legend
 );
 export default function BarDiagram({ info, emissions }) {
+    const variable = info === "Region" ? "carbonIntensity" : (info === "Energy" ? "energy" : "embodied");
 
     const backgroundColor = [
         '#FF3784',
@@ -58,7 +59,7 @@ export default function BarDiagram({ info, emissions }) {
         labels: emissions.map(item => item.resource.toString()),
         datasets: [
             {
-                data: emissions.map(item => item[info.toLowerCase()]),
+                data: emissions.map(item => item[variable]),
                 backgroundColor: backgroundColor,
             },
         ],
@@ -98,7 +99,7 @@ export default function BarDiagram({ info, emissions }) {
             y: {
                 type: 'linear',
                 min: 0,
-                max: Math.max(...emissions.map(item => item[info.toLowerCase()])),
+                max: Math.max(...emissions.map(item => item[variable])) + (Math.max(...emissions.map(item => item[variable])) * 0.05),
                 title: {
                     display: true,
                     text: `${info === "Energy" ? 'kWh' : 'gCO2eq' }`,

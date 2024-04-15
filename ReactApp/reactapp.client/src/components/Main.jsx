@@ -10,7 +10,7 @@ import ResultPanel from './ResultPanel';
  * @param {number} activeTab - The ID of the activeTab.
  * @returns {JSX.Element} The JSX representation of the main content.
  */
-export default function Main({ activeTab, tabList, layout, setActiveList, activeList, handleCalculate }) {
+export default function Main({ activeTab, tabList, setLayout, layout, setActiveList, activeList, handleCalculate }) {
 
     // Finding the index of the activeTab
     const tabIndex = tabList.findIndex(tab => tab.id === activeTab.id);
@@ -33,7 +33,7 @@ export default function Main({ activeTab, tabList, layout, setActiveList, active
                                     <ResultPanel layout={layout} />
                                 </Col>
                                 <Col style={{ height: '100%', padding:'0' }}>
-                                    <ResourcePanel handleCalculate={handleCalculate} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={false} />
+                                    <ResourcePanel handleCalculate={handleCalculate} setLayout={setLayout} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={false} />
                                 </Col>
                             </>
 
@@ -41,7 +41,7 @@ export default function Main({ activeTab, tabList, layout, setActiveList, active
 
                             <>
                                 <Col style={{ height: '100%', padding: '0' }}>
-                                    <ResourcePanel handleCalculate={handleCalculate} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={true} />
+                                        <ResourcePanel handleCalculate={handleCalculate} setLayout={setLayout} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={true} />
                                 </Col>
                                     <Col style={{ height: '100%', padding: '0' }}>
                                         <ResultPanel layout={layout} calcData={tabList[tabIndex]?.calcData || []} tabname={activeTab.title} />

@@ -18,7 +18,7 @@ import TextButton from './TextButton';
  * @param {boolean} calculated - Boolean to change content based on if the resources are calculated or not.
  * @returns {JSX.Element} The JSX representation of the ResourcePanel.
  */
-export default function ResourcePanel({ layout, handleCalculate, addedResources, setAddedResources, calculated }) {
+export default function ResourcePanel({ setLayout,layout, handleCalculate, addedResources, setAddedResources, calculated }) {
     const [showList, setShowList] = useState(false); // State managing the visibility of the list of resource to choose from.
 
 
@@ -45,8 +45,8 @@ export default function ResourcePanel({ layout, handleCalculate, addedResources,
                         <h4 data-testid='addedResourceList' className={styles.banner}> Added Resources </h4>
                     </Row>
 
-                    <Row className={styles.addedListRow} style={{ margin:'0' }}>
-                        <AddedResourcesList addedResources={addedResources} setAddedResources={setAddedResources} />
+                            <Row className={styles.addedListRow} style={{ margin: '0' }}>
+                                <AddedResourcesList addedResources={addedResources} setAddedResources={setAddedResources} handleCalculate={handleCalculate} setLayout={setLayout} />
                     </Row>
 
                     {!calculated && ( // Rendering the TextButtons if resources are not calculated.

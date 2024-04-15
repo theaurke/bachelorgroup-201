@@ -4,9 +4,7 @@ import ResourceInput from './ResourceInput';
 
 
 // List of resources to choose from.
-const resources = ['Virtual Machine', 'Azure VMware Solution', 'Dedicated Host', 'Virtual Desktop',
-    'VM Scale Sets', 'Azure Firewall', 'ExpressRoute', 'Load Balancer', 'Network Watcher',
-    'Private Link']
+const resources = ['Virtual Machine']
 
 export default function ResourceList({ addedResources, setAddedResources, setShowList }) {
     const [showInput, setShowInput] = useState(false); // State to manage the visibility of the input field.

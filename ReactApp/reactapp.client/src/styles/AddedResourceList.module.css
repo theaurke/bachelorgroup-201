@@ -26,9 +26,7 @@
     color: black;
 }
 
-.dropdownBtn > p {
-    margin: 0;
-    margin-left: auto;
-    font-size: 20px;
-    color: #45654C;
+.dropdownBtn > img {
+    margin-right: 1em;
+    width: 0.8em;
 }
