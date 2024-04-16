@@ -141,7 +141,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
         if (buttontext === 'Clear') {  // Resetting the states to default values.
             setInstance('Choose instance');
             setRegion('Choose region');
-            setTime(0);
+            setTime(1);
         } 
         else {
             handleSubmit(buttontext, resourceID); // Function for handling removal of resource.
@@ -216,7 +216,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                 {/* Input field for choosing time */}
                 <Row className={"mb-3"}>
                     <Form.Group as={Row} controlId="formTimeInput">
-                        <Form.Label> Running time </Form.Label>
+                        <Form.Label id='time' > Running time </Form.Label>
                         <Row style={{ margin: '0', padding: '0' }} >
                             <InputGroup style={timeLabelStyle}>
                                 <Form.Control

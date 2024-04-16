@@ -59,8 +59,12 @@ describe('ResourceInput Component', () => {
         expect(getComputedStyle(inputTitle).display).toBe('flex');
         expect(instanceValue).toBeInTheDocument();
         expect(regionValue).toBeInTheDocument();
-        timeInputs.forEach(input => {
-            expect(input).toHaveValue(0);
+        timeInputs.forEach((input, index) => {
+            if (index === timeInputs.length - 1) {
+                expect(input).toHaveValue(1);
+            } else {
+                expect(input).toHaveValue(0);
+            }
         });
 
 
@@ -333,8 +337,12 @@ describe('ResourceInput Component', () => {
 
         expect(instanceValue).toBeInTheDocument();
         expect(regionValue).toBeInTheDocument();
-        timeInputs.forEach(input => {
-            expect(input).toHaveValue(0);
+        timeInputs.forEach((input, index) => {
+            if (index === timeInputs.length - 1) {
+                expect(input).toHaveValue(1);
+            } else {
+                expect(input).toHaveValue(0);
+            }
         });
 
         const addButton = getByText('Add');
