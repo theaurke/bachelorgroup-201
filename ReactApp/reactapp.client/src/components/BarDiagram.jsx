@@ -2,18 +2,15 @@ import { Bar } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
     CategoryScale,
-    LinearScale,
     BarElement,
     Title,
     Tooltip,
     Legend,
 } from 'chart.js';
-import * as Chart from 'chart.js';
 import styles from '../styles/Result.module.css';
 
 ChartJS.register(
     CategoryScale,
-    LinearScale,
     BarElement,
     Title,
     Tooltip,
@@ -21,6 +18,7 @@ ChartJS.register(
 );
 export default function BarDiagram({ info, emissions }) {
     const variable = info === "Region" ? "carbonIntensity" : (info === "Energy" ? "energy" : "embodied");
+    const categoryLabel = info === "Region" ? "regionName" : "instance";
 
     const backgroundColor = [
         '#FF3784',
@@ -94,7 +92,7 @@ export default function BarDiagram({ info, emissions }) {
         scales: {
             x: {
                 type: 'category',
-                labels: emissions.map(item => item.resource.toString()),
+                labels: emissions.map(item => item.resourceShort.toString() + " - " + item[categoryLabel]),
             },
             y: {
                 type: 'linear',

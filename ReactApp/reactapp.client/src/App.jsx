@@ -169,6 +169,7 @@ export default function App() {
 
             return {
                 resource: resource.resourceText + " " + (resource.id + 1),
+                resourceShort: resource.short + " " + (resource.id + 1),
                 region: resource.formData.region,
                 instance: resource.formData.instance,
                 vmData: vmData,

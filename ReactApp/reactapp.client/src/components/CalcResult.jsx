@@ -4,6 +4,7 @@ import BarDiagram from './BarDiagram';
 import ScoreDiagram from './ScoreDiagram';
 import { Col, Row } from 'react-bootstrap';
 import styles from '../styles/Result.module.css';
+import Labels from './Labels';
 
 
 /**
@@ -27,15 +28,19 @@ export default function CalcResult({ calcData, tabname}) {
                     const energy = data.vmData.pkWh * data.pue; // Calculating the total energy consumption
                     const carbonIntensity = data.carbonIntensity; // Retrieving the carbon intensity for the region
                     const embodied = data.vmData.embodied_Emissions; // Retrieving the emboddied emissions for the resource
-                    const time = (data.time.year * 8766) + (data.time.month * 730) + (data.time.day * 24) + data.time.hour;
+                    const time = (data.time.year * 8766) + (data.time.month * 730) + (data.time.day * 24) + data.time.hour; // Calculating number of hours
 
                     // Using the SCI formula to calculate a resource emissions in grams
                     const emission = (energy * carbonIntensity) + embodied;
 
-                    const emissionTime = time !== 0 ? emission * time : emission;
+                    //Multiplying the emission with time
+                    const emissionTime = emission * time;
 
+
+                    // Saving the data as an object
                     const emissionData = {
                         resource: data.resource,
+                        resourceShort: data.resourceShort,
                         regionName: data.region,
                         instance: data.instance,
                         carbonIntensity: carbonIntensity,
@@ -44,14 +49,14 @@ export default function CalcResult({ calcData, tabname}) {
                         emissionTime: parseFloat(emissionTime.toFixed(2)),
                     };
 
-                    emissionList.push(emissionData);
+                    emissionList.push(emissionData); // Adding the data to a list
                 })
 
                 setEmissions(emissionList);
 
                 // Adding all the resource emissions together to get total emission.
                 const newTotalEmission = emissionList.reduce((accumulator, currentValue) => accumulator + currentValue.emissionTime, 0);
-                setTotalEmission(newTotalEmission.toFixed(2)); //Setting the total emissions and limit decimals to 3 numbers
+                setTotalEmission(newTotalEmission.toFixed(2)); //Setting the total emissions and limit decimals to 2 numbers
 
                 // Set calculation completion to true
                 setCalculationComplete(true);
@@ -70,7 +75,10 @@ export default function CalcResult({ calcData, tabname}) {
                 <p>Loading...</p>
             ) : (
                 <>
-                    <Row style={{ width: '100%', minHeight: '300px'}} >
+                    <Row style={{ width: '100%', padding: '2em 0 0 0', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }} >
+                        <Labels emissions={emissions} />
+                    </Row>
+                    <Row style={{ width: '100%', minHeight: '350px'}} >
                             <DoughnutDiagram emissions={emissions} totalEmission={totalEmission} />
                     </Row>
                     <Row style={{ width: '100%' }} >

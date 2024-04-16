@@ -4,7 +4,7 @@ import ResourceInput from './ResourceInput';
 
 
 // List of resources to choose from.
-const resources = ['Virtual Machine']
+const resources = [{ long: 'Virtual Machine', short: 'VM' }];
 
 export default function ResourceList({ addedResources, setAddedResources, setShowList }) {
     const [showInput, setShowInput] = useState(false); // State to manage the visibility of the input field.
@@ -42,9 +42,9 @@ export default function ResourceList({ addedResources, setAddedResources, setSho
                         <button data-testid={`resourceButton-${index}`}  className={styles.resourceButton}
                             onClick={() => {
                                 setShowInput(true);
-                                setResource(prev => ({ ...prev, id: resourceID, resourceText: text }));
+                                setResource(prev => ({ ...prev, id: resourceID, resourceText: text.long, short: text.short }));
                             }}>
-                            {text}
+                            {text.long}
                         </button>
                     </li>
 
