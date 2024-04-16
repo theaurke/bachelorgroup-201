@@ -8,7 +8,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
     const buttonText = resourceFormData ? (edit ? ['Remove', 'Edit'] : ['Clear', 'Save']) : ['Clear', 'Add']; // Variable to set the right buttontext based on where the inputfield is and if it is editable or not.
     const [instance, setInstance] = useState('Choose instance'); // State to manage the chosen instance.
     const [region, setRegion] = useState('Choose region'); // State to manage the chosen region.
-    const [time, setTime] = useState({ year: 0, month: 0, day: 0, hour: 0 }); // State to manage the chosen time.
+    const [time, setTime] = useState({ year: 0, month: 0, day: 0, hour: 1 }); // State to manage the chosen time.
     const [action, setAction] = useState('Add'); // State to manage which button is clicked.
     const [instanceError, setInstanceError] = useState(false);
     const [regionError, setRegionError] = useState(false);
@@ -216,7 +216,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                 {/* Input field for choosing time */}
                 <Row className={"mb-3"}>
                     <Form.Group as={Row} controlId="formTimeInput">
-                        <Form.Label id='time'> Running time </Form.Label>
+                        <Form.Label> Running time </Form.Label>
                         <Row style={{ margin: '0', padding: '0' }} >
                             <InputGroup style={timeLabelStyle}>
                                 <Form.Control
