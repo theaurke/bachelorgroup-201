@@ -55,7 +55,7 @@ export default function DoughnutDiagram({ emissions, totalEmission }) {
     const options = {
         plugins: {
             legend: {
-                display: true,
+                display: false,
             },
             tooltip: {
                 enabled: false,
@@ -67,11 +67,13 @@ export default function DoughnutDiagram({ emissions, totalEmission }) {
                 totalEmission: totalEmission,
             },
         },
-        cutout: 80,
+        
         layout: {
             padding: {
-                top: 10,
+                top: 30,
                 bottom: 40,
+                left: 0,
+                right: 0,
             }
         },
         responsive: true,
@@ -85,7 +87,7 @@ export default function DoughnutDiagram({ emissions, totalEmission }) {
             const { ctx } = chart;
 
             ctx.save();
-            ctx.font = 'bolder 1.2em sans-serif';
+            ctx.font = 'bolder 1em sans-serif';
             ctx.fillStyle = 'black';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
@@ -101,8 +103,8 @@ export default function DoughnutDiagram({ emissions, totalEmission }) {
 
     const doughnutLabelsLine = {
         id: 'doughnutLablesLine',
-        afterDraw(chart, args, options) {
-            const { ctx, chartArea: { top, bottom, left, right, width, height }
+        afterDraw(chart) {
+            const { ctx, chartArea: { width, height }
             } = chart;
 
             chart.data.datasets.forEach((dataset, i) => {
@@ -112,13 +114,14 @@ export default function DoughnutDiagram({ emissions, totalEmission }) {
                     const halfWidth = width / 2;
 
                     // Define the length of the line
-                    const lineLength = 30;
+                    const lineLength = 60;
 
                     // Calculate the angle from the center of the chart to the tooltip point
                     const angle = Math.atan2(y - height, x - halfWidth);
 
                     // Calculate the endpoint coordinates based on the angle and line length
-                    const xLine = x + Math.cos(angle) * lineLength;
+                    const xDir = x >= halfWidth ? 15 : -15;
+                    const xLine = x + Math.cos(angle) * lineLength + xDir;
                     const yLine = y + Math.sin(angle) * lineLength;
 
                     ctx.beginPath();
@@ -163,7 +166,7 @@ export default function DoughnutDiagram({ emissions, totalEmission }) {
 
             chart.legend.fit = function fit() {
                 fitValue.bind(chart.legend)();
-                return this.height += 20;
+                return this.height += 30;
             }
         }
     };
