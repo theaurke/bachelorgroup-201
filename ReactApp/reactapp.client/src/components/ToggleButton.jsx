@@ -28,7 +28,7 @@ export default function ToggleButton({ toggleSidebar }) {
                 overlay={renderTooltip}
             >
                 {/* Button to toggle the sidebar */}
-                <button className={styles.toggleBtn} onClick={toggleSidebar} >
+                <button data-testid='toggleButton' className={styles.toggleBtn} onClick={toggleSidebar} >
                     <img src='toggleWhite.png' alt='toggleSidebar' className={styles.toggleImg} style={{ padding: '0' }} />
                 </button>
             </OverlayTrigger>
