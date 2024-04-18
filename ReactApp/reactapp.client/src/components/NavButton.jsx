@@ -36,7 +36,7 @@ export default function NavButton(props) {
                 // Render both text and image buttons when sidebar is expanded
                 <>
                     {/* Button with text */}
-                    <button onClick={onClick} className={styles.buttonStyle} style={{ padding: '0.5em' }}>
+                    <button data-testid='navBtn' onClick={onClick} className={styles.buttonStyle} style={{ padding: '0.5em' }}>
                         {text}
                     </button>
                     {/* Button with image */}

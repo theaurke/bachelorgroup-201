@@ -64,7 +64,7 @@ export default function NavTab(props) {
     return (
         // Nav item and link components for the tab
         <Nav.Item className={styles.navItem}>
-            <Nav.Link eventKey={id}
+            <Nav.Link data-testid='navLink' eventKey={id}
                 className={`${styles.navLink} ${isActive ? styles.activeTab : ''}`}
                 style={{ color: isActive ? 'black' : 'white', display: 'flex', backgroundColor: isActive ? 'white' : '' }}>
                 {/* Render input field if in edit mode, otherwise render tab title */}

@@ -135,7 +135,7 @@ export default function Navbar(props) {
                         }
                     }>
                         <Col style={{ padding: '0' }}>
-                            <Nav variant='pills' className={styles.navContainer}>
+                            <Nav data-testid='navTabs' variant='pills' className={styles.navContainer}>
                                 {/* Map through the tabs and render each tab */}
                                 {tabs.map((tab) => {
                                     return (
