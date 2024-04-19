@@ -24,14 +24,6 @@
 }
 
 
-/* ----- BarDiagram ----- */
-.barDiv {
-    margin: 1em 0;
-    display: flex;
-    justify-content: center;
-}
-
-
 /* ----- ResultPanel ----- */
 .resultContainer {
     height: 100%;

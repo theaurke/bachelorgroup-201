@@ -1,0 +1,40 @@
+/* ----- BarDiagram ----- */
+.barDiv {
+    margin: 2em 0;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    min-height: 20em;
+}
+
+
+/* -- DoughnutDiagram -- */
+.doughnutDiv {
+    min-height: 21em;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+/* ----- Labels ----- */
+.labelRow {
+    width: 100%;
+    padding: 2em 0 0 0em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.colorKey {
+    width: 1.3em;
+    height: 1em;
+}
+
+.resourceText {
+    margin: 0;
+    font-size: 0.7em;
+    font-weight: 500;
+}

@@ -4,6 +4,7 @@ import BarDiagram from './BarDiagram';
 import ScoreDiagram from './ScoreDiagram';
 import { Col, Row } from 'react-bootstrap';
 import styles from '../styles/Result.module.css';
+import diagramStyles from '../styles/Diagram.module.css';
 import Labels from './Labels';
 
 
@@ -44,8 +45,8 @@ export default function CalcResult({ calcData, tabname}) {
                         regionName: data.region,
                         instance: data.instance,
                         carbonIntensity: carbonIntensity,
-                        energy: parseFloat(energy.toFixed(3)),
-                        embodied: parseFloat(embodied.toFixed(4)),
+                        energy: parseFloat(energy.toFixed(2)),
+                        embodied: parseFloat((embodied * 1000).toFixed(2)),  //Converting to mg
                         emissionTime: parseFloat(emissionTime.toFixed(2)),
                     };
 
@@ -75,13 +76,13 @@ export default function CalcResult({ calcData, tabname}) {
                 <p>Loading...</p>
             ) : (
                 <>
-                    <Row style={{ width: '100%', padding: '2em 0 0 0', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }} >
+                    <Row className={diagramStyles.labelRow} >
                         <Labels emissions={emissions} />
                     </Row>
-                    <Row style={{ width: '100%', minHeight: '350px'}} >
+                        <Row style={{ width: '100%' }} >
                             <DoughnutDiagram emissions={emissions} totalEmission={totalEmission} />
                     </Row>
-                    <Row style={{ width: '100%' }} >
+                        <Row style={{ width: '100%' }} >
                         <BarDiagram info={'Energy'} emissions={emissions} />
                         <BarDiagram info={'Region'} emissions={emissions} />
                         <BarDiagram info={'Embodied'} emissions={emissions} />
