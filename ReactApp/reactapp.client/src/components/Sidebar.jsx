@@ -14,7 +14,7 @@ import styles from '../styles/Sidebar.module.css';
  * @returns {JSX.Element} The JSX representation of the sidebar.
  */
 export default function Sidebar(props) {
-    const { toggleSidebar, sidebarWidth, activeTab, setActiveTab, isWindowSmall, handleConvertToPDF, tabList, setTabList } = props;
+    const { toggleSidebar, sidebarWidth, activeTab, setActiveTab, isWindowSmall, tabList, setTabList } = props;
 
     // Check if sidebar is collapsed
     const isSidebarCollapsed = sidebarWidth === 1;
@@ -41,7 +41,6 @@ export default function Sidebar(props) {
                     setActiveTab={setActiveTab}
                     isWindowSmall={isWindowSmall}
                     data-testid='navbarComponent'
-                    handleConvertToPDF={handleConvertToPDF}
                     tabList={tabList}
                     setTabList={setTabList}
                 />

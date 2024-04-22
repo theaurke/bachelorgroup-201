@@ -2,7 +2,8 @@ import { Container, Form, Row, Col, InputGroup, Alert } from 'react-bootstrap';
 import styles from '../styles/Resource.module.css'
 import TextButton from './TextButton';
 import { useState, useEffect } from 'react';
-import Select from 'react-select'
+import Select from 'react-select';
+import AsyncSelect from 'react-select/async';
 
 export default function ResourceInput({ resourceText, resourceFormData, resourceID, handleSubmit, edit, setEdit }) {
     const buttonText = resourceFormData ? (edit ? ['Remove', 'Edit'] : ['Clear', 'Save']) : ['Clear', 'Add']; // Variable to set the right buttontext based on where the inputfield is and if it is editable or not.
@@ -58,7 +59,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
 
 
     useEffect(() => {
-        if (instanceOptions && regionOptions) {
+        if (instanceOptions.length !== 0 && regionOptions.length !== 0) {
             setLoading(false);
         } else {
             setLoading(true);
@@ -184,7 +185,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                             isDisabled={edit}
                             onChange={(e) => setInstance(e.value)}
                             isLoading={loading}
-                            loadingMessage={'Loading instances...'}
+                            loadingMessage={() => 'Loading instances...'}
                         />
                         {instanceError && (
                             <Alert variant="danger">Please choose an instance.</Alert>
@@ -204,7 +205,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                             isDisabled={edit}
                             onChange={(e) => setRegion(e.value)}
                             isLoading={loading}
-                            loadingMessage={'Loading regions...'}
+                            loadingMessage={() => 'Loading regions...'}
                         />
                         {regionError && (
                             <Alert variant="danger">Please choose a region.</Alert>

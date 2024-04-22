@@ -13,7 +13,7 @@ import Labels from './Labels';
  * Renders the total emissions calculation result with diagrams and a button to convert to PDF.
  * @returns {JSX.Element} The JSX representation of the calculation result.
  */
-export default function CalcResult({ calcData, tabname}) {
+export default function CalcResult({ calcData, tabname, scroll}) {
     const [emissions, setEmissions] = useState([]); // list of emissionData for each resource
     const [totalEmission, setTotalEmission] = useState(0); // State to manage total emission of all resources
     const [calculationComplete, setCalculationComplete] = useState(false);  // State to manage calculation stage
@@ -70,7 +70,7 @@ export default function CalcResult({ calcData, tabname}) {
 
 
     return (
-        <Col className={styles.resultCol} style={{ width: '100%', overflowY: 'auto' }}>
+        <Col className={styles.resultCol} style={{ width: '100%', overflowY: scroll }}>
             <h2>{tabname}</h2>
             {!calculationComplete ? (
                 <p>Loading...</p>
@@ -79,10 +79,10 @@ export default function CalcResult({ calcData, tabname}) {
                     <Row className={diagramStyles.labelRow} >
                         <Labels emissions={emissions} />
                     </Row>
-                        <Row style={{ width: '100%' }} >
+                    <Row style={{ width: '100%' }}>
                             <DoughnutDiagram emissions={emissions} totalEmission={totalEmission} />
                     </Row>
-                        <Row style={{ width: '100%' }} >
+                    <Row style={{ width: '100%' }}>
                         <BarDiagram info={'Energy'} emissions={emissions} />
                         <BarDiagram info={'Region'} emissions={emissions} />
                         <BarDiagram info={'Embodied'} emissions={emissions} />

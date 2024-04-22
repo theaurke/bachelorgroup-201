@@ -12,6 +12,7 @@
         "test:ci": "npm run test -- --watchAll=false --reporters=default --reporters=jest-junit --coverage --coverageReporters=cobertura"
     },
     "dependencies": {
+        "@react-pdf/renderer": "^3.4.2",
         "bootstrap": "^5.3.2",
         "chart.js": "^4.4.2",
         "chartjs-plugin-datalabels": "^2.2.0",
@@ -19,8 +20,8 @@
         "react-bootstrap": "^2.10.1",
         "react-chartjs-2": "^5.2.0",
         "react-dom": "^18.2.0",
-        "react-select": "^5.8.0",
-        "react-to-pdf": "^1.0.1"
+        "react-new-window": "^1.0.1",
+        "react-select": "^5.8.0"
     },
     "devDependencies": {
         "@babel/core": "^7.24.0",

@@ -2,8 +2,6 @@ import { React, useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import Sidebar from './components/Sidebar';
 import Main from './components/Main';
-import { createRoot } from 'react-dom/client';
-import ResultPanel from './components/ResultPanel';
 import styles from './styles/App.module.css';
 
 
@@ -192,33 +190,6 @@ export default function App() {
     };
 
 
-    // Converting multiple tabs to PDF
-    const handleConvertToPDF = () => {
-
-        if (tabList.length !== 0) {
-            const newWindow = window.open('', '_blank'); // Open a new window
-
-            const renderTabToWindow = (tabIndex) => {
-                const container = newWindow.document.createElement('div');
-                newWindow.document.body.appendChild(container);
-
-                // Render the ResultPanel component into the container
-                createRoot(container).render(<ResultPanel layout={tabList[tabIndex].layout} calcData={tabList[tabIndex].calcData} tabname={tabList[tabIndex].title} />);
-            };
-
-            // Loop through each tab and render its content in the new window
-            for (let i = 0; i < tabList.length; i++) {
-                renderTabToWindow(i);
-            }
-
-            setTimeout(() => {
-                // Print the window
-                newWindow.print();
-            }, 1000);
-        }
-    };
-
-
     // Returns layout and content of App, using Container, Row and Col.
     // The Container is fluid, meaning it's width is 100% across all viewport.
     // Sidebar Col has lg breakpoint that is set to span 'sidebarWidth' columns,
@@ -239,7 +210,6 @@ export default function App() {
                         activeTab={activeTab}
                         setActiveTab={setActiveTab}
                         isWindowSmall={isWindowSmall}
-                        handleConvertToPDF={handleConvertToPDF}
                         tabList={tabList}
                         setTabList={setTabList}
                     />

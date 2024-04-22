@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: column; 
     align-items: center;
-    border-bottom: 2px solid #45654C;
+    
     margin-top: 1em;
 }
 
@@ -33,6 +33,14 @@
     align-items: center;
 }
 
+.buttonDiv {
+    padding: 1em;
+    border-top: 2px solid #45654C;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 
 /* ----- CalcText ----- */
 .div {
@@ -41,4 +49,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+
+
+/* ----- PDF style ----- */
+@media print {
+    @page {
+        margin: 2cm;
+    }
 }

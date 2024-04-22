@@ -5,6 +5,9 @@ import NavButton from './NavButton';
 import NavTab from './NavTab';
 import ToggleButton from './ToggleButton';
 import WarningPopup from './WarningPopup';
+import pdfstyles from '../styles/Result.module.css';
+import NewWindow from 'react-new-window';
+import CalcResult from './CalcResult';
 
 /**
  * Navbar component for the application.
@@ -18,7 +21,7 @@ import WarningPopup from './WarningPopup';
  * @returns {JSX.Element} The JSX representation of the navbar.
  */
 export default function Navbar(props) {
-    const { toggleSidebar, isSidebarCollapsed, activeTab, setActiveTab, isWindowSmall, handleConvertToPDF, tabList, setTabList } = props;
+    const { toggleSidebar, isSidebarCollapsed, activeTab, setActiveTab, isWindowSmall, tabList, setTabList } = props;
 
     // State management for tabs, tabId, warning popup, and tab deletion
     const [tabs, setTabs] = useState([]);
@@ -93,6 +96,21 @@ export default function Navbar(props) {
 
     }, [tabs]); 
 
+
+    const [isOpen, setIsOpen] = useState(false);
+    const [PDFTabs, setPDFTabs] = useState([]);
+    // Converting multiple tabs to PDF
+
+    const handleConvertToPDF = () => {
+        const resultTabs = tabList.filter(tab => tab.layout === "result");
+
+        
+        if (tabList.length !== 0 && resultTabs.length !== 0) {
+            setPDFTabs(resultTabs);
+            setIsOpen(true);
+        }
+    };
+
     return (
         // Container component to hold the navbar content
         <Container fluid className={styles.container} >
@@ -160,7 +178,26 @@ export default function Navbar(props) {
             {/* Row for the toggle button */}
             <Row style={{ padding: '0.1em' }}>
                 {((!isWindowSmall) || (isWindowSmall && !isSidebarCollapsed)) && (
-                    <button type='button' className={styles.pdfBtn} onClick={handleConvertToPDF}>Convert All Tabs to PDF</button>
+                    <div className={pdfstyles.buttonDiv}>
+                        <button type='button' className={styles.pdfBtn} onClick={handleConvertToPDF}>Convert All Tabs to PDF</button>
+                        {isOpen && (
+                            <NewWindow title={'Calculations'} onOpen={(w) => setTimeout(() => {
+                                w.print();
+                                w.close();
+                                setIsOpen(false);
+                            }, 1000)}>
+                                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%' }}>
+                                {PDFTabs.map((tab, index) => (
+                                    <div key={tab.title} style={{ pageBreakBefore: index > 0 ? 'always' : 'aviod' }}>
+                                        <CalcResult calcData={tab.calcData} tabname={tab.title} />
+                                    </div>
+                                   
+                                ))}
+                                </div>
+                                <style>{pdfstyles.print}</style>
+                            </NewWindow>
+                        )}
+                    </div>
                 )}
                 <ToggleButton toggleSidebar={toggleSidebar} />
             </Row>
