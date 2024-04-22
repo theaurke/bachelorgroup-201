@@ -10,7 +10,7 @@ import ResultPanel from './ResultPanel';
  * @param {number} activeTab - The ID of the activeTab.
  * @returns {JSX.Element} The JSX representation of the main content.
  */
-export default function Main({ activeTab, tabList, setLayout, layout, setActiveList, activeList, handleCalculate }) {
+export default function Main({ activeTab, tabList, setLayout, layout, setActiveList, activeList, handleCalculate, home }) {
 
     // Finding the index of the activeTab
     const tabIndex = tabList.findIndex(tab => tab.id === activeTab.id);
@@ -18,9 +18,8 @@ export default function Main({ activeTab, tabList, setLayout, layout, setActiveL
     // Returning the main part of the application with either the information page or the set layout.
     return (
         <Container fluid style={{ height: '100%', padding: '0em', border: '4px solid #45654C'}}>
-
             {/*Checking if there are any active tabs, and setting the main to the information page if not.*/ }
-                {!activeTab.id ? (
+                {!activeTab.id || home ? (
                     <Information />
                 ) : (
                     <Row data-testid='resourceContent' style={{ margin:'0', height: '100%' }}>

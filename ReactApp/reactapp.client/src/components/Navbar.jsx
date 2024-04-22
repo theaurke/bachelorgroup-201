@@ -21,7 +21,7 @@ import CalcResult from './CalcResult';
  * @returns {JSX.Element} The JSX representation of the navbar.
  */
 export default function Navbar(props) {
-    const { toggleSidebar, isSidebarCollapsed, activeTab, setActiveTab, isWindowSmall, tabList, setTabList } = props;
+    const { toggleSidebar, isSidebarCollapsed, activeTab, setActiveTab, isWindowSmall, tabList, setTabList, setHome } = props;
 
     // State management for tabs, tabId, warning popup, and tab deletion
     const [tabs, setTabs] = useState([]);
@@ -144,8 +144,9 @@ export default function Navbar(props) {
                 {/* Using Tab and Nav from react bootstrap to make pill tabs */}
                 {((!isWindowSmall) || (isWindowSmall && !isSidebarCollapsed)) && (
                     <Tab.Container
-                        activeKey={activeTab.id}
+                        activeKey={activeTab.id || ''}
                         onSelect={(key) => {
+                            setHome(false);
                             const selectedTab = tabs.find(tab => tab.id === key);
                             if (selectedTab) {
                                 setActiveTab(selectedTab);

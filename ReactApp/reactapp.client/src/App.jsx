@@ -19,6 +19,7 @@ export default function App() {
     const [sidebarWidth, setSidebarWidth] = useState(isWindowSmall ? 1 : 3); // useState hook to manage state for sidebar width
     const [activeTab, setActiveTab] = useState({}); // useState to manage state for active calculation tab at the "top"(App),
                                                     // so it can be passed to Main after change from Sidebar
+    const [home, setHome] = useState(false);
 
     // Handling window resizing based on sidebarWidth
     useEffect(() => {
@@ -56,8 +57,8 @@ export default function App() {
             // If window is small and sidebarWidth is 1, set it to 6, else set it to 1
             setSidebarWidth(sidebarWidth === 1 ? 6 : 1);
         } else {
-            // If sidebarWidth is 3, set it to 1, else set it to 3
-            setSidebarWidth(sidebarWidth === 3 ? 1 : 3);
+            // If sidebarWidth is 1, set it to 3, else set it to 1
+            setSidebarWidth(sidebarWidth === 1 ? 3 : 1);
         }
 
     };
@@ -212,6 +213,7 @@ export default function App() {
                         isWindowSmall={isWindowSmall}
                         tabList={tabList}
                         setTabList={setTabList}
+                        setHome={setHome}
                     />
                 </Col>
                 <Col 
@@ -221,6 +223,11 @@ export default function App() {
                         marginLeft: isWindowSmall && sidebarWidth === 6 ? '-41.67%' : 0
                     }}
                 >
+                    {/* Conditionally render invisible div */}
+                    {sidebarWidth == 6 && (
+                       <div className={styles.invisibleDiv}></div>
+                    )}
+                    
                     <Main
                         activeTab={activeTab}
                         tabList={tabList}
@@ -228,7 +235,9 @@ export default function App() {
                         setLayout={setLayout}
                         setActiveList={setActiveList}
                         activeList={activeList}
-                        handleCalculate={handleCalculate} />
+                        handleCalculate={handleCalculate}
+                        home={home}
+                    />
                 </Col>
             </Row >
         </Container>

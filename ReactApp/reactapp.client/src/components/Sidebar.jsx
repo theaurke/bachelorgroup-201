@@ -14,7 +14,7 @@ import styles from '../styles/Sidebar.module.css';
  * @returns {JSX.Element} The JSX representation of the sidebar.
  */
 export default function Sidebar(props) {
-    const { toggleSidebar, sidebarWidth, activeTab, setActiveTab, isWindowSmall, tabList, setTabList } = props;
+    const { toggleSidebar, sidebarWidth, activeTab, setActiveTab, isWindowSmall, tabList, setTabList, setHome } = props;
 
     // Check if sidebar is collapsed
     const isSidebarCollapsed = sidebarWidth === 1;
@@ -25,7 +25,7 @@ export default function Sidebar(props) {
             {/* Logo row */ }
             <Row className={styles.logoRow}>
                 {!isSidebarCollapsed && (
-                    <img alt='logo' src='logo.png' className={styles.logo} />
+                    <img alt='logo' src='logo.png' className={styles.logo} onClick={() => { setHome(true); setActiveTab({}); }} />
                 )}
             </Row>
 
@@ -43,6 +43,7 @@ export default function Sidebar(props) {
                     data-testid='navbarComponent'
                     tabList={tabList}
                     setTabList={setTabList}
+                    setHome={setHome}
                 />
             </Row>
         </Container>
