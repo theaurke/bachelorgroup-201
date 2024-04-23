@@ -106,7 +106,7 @@ export default function Navbar(props) {
                 id: newId.toString(),
                 title: `Calculation ${newId}`,
                 list: [...tabToCopy.list], // Copy the list data
-                layout: tabToCopy.layout, // Copy the layout
+                layout: 'resource', // Set the layout to resource, so it's not already calculated on copy
                 calcData: [...tabToCopy.calcData] // Copy the calcData
             };
             setTabs([...tabs, {id: newId.toString(), title: `Calcualtion ${newId}`}]); // Add the new tab to the tabs state
