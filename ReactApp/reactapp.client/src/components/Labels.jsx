@@ -1,26 +1,7 @@
 import styles from '../styles/Diagram.module.css';
 
-export default function Labels({ emissions }) {
-
-    const backgroundColor = [
-        'deeppink',
-        'skyblue',
-        'darkorange',
-        'turquoise',
-        'mediumpurple',
-        'green',
-        'gold',
-        'violet',
-        'red',
-        'steelblue',
-        'sienna',
-        'gray',
-        'lime',
-        'khaki',
-        'darkcyan',
-    ];
+export default function Labels({ emissions, backgroundColor }) {
   
-
     return (
         <>
             {emissions.map((item, index) => (

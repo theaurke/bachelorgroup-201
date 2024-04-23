@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DoughnutDiagram from './DoughnutDiagram';
 import BarDiagram from './BarDiagram';
-import ScoreDiagram from './ScoreDiagram';
+import LoadDiagram from './LoadDiagram';
 import { Col, Row } from 'react-bootstrap';
 import styles from '../styles/Result.module.css';
 import diagramStyles from '../styles/Diagram.module.css';
@@ -17,6 +17,24 @@ export default function CalcResult({ calcData, tabname, scroll}) {
     const [emissions, setEmissions] = useState([]); // list of emissionData for each resource
     const [totalEmission, setTotalEmission] = useState(0); // State to manage total emission of all resources
     const [calculationComplete, setCalculationComplete] = useState(false);  // State to manage calculation stage
+
+    const backgroundColor = [
+        '#FF1493',
+        '#87CEEB',
+        '#FF8C00',
+        '#40E0D0',
+        '#9370DB',
+        '#008000',
+        '#FFD700',
+        '#EE82EE',
+        '#FF0000',
+        '#4682B4',
+        '#A0522D',
+        '#808080',
+        '#00FF00',
+        '#F0E68C',
+        '#008B8B',
+    ];
 
     // Calculating the total emission when calcData is updated
     useEffect(() => {
@@ -47,6 +65,7 @@ export default function CalcResult({ calcData, tabname, scroll}) {
                         carbonIntensity: carbonIntensity,
                         energy: parseFloat(energy.toFixed(2)),
                         embodied: parseFloat((embodied * 1000).toFixed(2)),  //Converting to mg
+                        emission: parseFloat(emission.toFixed(2)),
                         emissionTime: parseFloat(emissionTime.toFixed(2)),
                     };
 
@@ -77,15 +96,18 @@ export default function CalcResult({ calcData, tabname, scroll}) {
             ) : (
                 <>
                     <Row className={diagramStyles.labelRow} >
-                        <Labels emissions={emissions} />
+                        <Labels emissions={emissions} backgroundColor={backgroundColor} />
                     </Row>
                     <Row style={{ width: '100%' }}>
-                            <DoughnutDiagram emissions={emissions} totalEmission={totalEmission} />
+                        <DoughnutDiagram emissions={emissions} totalEmission={totalEmission} backgroundColor={backgroundColor} />
                     </Row>
                     <Row style={{ width: '100%' }}>
-                        <BarDiagram info={'Energy'} emissions={emissions} />
-                        <BarDiagram info={'Region'} emissions={emissions} />
-                        <BarDiagram info={'Embodied'} emissions={emissions} />
+                        <BarDiagram info={'Energy'} emissions={emissions} backgroundColor={backgroundColor} />
+                        <BarDiagram info={'Region'} emissions={emissions} backgroundColor={backgroundColor} />
+                        <BarDiagram info={'Embodied'} emissions={emissions} backgroundColor={backgroundColor} />
+                    </Row>
+                    <Row className={diagramStyles.tableRow}>
+                        <LoadDiagram emissions={emissions} backgroundColor={backgroundColor} />
                     </Row>
                 </>
             )}

@@ -4,28 +4,9 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import styles from '../styles/Diagram.module.css';
 
 
-export default function DoughnutDiagram({ emissions, totalEmission }) {
+export default function DoughnutDiagram({ emissions, totalEmission, backgroundColor }) {
 
     ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
-
-    const backgroundColor = [
-        'deeppink',
-        'skyblue',
-        'darkorange',
-        'turquoise',
-        'mediumpurple',
-        'green',
-        'gold',
-        'violet',
-        'red',
-        'steelblue',
-        'sienna',
-        'gray',
-        'lime',
-        'khaki',
-        'darkcyan',
-    ];
-
 
     const data = {
         labels: emissions.map(item => item.resource.toString()),
