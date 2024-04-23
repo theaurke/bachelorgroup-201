@@ -30,10 +30,12 @@ describe('NavTab Component Test', () => {
             onEdit: jest.fn()
         };
 
-        const { getByText, getByTestId } = render(<NavTab {...props} />);
+        const { getByText, getByAltText, getByTestId } = render(<NavTab {...props} />);
         expect(getByText(props.title)).toBeInTheDocument;
 
-        fireEvent.click(getByTestId('editIcon'));
+        fireEvent.click(getByAltText('More options'));
+
+        fireEvent.click(getByText('Edit'));
 
         const inputField = getByTestId('inputField');
         expect(inputField).toBeInTheDocument();
@@ -55,9 +57,11 @@ describe('NavTab Component Test', () => {
             onEdit: jest.fn()
         };
 
-        const { getByAltText } = render(<NavTab {...props} />);
+        const { getByAltText, getByText } = render(<NavTab {...props} />);
 
-        fireEvent.click(getByAltText('Delete'));
+        fireEvent.click(getByAltText('More options'));
+
+        fireEvent.click(getByText('Delete'));
 
         expect(props.onDelete).toHaveBeenCalledWith(props.id);
 

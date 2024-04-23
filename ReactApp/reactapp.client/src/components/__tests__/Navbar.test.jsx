@@ -42,7 +42,9 @@ describe('Navbar Component Test', () => {
         fireEvent.click(getByText('Start new calculation'));
         expect(queryByText('Calculation 1')).toBeInTheDocument();
 
-        fireEvent.click(getByAltText('Delete'));
+        fireEvent.click(getByAltText('More options'));
+
+        fireEvent.click(getByText('Delete'));
 
         fireEvent.click(getByText('Yes'));
 

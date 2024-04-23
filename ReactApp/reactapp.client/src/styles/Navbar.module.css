@@ -45,30 +45,24 @@
 
 .optionsIcon {
     width: 30px;
-    padding: 0.1em;
-    border: 2px solid transparent; /* Transparent border to prevent movement of elements on hover effect */
-    text-overflow: clip;
-    overflow: hidden;
-    white-space: nowrap;
 }
 
-.optionsIcon:hover {
-    border: 2px solid #45654C;
+.optionsMenu {
+    background-color: white;
     border-radius: 5px;
+    position: absolute;
+    left: 390px;
+    margin-top: 0.1em;
+    padding: 0.2em 0.4em 0 0.4em;
 }
 
-.deleteIcon {
-    width: 35px;
-    padding: 0.1em;
-    border: 2px solid transparent;
-    text-overflow: clip;
-    overflow: hidden;
-    white-space: nowrap;
+.option {
+    font-size: 0.8em;
 }
 
-.deleteIcon:hover {
-    border: 2px solid #45654C;
-    border-radius: 5px;
+.option:hover {
+    border-bottom: 1px solid black;
+    font-weight: bold;
 }
 
 .pdfBtn {
@@ -85,6 +79,7 @@
     background: none;
     color: white;
 }
+
 
 
 /* ----- ToggleButton ----- */

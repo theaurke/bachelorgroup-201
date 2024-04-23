@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useRef, useEffect } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import styles from '../styles/Navbar.module.css';
 
@@ -15,11 +15,14 @@ import styles from '../styles/Navbar.module.css';
  * @returns {JSX.Element} The JSX representation of the NavTab.
  */
 export default function NavTab(props) {
-    const { id, title, isActive, onDelete, isSidebarCollapsed, onEdit } = props;
+    const { id, title, isActive, onDelete, isSidebarCollapsed, onEdit, onCopy } = props;
 
-    // State for handling edit mode and new title
+    const optionsMenuRef = useRef(null);
+
+    // State for handling edit mode, new title, and show options
     const [editMode, setEditMode] = useState(false);
     const [newTitle, setNewTitle] = useState(title);
+    const [showOptions, setShowOptions] = useState(false);
 
     // Function to handle tab deletion
     const handleDelete = () => {
@@ -60,6 +63,25 @@ export default function NavTab(props) {
         handleSaveName();
     };
 
+    // Function to handle copy tab operation
+    const handleCopyTab = () => {
+        onCopy(id);
+    };
+
+    // Function to close options menu when clicking outside of it
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (optionsMenuRef.current && !optionsMenuRef.current.contains(event.target)) {
+                setShowOptions(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [optionsMenuRef]);
+
     // Renter NavTab component
     return (
         // Nav item and link components for the tab
@@ -82,18 +104,24 @@ export default function NavTab(props) {
                 ) : (
                     <span className={styles.tabTitle}>{title}</span>
                 )}
-                {/* Render edit and delete icons if sidebar is expanded and tab is active */}
+                {/* Render edit, delete and copy options if sidebar is expanded and tab is active */}
                 {!isSidebarCollapsed && isActive && (
-                    <div>
-                        {/* Edit icon for editing tab title */}
-                        <img data-testid='editIcon' src='editPencil.svg' alt='More options' className={styles.optionsIcon} onClick={handleEditName} />
-                        {/* Delete icon for deleting tab */}
-                        <img src='deleteBlack.png' alt='Delete' className={styles.deleteIcon} onClick={handleDelete} />
-                    </div>
-                )} 
-                
-                    
+                    <img src='verticalDots.svg' alt='More options' className={styles.optionsIcon} onClick={() => setShowOptions(!showOptions)} />
+                )}
             </Nav.Link>
+            {/* Render options menu */}
+            {showOptions && (
+                <div ref={optionsMenuRef} className={styles.optionsMenu}>
+                    {/* Option to edit tab title */}
+                    <p className={styles.option} onClick={handleEditName}>Edit</p>
+                    {/* Option to copy tab */}
+                    <p className={styles.option} onClick={handleCopyTab}>Copy</p>
+                    {/* Option to delete tab */}
+                    <p className={styles.option} onClick={handleDelete}>Delete</p>
+                </div>
+
+            )} 
+                
         </Nav.Item>
     );
 }

@@ -97,6 +97,25 @@ export default function Navbar(props) {
     }, [tabs]); 
 
 
+    // Function to copy tab
+    const copyTab = (id) => {
+        const tabToCopy = tabList.find(tab => tab.id === id);
+        if (tabToCopy) {
+            const newId = tabId;
+            const newTab = {
+                id: newId.toString(),
+                title: `Calculation ${newId}`,
+                list: [...tabToCopy.list], // Copy the list data
+                layout: tabToCopy.layout, // Copy the layout
+                calcData: [...tabToCopy.calcData] // Copy the calcData
+            };
+            setTabs([...tabs, {id: newId.toString(), title: `Calcualtion ${newId}`}]); // Add the new tab to the tabs state
+            setTabId(tabId + 1); // Increment tabId for the next tab
+            setTabList([...tabList, newTab]); // Add the new tab and its data to tabList
+        }
+    };
+
+
     const [isOpen, setIsOpen] = useState(false);
     const [PDFTabs, setPDFTabs] = useState([]);
     // Converting multiple tabs to PDF
@@ -166,6 +185,7 @@ export default function Navbar(props) {
                                             onDelete={deleteTab}
                                             isSidebarCollapsed={isSidebarCollapsed}
                                             onEdit={editTabName}
+                                            onCopy={copyTab}
                                         />
                                     );
                                 })}
