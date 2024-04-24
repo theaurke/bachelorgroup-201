@@ -17,12 +17,14 @@ import styles from '../styles/Navbar.module.css';
 export default function NavTab(props) {
     const { id, title, isActive, onDelete, isSidebarCollapsed, onEdit, onCopy } = props;
 
+    const dotImageRef = useRef(null);
     const optionsMenuRef = useRef(null);
 
     // State for handling edit mode, new title, and show options
     const [editMode, setEditMode] = useState(false);
     const [newTitle, setNewTitle] = useState(title);
     const [showOptions, setShowOptions] = useState(false);
+    const [optionsMenuPosition, setOptionsMenuPosition] = useState({});
 
     // Function to handle tab deletion
     const handleDelete = () => {
@@ -68,12 +70,41 @@ export default function NavTab(props) {
         onCopy(id);
     };
 
+    // Function to handle clicking on the dots to toggle options menu
+    const handleToggleOptions = () => {
+        setShowOptions(prevShowOptions => !prevShowOptions);
+    };
+
+    // Function to find the position of the dot menu, to place the option menu
+    useEffect(() => {
+        if (dotImageRef.current) {
+            const dotImageRect = dotImageRef.current.getBoundingClientRect();
+            const position = {
+                left: dotImageRect.left + dotImageRect.width -60, // Add 5px for some spacing
+            };
+            setOptionsMenuPosition(position);
+        }
+    }, [dotImageRef]);
+
     // Function to close options menu when clicking outside of it
     useEffect(() => {
         function handleClickOutside(event) {
             if (optionsMenuRef.current && !optionsMenuRef.current.contains(event.target)) {
-                setShowOptions(false);
+                // Check if the click is outside of the options menu and not on the dots
+                const dots = document.getElementsByClassName(styles.optionsIcon);
+                let isDotClicked = false;
+                for (let dot of dots) {
+                    if (dot.contains(event.target)) {
+                        isDotClicked = true;
+                        break;
+                    }
+                }
+                // Close the options menu only if the click is outside of it and not on the dots
+                if (!isDotClicked) {
+                    setShowOptions(false);
+                }
             }
+
         }
 
         document.addEventListener("mousedown", handleClickOutside);
@@ -106,12 +137,12 @@ export default function NavTab(props) {
                 )}
                 {/* Render edit, delete and copy options if sidebar is expanded and tab is active */}
                 {!isSidebarCollapsed && isActive && (
-                    <img src='verticalDots.svg' alt='More options' className={styles.optionsIcon} onClick={() => setShowOptions(!showOptions)} />
+                    <img ref={dotImageRef} src='verticalDots.svg' alt='More options' className={styles.optionsIcon} onClick={handleToggleOptions} />
                 )}
             </Nav.Link>
             {/* Render options menu */}
             {showOptions && (
-                <div ref={optionsMenuRef} className={styles.optionsMenu}>
+                <div ref={optionsMenuRef} className={styles.optionsMenu} style={{ left: optionsMenuPosition.left }}>
                     {/* Option to edit tab title */}
                     <p className={styles.option} onClick={handleEditName}>Edit</p>
                     {/* Option to copy tab */}
