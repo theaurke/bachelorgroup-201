@@ -1,3 +1,5 @@
+import styles from '../styles/Information.module.css';
+
 /**
  * Step component for rendering a step with title, description, and image.
  * @param {Object} props - Props passed to the Step component.
@@ -9,13 +11,15 @@
  */
 export default function Step(props) {
     const { title, description, split, src } = props;
-    const firstDesc = description.slice(0, split);
-    const endDesc = description.slice(split);
+    const firstDesc = description.slice(0, split); // First half of description text
+    const endDesc = description.slice(split); // Last half of description text
+
+    // Returning img, title and description for a step
     return (
         <>
             <img data-testid='stepImg' src={src} alt={title} />
-            <h6 data-testid='stepTitle'  style={{ color: '#45654C' }}>{title}</h6>
-            <p data-testid='stepDesc'>{firstDesc} <br /> {endDesc}</p>
+            <h6 data-testid='stepTitle' className={styles.stepTitle}>{title}</h6>
+            <p data-testid='stepDesc' className={styles.stepP}>{firstDesc} <br /> {endDesc}</p>
         </>
     );
 }

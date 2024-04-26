@@ -2,9 +2,9 @@
     height: 100%;
     background-size: cover;
     background-image: url('../background-frontpage.png');
-    text-align: center;
     display: flex;
     flex-direction: column;
+    text-align: center;
 }
 
 .infoDiv {
@@ -18,17 +18,38 @@
     flex: 1;
 }
 
+
+.stepTitle {
+    font-family: Verdana;
+    font-weight: 550;
+    color: #45654C;
+}
+
+.stepP {
+    font-family: Arial;
+    font-weight: 520;
+}
+
 .h1 {
     flex: 1;
     color: #45654C;
     margin: 0;
     padding-top: 0.5em;
-    font-size: 4vw; /* Set font size relative to the viewport width */
+    font-size: 3.6vw; /* Set font size relative to the viewport width */
+    font-family: Verdana;
+    font-weight: 600;
 }
 
 .p {
-    flex: 1;
+    flex: 1.4;
+    padding: 0;
     margin: 0;
+    font-size: 1.2vw;
+    font-weight: 520;
     display: flex;
-    justify-content: end; /* Align content to the right */
+    justify-content: right;
+    font-family: Arial;
+    line-height: 1.8;
+    position: relative;
+    right: 0.5em;
 }

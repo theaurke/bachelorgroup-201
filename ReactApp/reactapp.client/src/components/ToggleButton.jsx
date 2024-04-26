@@ -11,6 +11,7 @@ import styles from '../styles/Navbar.module.css';
  * @returns {JSX.Element} The JSX representation of the ToggleButton.
  */
 export default function ToggleButton({ toggleSidebar }) {
+
     // Function to render the tooltip
     const renderTooltip = (props) => (
         <Tooltip id='toggle-tooltip' {...props}>
@@ -20,13 +21,15 @@ export default function ToggleButton({ toggleSidebar }) {
 
     // Render the ToggleButton component
     return (
-        <Col className={styles.toggleContainer} style={{ padding:'0' }}>
+        <Col className={styles.toggleContainer} style={{ padding: '0' }}>
+
             {/* Overlay trigger for the tooltip */}
             <OverlayTrigger
                 placement='right'
                 delay={{ show: 50, hide: 100 }}
                 overlay={renderTooltip}
             >
+
                 {/* Button to toggle the sidebar */}
                 <button data-testid='toggleButton' className={styles.toggleBtn} onClick={toggleSidebar} >
                     <img src='toggleWhite.png' alt='toggleSidebar' className={styles.toggleImg} style={{ padding: '0' }} />

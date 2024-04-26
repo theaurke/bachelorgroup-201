@@ -8,32 +8,34 @@ import styles from './styles/App.module.css';
 /**
  * Function defining the App component, the main components of the application.
  * Renders a container with a sidebar and a main content area.
- * Manages state for the sidebar width and active calculation tab.
- * Handles toggling of the sidebar width.
+ * Manages state for the sidebar width, active calculation tab, the main layout and calculation data.
+ * Handles toggling of the sidebar width and calculation submission.
  * @returns {JSX.Element} The JSX representation of App component.
  */
 export default function App() {
-
     const minWindowWidth = 992; // Large breakpoint in Bootstrap Grid
     const [isWindowSmall, setIsWindowSmall] = useState(window.innerWidth < minWindowWidth ? true : false); // Using useState hook to manage state for if window is small or not, and layout of Main is different
     const [sidebarWidth, setSidebarWidth] = useState(isWindowSmall ? 1 : 3); // useState hook to manage state for sidebar width
-    const [activeTab, setActiveTab] = useState({}); // useState to manage state for active calculation tab at the "top"(App),
-                                                    // so it can be passed to Main after change from Sidebar
-    const [home, setHome] = useState(false);
+    const [activeTab, setActiveTab] = useState({}); // useState to manage state for active calculation tab
+    const [home, setHome] = useState(false); // State to manage if the information page should show or not
 
     // Handling window resizing based on sidebarWidth
     useEffect(() => {
+
         // Function to handle resizing of the window
         const handleResize = () => {
+
             // Get the new current width of window
             const newWindowWidth = window.innerWidth;
 
             // Update sidebarWidth and navbarHeight based on windowWidth
             if (newWindowWidth < minWindowWidth) {
+
                 // If the window width is smaller than the minimum breakpoint
                 setIsWindowSmall(true);
                 setSidebarWidth(1);
             } else {
+
                 // If the window width is greater than or equal to the minimum breakpoint
                 if (sidebarWidth === 3 || sidebarWidth === 1) setSidebarWidth(sidebarWidth);
                 else setSidebarWidth(3);
@@ -54,9 +56,11 @@ export default function App() {
     // Function to toggle sidebar width or navbar height on toggle button click from Navbar
     const toggleSidebar = () => {
         if (isWindowSmall) {
+
             // If window is small and sidebarWidth is 1, set it to 6, else set it to 1
             setSidebarWidth(sidebarWidth === 1 ? 6 : 1);
         } else {
+
             // If sidebarWidth is 1, set it to 3, else set it to 1
             setSidebarWidth(sidebarWidth === 1 ? 3 : 1);
         }
@@ -79,7 +83,9 @@ export default function App() {
 
             // Checking if the index of the activeTab exists
             if (tabIndex === -1) {
-                setTabList((prev) => [...prev, { id: activeTab.id, title: activeTab.title, list: [], calcData: [], layout: 'resource' }]); // Add a new object to the tabList containing an id, empty list and the default layout 
+
+                // Add a new object to the tabList containing an id, empty list and the default layout 
+                setTabList((prev) => [...prev, { id: activeTab.id, title: activeTab.title, list: [], calcData: [], layout: 'resource' }]); 
             }
 
             // Set activeList and layout to the list and layout associated with the active tab
@@ -98,6 +104,7 @@ export default function App() {
         // Finding the index of the activeTab
         const tabIndex = tabList.findIndex(tab => tab.id === activeTab.id);
 
+        // Checking if the tab exists and the list at that index does not match the activeList
         if (tabIndex !== -1 && tabList[tabIndex]?.list !== activeList) {
             const updatedList = [...tabList];
             updatedList[tabIndex] = { ...updatedList[tabIndex], list: activeList }; //updating the list at the activeTab index
@@ -114,6 +121,7 @@ export default function App() {
         // Finding the index of the activeTab
         const tabIndex = tabList.findIndex(tab => tab.id === activeTab.id);
 
+        // Checking if the tab exists and the layout at that index does not match the current layout
         if (tabIndex !== -1 && tabList[tabIndex]?.layout !== layout) {
             const updatedList = [...tabList];
             updatedList[tabIndex] = { ...updatedList[tabIndex], layout: layout }; //updating the layout at the activeTab index
@@ -129,6 +137,7 @@ export default function App() {
         // Finding the index of the activeTab
         const tabIndex = tabList.findIndex(tab => tab.id === activeTab.id);
 
+        // Checking if the tab exists and the calcData at that index does not match the current calcData
         if (tabIndex !== -1 && tabList[tabIndex]?.calcData !== calcData) {
             const updatedList = [...tabList];
             updatedList[tabIndex] = { ...updatedList[tabIndex], calcData: calcData }; //updating the calcData at the activeTab index
@@ -145,6 +154,7 @@ export default function App() {
 
         // Array to store promises for each fetch request, avoid potential timing issues
         const fetchPromises = activeList.map(async resource => {
+
             // Fetch VM data based on form data submitted on calculate
             const vmResponse = await fetch('/vm/' + resource.formData.instance);
             if (!vmResponse.ok) {
@@ -167,14 +177,14 @@ export default function App() {
             const pueData = await pueResponse.json();
 
             return {
-                resource: resource.resourceText + " " + (resource.id + 1),
-                resourceShort: resource.short + " " + (resource.id + 1),
+                resource: resource.resourceText + " " + (resource.id + 1),  // Name of the resource + the id
+                resourceShort: resource.short + " " + (resource.id + 1),  // Shorthand version of the resource name + id
                 region: resource.formData.region,
                 instance: resource.formData.instance,
-                vmData: vmData,
+                vmData: vmData,                           //number of cpus and gpus and their the tdps, the embodied emission and the pkWh
                 carbonIntensity: carbonIntensityData,
                 pue: pueData,
-                time: resource.formData.time
+                time: resource.formData.time   //Object with year, month, day, and hour
             };
         });
 
@@ -204,8 +214,6 @@ export default function App() {
                     {...(isWindowSmall ? { xs: sidebarWidth } : { lg: sidebarWidth })}
                 >
                     <Sidebar
-                        // Passing toggleSidebar, sidebarWidth, activeTab, 
-                        // and setActiveTab as props.
                         toggleSidebar={toggleSidebar}
                         sidebarWidth={sidebarWidth}
                         activeTab={activeTab}
@@ -225,7 +233,7 @@ export default function App() {
                 >
                     {/* Conditionally render invisible div */}
                     {sidebarWidth == 6 && (
-                       <div className={styles.invisibleDiv}></div>
+                        <div data-testid='invisibleDiv' className={styles.invisibleDiv}></div>
                     )}
                     
                     <Main

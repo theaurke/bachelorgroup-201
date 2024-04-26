@@ -1,4 +1,5 @@
 import styles from '../styles/Result.module.css';
+
 /**
  * CalcText component for rendering a describing text and image .
  * @returns {JSX.Element} The JSX representation of the text and images.

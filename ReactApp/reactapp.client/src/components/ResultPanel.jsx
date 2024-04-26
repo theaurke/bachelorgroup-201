@@ -8,26 +8,30 @@ import NewWindow from 'react-new-window';
 
 /**
  * ResultPanel component for rendering a panel to display calculation results.
+ * @param {string} layout - The layout main should have.
+ * @param {Object} calcData - Object containing the data needed to calculate the emission of a resource.
+ * @param {string} tabname - The name of the tab.
  * @returns {JSX.Element} The JSX representation of the result panel.
  */
 export default function ResultPanel({ layout, calcData, tabname }) {
-    const [isOpen, setIsOpen] = useState(false);
+    const [open, setOpen] = useState(false); // State to manage if the print window should open or not.
     
-    
-
+    // Returning either the calculation result or information text.
     return (
         <Container fluid className={styles.resultContainer} style={{ padding: '0' }}>
-            {layout == 'result' ? (
+
+            {layout == 'result' ? ( //Rendering the calculation result if layout is set to result
                 <>
-                    
                     <CalcResult calcData={calcData} tabname={tabname} scroll={'auto'} />
+
+                    {/*Button for converting the calculation results to PDF*/}
                     <div className={styles.buttonDiv}>
-                        <button type='button' className={stylesResource.addResourceButton} onClick={() => setIsOpen(true)}>Convert to pdf</button>
-                        {isOpen && (
+                        <button type='button' className={stylesResource.addResourceButton} onClick={() => setOpen(true)}>Convert to pdf</button>
+                        {open && (
                             <NewWindow title={tabname} onOpen={(w) => setTimeout(() => {
                                 w.print();
                                 w.close();
-                                setIsOpen(false);
+                                setOpen(false);
                             }, 1000) }>
                                 <CalcResult calcData={calcData} tabname={tabname} scroll={'visible'} />
                                 <style>
@@ -36,10 +40,9 @@ export default function ResultPanel({ layout, calcData, tabname }) {
                             </NewWindow>
                         )}
                     </div>
-                    
                 </>
                 
-            ) : (
+            ) : ( // Rendering information text
                 <CalcText />
             )}
         </Container>

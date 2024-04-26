@@ -5,6 +5,7 @@ import '@testing-library/jest-dom';
 
 
 describe('ToggleButton Component Test', () => {
+
     test('renders button with tooltip', async () => {
         const toggleSidebar = jest.fn();
 

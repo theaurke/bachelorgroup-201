@@ -3,11 +3,19 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import styles from '../styles/Diagram.module.css';
 
-
+/**
+ * Renders a doughnut diagram displaying the total emission as well as the emissions 
+ * for all the resources in the calcualtion.
+ * @param {list} emissions - List containing all info about the emissions of the resources.
+ * @param {number} totalEmission - The calculated total emission for all resource in the calculation.
+ * @param {list} backgroundColor - List of colors for the "pieces" in the diagram.
+ * @returns {JSX.Element} The JSX representation of the diagram.
+ */
 export default function DoughnutDiagram({ emissions, totalEmission, backgroundColor }) {
 
     ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
+    // Data containing the labels, values and colors for the diagram
     const data = {
         labels: emissions.map(item => item.resource.toString()),
         datasets: [
@@ -18,7 +26,7 @@ export default function DoughnutDiagram({ emissions, totalEmission, backgroundCo
         ],
     };
 
-
+    // Options to customize the look of the diagram.
     const options = {
         plugins: {
             legend: {
@@ -47,7 +55,7 @@ export default function DoughnutDiagram({ emissions, totalEmission, backgroundCo
         maintainAspectRatio: false,
     };
 
-
+    // Custom plugin to get the total emission in the center of the diagram.
     const textCenter = {
         id: 'textCenter',
         beforeDatasetsDraw(chart, args, pluginOptions) {
@@ -58,10 +66,14 @@ export default function DoughnutDiagram({ emissions, totalEmission, backgroundCo
             ctx.fillStyle = 'black';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
+
+            // Dividing the total emission to convert to kg if number is big to better fit the diagram.
             ctx.fillText(`${pluginOptions.totalEmission >= 1000 ? (pluginOptions.totalEmission / 1000).toFixed(1) : pluginOptions.totalEmission}`,
                 chart.getDatasetMeta(0).data[0].x,
                 chart.getDatasetMeta(0).data[0].y - 8);
-            ctx.fillText(`total ${pluginOptions.totalEmission >= 1000 ? 'kgCO2eq' : 'gCO2eq'}`,
+
+            // Changing the measuring unit based on the number size to better fit the diagram.
+            ctx.fillText(`total ${pluginOptions.totalEmission >= 1000 ? 'kgCO2eq' : 'gCO2eq'}`, 
                 chart.getDatasetMeta(0).data[0].x,
                 chart.getDatasetMeta(0).data[0].y + 14);
 
@@ -69,6 +81,7 @@ export default function DoughnutDiagram({ emissions, totalEmission, backgroundCo
     };
 
 
+    // Custom plugin to make outside labels for the diagram
     function calculateLabelPos(chart) {
         const { ctx, chartArea: { width, height } } = chart;
         const previousLabels = [];
@@ -109,11 +122,11 @@ export default function DoughnutDiagram({ emissions, totalEmission, backgroundCo
                 const labelHeight = 15;
                 let collision;
 
-                // Check for collision with the previous label
+                // Collision test loop
                 do {
                     collision = false;
 
-                    // Check for collision with previously drawn labels
+                    // Checking for collision with previously drawn labels
                     for (const previousLabel of previousLabels) {
                         const previousLabelRight = previousLabel.rectX + previousLabel.width;
                         const previousLabelBottom = previousLabel.rectY + previousLabel.height;
@@ -123,7 +136,8 @@ export default function DoughnutDiagram({ emissions, totalEmission, backgroundCo
                             rectY < previousLabelBottom && rectY + labelHeight > previousLabel.rectY
                         ) {
                             collision = true;
-                            // Adjust label position to avoid collision
+
+                            // Adjusting the label position to avoid collision.
                             if (textXpos === 'left') {
                                 rectX += 6;
                                 rectY += 5;
@@ -131,11 +145,12 @@ export default function DoughnutDiagram({ emissions, totalEmission, backgroundCo
                                 rectX -= 6;
                                 rectY -= 5;
                             }
-                            break; // No need to check further collisions
+                            break; // Breaking when no longer colliding.
                         }
                     }
-                } while (collision);
+                } while (collision); // Looping as long as the label is colliding.
 
+                // Adding the label to the list when its no longer colliding.
                 previousLabels.push({
                     x: x,
                     y: y,
@@ -156,21 +171,25 @@ export default function DoughnutDiagram({ emissions, totalEmission, backgroundCo
         return previousLabels;
     }
 
+
+    // Custom plugin to draw line from the doughnut diagram slice to the label.
     const doughnutLabelsLine = {
         id: 'doughnutLablesLine',
         afterDraw(chart) {
             const { ctx } = chart;
-            
+
+            // Getting the positions of the labels.
             const positions = calculateLabelPos(chart)
             let updatedX;
             let updatedY;
 
                     
             positions.forEach(label => {
+                // Adjusting where the line is drawn to based on which side of the diagram the label is on.
                 updatedX = label.side === 'left' ? label.rectX : label.rectX + label.width - 10;
                 updatedY = label.side === 'left' ? label.rectY : label.rectY + label.height;
 
-                // Drawing the line
+                // Drawing the line.
                 ctx.beginPath();
                 ctx.moveTo(label.x, label.y);
                 ctx.lineTo(updatedX, updatedY);
@@ -180,7 +199,7 @@ export default function DoughnutDiagram({ emissions, totalEmission, backgroundCo
             });
             
             positions.forEach(label => {
-                // Draw the filled rectangle as background for the text
+                // Draw the filled rectangle as background for the text.
                 ctx.fillStyle = label.color;
                 ctx.fillRect(label.rectX - 5, label.rectY, label.width, label.height);
 
@@ -196,6 +215,8 @@ export default function DoughnutDiagram({ emissions, totalEmission, backgroundCo
         }
     };
 
+
+    // Custom plugin to add margin to the diagram.
     const legendMargin = {
         id: 'legendMargin',
         beforeInit(chart) {
@@ -209,7 +230,7 @@ export default function DoughnutDiagram({ emissions, totalEmission, backgroundCo
     };
 
     return (
-        <div className={styles.doughnutDiv}>
+        <div data-testId={"doughnutDiagram"} className={styles.doughnutDiv}>
             <Doughnut data={data} options={options} plugins={[textCenter, doughnutLabelsLine, legendMargin]} />
         </div>
     );

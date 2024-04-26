@@ -4,6 +4,12 @@ import CalcText from '../CalcText';
 import '@testing-library/jest-dom';
 
 describe('CalcText Component', () => {
+
+    test('renders without crashing', () => {
+        render(<CalcText />);
+    });
+
+
     test('renders correctly', () => {
         const { getByAltText, getByText } = render(<CalcText />);
 

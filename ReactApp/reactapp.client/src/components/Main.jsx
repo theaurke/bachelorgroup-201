@@ -8,6 +8,13 @@ import ResultPanel from './ResultPanel';
  * Main component for the application.
  * Renders the main content of the webpage, either the information page or the resources and results.
  * @param {number} activeTab - The ID of the activeTab.
+ * @param {list} tabList - List of tab content.
+ * @param {Function} setLayout - Function to update main layout.
+ * @param {string} layout - String describing the layout.
+ * @param {Function} setActiveList - Function for updating the activeList.
+ * @param {list} activeList - List of resources that correlates to the activeTab.
+ * @param {Function} handleCalculate - Function for handling calculation.
+ * @param {boolean} home - Boolean to decide if showing activeTab or information page.
  * @returns {JSX.Element} The JSX representation of the main content.
  */
 export default function Main({ activeTab, tabList, setLayout, layout, setActiveList, activeList, handleCalculate, home }) {
@@ -15,23 +22,29 @@ export default function Main({ activeTab, tabList, setLayout, layout, setActiveL
     // Finding the index of the activeTab
     const tabIndex = tabList.findIndex(tab => tab.id === activeTab.id);
 
+    // Style for the columns
+    const colStyle = {
+        height: '100%',
+        padding: '0'
+    };
+
     // Returning the main part of the application with either the information page or the set layout.
     return (
-        <Container fluid style={{ height: '100%', padding: '0em', border: '4px solid #45654C'}}>
+        <Container fluid style={{ height: '100%', padding: '0em', border: '4px solid #45654C' }}>
             {/*Checking if there are any active tabs, and setting the main to the information page if not.*/ }
                 {!activeTab.id || home ? (
                     <Information />
-                ) : (
-                    <Row data-testid='resourceContent' style={{ margin:'0', height: '100%' }}>
+            ) : (
+                    <Row data-testid='resourceContent' style={{ margin: '0', height: '100%' }}>
 
                         {/*Checking which layout is set at the activeTab index, and filling the row based on that.*/}
                         {tabIndex !== -1 && tabList[tabIndex].layout === 'resource' ?(  
 
                             <>
-                                <Col style={{ height: '100%', padding: '0' }}>
+                                <Col style={colStyle}>
                                     <ResultPanel layout={layout} />
                                 </Col>
-                                <Col style={{ height: '100%', padding:'0' }}>
+                                <Col style={colStyle}>
                                     <ResourcePanel handleCalculate={handleCalculate} setLayout={setLayout} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={false} />
                                 </Col>
                             </>
@@ -39,10 +52,10 @@ export default function Main({ activeTab, tabList, setLayout, layout, setActiveL
                         ) : (
 
                             <>
-                                <Col style={{ height: '100%', padding: '0' }}>
+                                <Col style={colStyle}> 
                                         <ResourcePanel handleCalculate={handleCalculate} setLayout={setLayout} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={true} />
                                 </Col>
-                                    <Col style={{ height: '100%', padding: '0' }}>
+                                <Col style={colStyle}>
                                         <ResultPanel layout={layout} calcData={tabList[tabIndex]?.calcData || []} tabname={activeTab.title} />
                                 </Col>
                             </>

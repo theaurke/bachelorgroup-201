@@ -18,6 +18,7 @@ export default function CalcResult({ calcData, tabname, scroll}) {
     const [totalEmission, setTotalEmission] = useState(0); // State to manage total emission of all resources
     const [calculationComplete, setCalculationComplete] = useState(false);  // State to manage calculation stage
 
+    // List of colors so that the same resource will have the same color in all diagrams.
     const backgroundColor = [
         '#FF1493',
         '#87CEEB',
@@ -106,7 +107,7 @@ export default function CalcResult({ calcData, tabname, scroll}) {
                         <BarDiagram info={'Region'} emissions={emissions} backgroundColor={backgroundColor} />
                         <BarDiagram info={'Embodied'} emissions={emissions} backgroundColor={backgroundColor} />
                     </Row>
-                    <Row className={diagramStyles.tableRow}>
+                    <Row className={diagramStyles.tableRow} data-testId={"labels"}>
                         <LoadDiagram emissions={emissions} backgroundColor={backgroundColor} />
                     </Row>
                 </>

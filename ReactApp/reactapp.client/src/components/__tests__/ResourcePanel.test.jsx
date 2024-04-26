@@ -16,6 +16,24 @@ beforeEach(async () => {
 
 describe('ResourcePanel Component Test', () => {
 
+    test('renders ResourcePanel component without crashing', () => {
+        const layout = 'resource';
+        const handleCalculate = jest.fn();
+        const addedResources = [];
+        const setAddedResources = jest.fn();
+        const calculated = false;
+
+
+        render(
+            <ResourcePanel
+                layout={layout}
+                handleCalculate={handleCalculate}
+                addedResources={addedResources}
+                setAddedResources={setAddedResources}
+                calculated={calculated} />
+        );
+    });
+
     test('renders Add Resource button when no resources added', () => {
         const layout = 'resource';
         const handleCalculate = jest.fn();

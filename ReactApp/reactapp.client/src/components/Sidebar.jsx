@@ -11,6 +11,10 @@ import styles from '../styles/Sidebar.module.css';
  * @param {number} props.sidebarWidth - Width of the sidebar.
  * @param {string} props.activeTab - Active tab in the navigation bar.
  * @param {Function} props.setActiveTab - Function to set the active tab.
+ * @param {boolean} props.isWindowSmall - Indicates whether the window is small or not.
+ * @param {list} props.tabList - List containing the content of the tabs.
+ * @param {Function} props.setTabList - Function to update the tabList.
+ * @param {Function} props.setHome - Function to update if the information page should be shown or not.
  * @returns {JSX.Element} The JSX representation of the sidebar.
  */
 export default function Sidebar(props) {
@@ -22,6 +26,7 @@ export default function Sidebar(props) {
     // Return sidebar component with flex column Container, placing the Rows vertically
     return (
         <Container className={styles.container} fluid>
+
             {/* Logo row */ }
             <Row className={styles.logoRow}>
                 {!isSidebarCollapsed && (
@@ -31,10 +36,9 @@ export default function Sidebar(props) {
 
             {/* Navigation bar row */}
             <Row className={styles.navbarRow} style={{ height: isWindowSmall ? '81%' : '78%' }} >
+
                 {/* Navbar component */}
                 <Navbar
-                    // Passing toggleSidebar, isSidebarCollapsed, 
-                    // activeTab, and setActiveTab as props.
                     toggleSidebar={toggleSidebar}
                     isSidebarCollapsed={isSidebarCollapsed}
                     activeTab={activeTab}

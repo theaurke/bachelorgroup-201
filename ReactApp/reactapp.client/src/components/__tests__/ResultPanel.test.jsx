@@ -6,6 +6,13 @@ import '@testing-library/jest-dom';
 
 describe('ResultPanel Component Test', () => {
 
+    test('renders ResultPanel component without crashing', () => {
+        const layout = 'resource';
+
+        render( <ResultPanel layout={layout} /> );
+    });
+
+
     test('renders CalcText if layout is resource', () => {
         const layout = 'resource';
 

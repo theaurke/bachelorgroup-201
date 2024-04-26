@@ -93,6 +93,13 @@
     font-size: 1.5em;
 }
 
+
+.buttonCol {
+    display: flex;
+    justify-content: center;
+}
+
+
 .formStyle {
     display: flex;
     flex-direction: column;

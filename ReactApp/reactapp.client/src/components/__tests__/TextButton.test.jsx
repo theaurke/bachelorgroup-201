@@ -5,6 +5,7 @@ import '@testing-library/jest-dom';
 
 
 describe('TextButton Component Test', () => {
+
     test('renders button with provided text', () => {
         const buttonText = 'Button test';
         const { getByText } = render(<TextButton text={buttonText} />);

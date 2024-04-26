@@ -12,6 +12,17 @@ beforeEach(() => {
 
 describe('ResourceList Component', () => {
 
+    test('renders ResourceList component without crashing', () => {
+        const addedResources = [];
+        const setAddedResources = jest.fn();
+        const setShowList = jest.fn();
+
+        render(
+            <ResourceList setAddedResources={setAddedResources} addedResources={addedResources} setShowList={setShowList} />
+        );
+
+    });
+
     test('renders list of resources', () => {
         const addedResources = [];
         const setAddedResources = jest.fn();
@@ -22,9 +33,11 @@ describe('ResourceList Component', () => {
         );
 
         const listOfResources = getByTestId('resourceList');
+        const resourceButton = getByTestId('resourceButton-0');
 
         expect(listOfResources).toBeInTheDocument();
         expect(listOfResources.children.length).toBeGreaterThan(0);
+        expect(resourceButton).toHaveTextContent('Virtual Machine');
 
     });
 

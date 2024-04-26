@@ -12,33 +12,41 @@ import CalcResult from './CalcResult';
 /**
  * Navbar component for the application.
  * Renders a navigation bar with tabs, add new tab button, and toggle button.
- * Manages state for tabs, warning popup, and tab deletion.
+ * Manages state for tabs, warning popup, tab deletion, print window and tabs ready for PDF converting.
  * @param {Object} props - Props passed to the Navbar component.
  * @param {Function} props.toggleSidebar - Function to toggle the sidebar.
  * @param {boolean} props.isSidebarCollapsed - Indicates whether the sidebar is collapsed.
  * @param {string} props.activeTab - Active tab in the navigation bar.
  * @param {Function} props.setActiveTab - Function to set the active tab.
+ * @param {boolean} props.isWindowSmall - Indicates whether the window is small.
+ * @param {list} props.tabList - List of tab content.
+ * @param {Function} props.setTabList - Function to update the tabList.
+ * @param {Function} props.setHome - Function to update the home boolean.
  * @returns {JSX.Element} The JSX representation of the navbar.
  */
 export default function Navbar(props) {
     const { toggleSidebar, isSidebarCollapsed, activeTab, setActiveTab, isWindowSmall, tabList, setTabList, setHome } = props;
 
-    // State management for tabs, tabId, warning popup, and tab deletion
-    const [tabs, setTabs] = useState([]);
+    const [tabs, setTabs] = useState([]); // State management of tabs
     const [tabId, setTabId] = useState(1); // Using state so the id count won't re-render
     const [showWarningPopup, setShowWarningPopup] = useState(false); // State to show/hide warning popup
     const [tabToDelete, setTabToDelete] = useState(null); // State to store tab id for deletion
 
 
+    /* TAB HANDLING */
+
     // Function to add new tab to the Navbar
     const addNewTab = () => {
+
         // Set new unique tab id
         const newId = tabId;
+
         // Create a new tab object with the id and default title
         const newTab = {
             id: newId.toString(), 
             title: `Calculation ${newId}`
         };
+
         // Append the new tab to the list of existing tabs
         setTabs([...tabs, newTab]);
         setTabId(tabId + 1); // Increment tabId for the next tab
@@ -49,6 +57,7 @@ export default function Navbar(props) {
 
     // Function to edit the title of a tab
     const editTabName = (id, newName) => {
+
         // Map through the tabs array and update the title of the tab with the
         // specified id. If the tab id matches the provided id, 
         // update its title with the new name; otherwise, leave it unchanged.
@@ -58,6 +67,7 @@ export default function Navbar(props) {
     
     // Function to initiate tab deletion and show warning popup
     const deleteTab = (id) => {
+
         // Set showWarningPopup state to true to display the warning popup
         setShowWarningPopup(true);
         setTabToDelete(id); // Store tab id to be deleted for confirmation
@@ -65,10 +75,13 @@ export default function Navbar(props) {
 
     // Function to confirm tab deletion
     const confirmDeleteTab = () => {
+
         // Filter out the tab to be deleted from the tabs array
         const updatedTabs = tabs.filter(tab => tab.id !== tabToDelete);
+
         // Update the tabs state with the filtered array
         setTabs(updatedTabs);
+
         // Hide the warning popup after deletion
         setShowWarningPopup(false);
 
@@ -80,8 +93,10 @@ export default function Navbar(props) {
 
     // Runs everytime tabs updates
     useEffect(() => {
+
         // Check if the active tab has been deleted
         if (!tabs.some(tab => tab.id === activeTab.id)) {
+
             // If the active tab has been deleted, set activeTab to empty object
             setActiveTab({});
         }
@@ -99,7 +114,9 @@ export default function Navbar(props) {
 
     // Function to copy tab
     const copyTab = (id) => {
+
         const tabToCopy = tabList.find(tab => tab.id === id);
+
         if (tabToCopy) {
             const newId = tabId;
             const newTab = {
@@ -109,24 +126,29 @@ export default function Navbar(props) {
                 layout: 'resource', // Set the layout to resource, so it's not already calculated on copy
                 calcData: [...tabToCopy.calcData] // Copy the calcData
             };
-            setTabs([...tabs, {id: newId.toString(), title: `Calcualtion ${newId}`}]); // Add the new tab to the tabs state
+
+            setTabs([...tabs, {id: newTab.id, title: newTab.title}]); // Add the new tab to the tabs state
             setTabId(tabId + 1); // Increment tabId for the next tab
             setTabList([...tabList, newTab]); // Add the new tab and its data to tabList
         }
     };
 
 
-    const [isOpen, setIsOpen] = useState(false);
-    const [PDFTabs, setPDFTabs] = useState([]);
-    // Converting multiple tabs to PDF
+    /** CONVERSION TO PDF */
 
+    const [isOpen, setIsOpen] = useState(false); // State to manage if the print window should open
+    const [PDFTabs, setPDFTabs] = useState([]); // State to manage the tabs that can be converted to PDF
+
+    // Function to convert multiple tabs to PDF
     const handleConvertToPDF = () => {
+
+        // Filtering all tabs that have completed calculation
         const resultTabs = tabList.filter(tab => tab.layout === "result");
 
-        
+        // Checking if there are any tabs and that at least one of the tabs have completed its calculation.
         if (tabList.length !== 0 && resultTabs.length !== 0) {
-            setPDFTabs(resultTabs);
-            setIsOpen(true);
+            setPDFTabs(resultTabs); // Setting the list of tabs ready for converting.
+            setIsOpen(true); // Setting isOpen to reu, to open the print window.
         }
     };
 
@@ -137,9 +159,7 @@ export default function Navbar(props) {
             {showWarningPopup && (
                 <WarningPopup
                     warning="Are you sure you want to delete this tab?"
-                    // Handler function for confirming tab deletion
                     onConfirm={confirmDeleteTab}
-                    // Handler function for canceling tab deletion
                     onCancel={() => setShowWarningPopup(false)}
                 />
             )}
@@ -148,12 +168,11 @@ export default function Navbar(props) {
             <Row className={styles.navBtnRow }>
                 {((!isWindowSmall) || (isWindowSmall && !isSidebarCollapsed)) && (
                     <NavButton
-                        // text, src, alt, and isSidebarCollapsed as props
-                        text='Start new calculation'
+                        text='Start New Calculation'
                         src='plusWhite.png'
                         alt='New calculation'
                         isSidebarCollapsed={isSidebarCollapsed}
-                        onClick={addNewTab} // Handler function onclick
+                        onClick={addNewTab}
                     />
                 )}
             </Row>
@@ -202,12 +221,15 @@ export default function Navbar(props) {
                     <div className={pdfstyles.buttonDiv}>
                         <button type='button' className={styles.pdfBtn} onClick={handleConvertToPDF}>Convert All Tabs to PDF</button>
                         {isOpen && (
+
+                            //Rendering all tab content from the tabs in the PDFtabs list in a new window to print
                             <NewWindow title={'Calculations'} onOpen={(w) => setTimeout(() => {
                                 w.print();
                                 w.close();
                                 setIsOpen(false);
                             }, 1000)}>
-                                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%' }}>
+
+                                <div className={pdfstyles.printDiv}>
                                 {PDFTabs.map((tab, index) => (
                                     <div key={tab.title} style={{ pageBreakBefore: index > 0 ? 'always' : 'aviod' }}>
                                         <CalcResult calcData={tab.calcData} tabname={tab.title} />

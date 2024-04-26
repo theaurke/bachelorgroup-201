@@ -5,10 +5,14 @@ import '@testing-library/jest-dom';
 
 
 describe('Information Component Test', () => {
+
+    test('renders component without crashing', () => {
+        render(<Information />);
+    });
+
     test('renders main title and paragraph', () => {
         const { getByText } = render(<Information />);
 
-        // /.../i -> searches for element whose text content matches, ignoring case
         const mainTitle = getByText(/Calculate the estimated emissions on your Azure IaaS resources/i);
         expect(mainTitle).toBeInTheDocument();
 

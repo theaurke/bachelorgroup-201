@@ -24,6 +24,7 @@ export default function NavButton(props) {
         <Col className={styles.colStyle}>
             {/* Render different button styles based on sidebar collapse state */}
             {isSidebarCollapsed ? (
+
                 // Render button with image only when sidebar is collapsed
                 <button
                     onClick={onClick}
@@ -33,12 +34,14 @@ export default function NavButton(props) {
                     <img data-testid='navBtnImg' className={styles.imgStyle} src={src} alt={alt} />
                 </button>
             ) : (
+
                 // Render both text and image buttons when sidebar is expanded
                 <>
                     {/* Button with text */}
                     <button data-testid='navBtn' onClick={onClick} className={styles.buttonStyle} style={{ padding: '0.5em' }}>
                         {text}
                     </button>
+
                     {/* Button with image */}
                     <button
                         onClick={onClick}

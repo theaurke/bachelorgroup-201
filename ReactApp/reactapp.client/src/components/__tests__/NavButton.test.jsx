@@ -5,6 +5,19 @@ import '@testing-library/jest-dom';
 
 
 describe('NavButton Component Test', () => {
+
+    test('renders NavButton component without crashing', () => {
+        const props = {
+            text: 'Test Button',
+            src: 'plusWhite.png',
+            alt: 'Test Image Alt Text',
+            isSidebarCollapsed: false,
+            onClick: jest.fn(),
+        };
+
+        render(<NavButton {...props} />);
+    });
+
     test('renders Start Calculation button with text and img when sidebar is expanded', () => {
         const props = {
             text: 'Test Button',

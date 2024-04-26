@@ -5,6 +5,7 @@ import '@testing-library/jest-dom';
 
 
 describe('WarningPopup Component Test', () => {
+
     test('renders warning message correctly', () => {
         const warningMessage = 'Test warning';
         const { getByText } = render(<WarningPopup warning={warningMessage} />);

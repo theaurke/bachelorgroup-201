@@ -18,10 +18,20 @@ ChartJS.register(
     Tooltip,
     Legend
 );
-export default function BarDiagram({ info, emissions, backgroundColor }) {
-    const variable = info === "Region" ? "carbonIntensity" : (info === "Energy" ? "energy" : "embodied");
-    const categoryLabel = info === "Region" ? "regionName" : "instance";
 
+
+/**
+ * Renders a bar diagram to display either energy consumption, region carbonintensity or embodied emissions.
+ * @param {string} info - String indicating what the diagram should display.
+ * @param {list} emissions - List containing all info about the emissions of the resources.
+ * @param {list} backgroundColor - List of colors for the columns in the diagram.
+ * @returns {JSX.Element} The JSX representation of the diagram.
+ */
+export default function BarDiagram({ info, emissions, backgroundColor }) {
+    const variable = info === "Region" ? "carbonIntensity" : (info === "Energy" ? "energy" : "embodied"); // Variable used to extract the right info from emissions list.
+    const categoryLabel = info === "Region" ? "regionName" : "instance"; // Variable used to get the right data for the labels from the emissions list.
+
+    // Data containing the labels, values and colors for the diagram.
     const data = {
         labels: emissions.map(item => item.resource.toString()),
         datasets: [
@@ -32,11 +42,12 @@ export default function BarDiagram({ info, emissions, backgroundColor }) {
         ],
     };
 
-
+    // Options to customize the look of the diagram.
     const options = {
         plugins: {
             title: {
                 display: true,
+                // Setting the text based on what data to display.
                 text: `${info === "Energy" ? 'Energy Consumption per Hour' : (info === "Embodied" ? 'Hardware Emission per hour' : 'Region Carbon Emission')}`,
             },
             legend: {
@@ -63,6 +74,8 @@ export default function BarDiagram({ info, emissions, backgroundColor }) {
         scales: {
             x: {
                 type: 'category',
+
+                // Shortening the United Arab Emirates for a cleaner looking diagram.
                 labels: emissions.map(item => item.resourceShort.toString() + " - " + (item[categoryLabel] === "United Arab Emirates" ? 'UAE' : item[categoryLabel])),
                 ticks: {
                     font: {
@@ -73,6 +86,8 @@ export default function BarDiagram({ info, emissions, backgroundColor }) {
             y: {
                 type: 'linear',
                 min: 0,
+
+                // Adding a 15% wiggleroom ontop of the diagram.
                 max: Math.max(...emissions.map(item => item[variable])) + (Math.max(...emissions.map(item => item[variable])) * 0.15),
                 title: {
                     display: true,
@@ -83,6 +98,7 @@ export default function BarDiagram({ info, emissions, backgroundColor }) {
     };
 
 
+    // Custom plugin to make labels for the diagram.
     const chartLabel = {
         id: 'chartLabel',
         afterDraw(chart) {
@@ -92,7 +108,7 @@ export default function BarDiagram({ info, emissions, backgroundColor }) {
             chart.data.datasets.forEach((dataset, i) => {
                 chart.getDatasetMeta(i).data.forEach((datapoint, index) => {
 
-                    // Line
+                    // Line ontop of the diagrams in the same color.
                     ctx.beginPath();
                     ctx.strokeStyle = dataset.backgroundColor[index];
                     ctx.lineWidth = 3;
@@ -101,7 +117,7 @@ export default function BarDiagram({ info, emissions, backgroundColor }) {
                     ctx.lineTo(datapoint.x + halfWidth, datapoint.y - 6);
                     ctx.stroke();
 
-                    // Text
+                    // Text containing the value of that coulmn
                     ctx.font = 'bold 0.6em sans-serif';
                     ctx.fillStyle = 'black';
                     ctx.textAlign = 'center';
@@ -115,7 +131,7 @@ export default function BarDiagram({ info, emissions, backgroundColor }) {
    
 
     return (
-        <div className={styles.barDiv} >
+        <div data-testId={`barDiagram${info}`} className={styles.barDiv} >
             <Bar data={data} options={options} plugins={[chartLabel]} />
         </div>
     );

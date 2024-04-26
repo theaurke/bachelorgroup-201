@@ -6,6 +6,19 @@ import '@testing-library/jest-dom';
 
 describe('Step Component Test', () => {
 
+    test('renders Step component without crashing', () => {
+        const props = {
+            title: 'Step 1',
+            description: 'Some text',
+            split: 5,
+            src: 'url'
+        };
+
+        render(<Step {...props} />);
+
+    });
+
+
     test('renders step with provided props', () => {
         const props = {
             title: 'Step 1',

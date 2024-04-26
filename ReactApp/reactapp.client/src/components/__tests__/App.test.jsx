@@ -6,6 +6,10 @@ import '@testing-library/jest-dom';
 
 describe('App Component Test', () => {
 
+    test('renders without crashing', () => {
+        render(<App />);
+    });
+
     test('initial sidebar width is 3', () => {
         const { container } = render(<App />);
         const col = container.querySelector('.col-lg-3');
@@ -24,4 +28,12 @@ describe('App Component Test', () => {
         expect(sidebarCol).toHaveClass('col-1');
         window.innerWidth = originalWidth;
     });
+
+    test('does not render the invisible div initially', () => {
+        const { queryByTestId } = render(<App />);
+        const invisibleDiv = queryByTestId('invisibleDiv');
+
+        expect(invisibleDiv).not.toBeInTheDocument();
+    });
+
 });

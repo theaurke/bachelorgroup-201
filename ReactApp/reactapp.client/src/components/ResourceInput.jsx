@@ -3,25 +3,38 @@ import styles from '../styles/Resource.module.css'
 import TextButton from './TextButton';
 import { useState, useEffect } from 'react';
 import Select from 'react-select';
-import AsyncSelect from 'react-select/async';
 
+
+/**
+ * ResourceInput component.
+ * Renders a input form either editable or not for adding a resource to the calculation.
+ * @param {string} resourceText - Name of the resource.
+ * @param {Object} resourceFormData - Input info for the resource if the resource is already added to the calculation.
+ * @param {number} resourceID - ID of the resource.
+ * @param {Function} handleSubmit - Function handling submission of the form.
+ * @param {boolean} edit - Indicates wether the inputfields should be disabled or not.
+ * @param {Function} setEdit - Function to update the edit boolean.
+ * @returns {JSX.Element} The JSX representation of input form.
+ */
 export default function ResourceInput({ resourceText, resourceFormData, resourceID, handleSubmit, edit, setEdit }) {
     const buttonText = resourceFormData ? (edit ? ['Remove', 'Edit'] : ['Clear', 'Save']) : ['Clear', 'Add']; // Variable to set the right buttontext based on where the inputfield is and if it is editable or not.
     const [instance, setInstance] = useState('Choose instance'); // State to manage the chosen instance.
     const [region, setRegion] = useState('Choose region'); // State to manage the chosen region.
     const [time, setTime] = useState({ year: 0, month: 0, day: 0, hour: 1 }); // State to manage the chosen time.
     const [action, setAction] = useState('Add'); // State to manage which button is clicked.
-    const [instanceError, setInstanceError] = useState(false);
-    const [regionError, setRegionError] = useState(false);
+    const [instanceError, setInstanceError] = useState(false); // State to manage error message visibility for Instance input field.
+    const [regionError, setRegionError] = useState(false); // State to manage error message visibility for Region input field.
 
 
     // Lists of instance and region options for the dropdown menu.
     const [instanceOptions, setInstanceOptions] = useState([]); // State to store VM instance options fetched from the server.
     const [regionOptions, setRegionOptions] = useState([]); // State to store region options fetched from the server.
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true); // State to manage if the instance and region options have been loaded from the database.
 
-    // Fetch VM instance options from the server
+    // Fetch VM options from the database
     useEffect(() => {
+
+        // Fetching the VM instance options
         fetch('/vm')
             .then(response => {
                 if (!response.ok) {
@@ -34,6 +47,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
             })
             .catch(error => console.error('Error fetching VM sizes:', error));
 
+        // Fetching the region options
         fetch('/region')
             .then(response => {
                 if (!response.ok) {
@@ -55,19 +69,23 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
             setRegion(resourceFormData.region);
             setTime(resourceFormData.time);
         }
-    }, [resourceFormData]);
+    }, [resourceFormData]); // Only re-runs when resourceFormData changes
 
 
+    // Handling loading of the instance and region options
     useEffect(() => {
+
+        // If both instance options and region options are not empty
         if (instanceOptions.length !== 0 && regionOptions.length !== 0) {
-            setLoading(false);
+            setLoading(false); //setting loading to false
         } else {
-            setLoading(true);
+            setLoading(true); // setting loading to true when they are empty
         }
-    }, [instanceOptions, regionOptions]);
+
+    }, [instanceOptions, regionOptions]); // Only re-running when instance and region options changes.
 
 
-    // Setting error to false if a region or instance is chosen
+    // Setting error to false if a region or instance is chosen.
     useEffect(() => {
         if (instance !== 'Choose instance') {
             setInstanceError(false);
@@ -86,8 +104,8 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
 
         // Checking if instance is chosen
         if (instance === 'Choose instance') {
-            setInstanceError(true);
-            isValid = false;
+            setInstanceError(true); // Setting the error to true if not chosen.
+            isValid = false; // Form is not valid
         } else {
             setInstanceError(false);
         }
@@ -100,7 +118,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
             setRegionError(false);
         }
 
-        return isValid;
+        return isValid; // Returning if the form is valid or not
     };
     
 
@@ -113,6 +131,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
             return;
         }
 
+        // Object holding the formdata
         const formData = {
             instance,
             region,
@@ -121,7 +140,9 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
 
         // Checking if it was the edit button that was clicked.
         if (action === 'Edit') {
+
             setEdit(!edit); // Enabling the forms input fields.
+
         } else {
 
             // Checking if the button clicked was save
@@ -187,6 +208,8 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                             isLoading={loading}
                             loadingMessage={() => 'Loading instances...'}
                         />
+
+                        {/*Error message if no instance is chosen*/}
                         {instanceError && (
                             <Alert variant="danger">Please choose an instance.</Alert>
                         )}
@@ -207,6 +230,8 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                             isLoading={loading}
                             loadingMessage={() => 'Loading regions...'}
                         />
+
+                        {/*Error message if no region is chosen*/}
                         {regionError && (
                             <Alert variant="danger">Please choose a region.</Alert>
                         )}
@@ -219,6 +244,8 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                     <Form.Group as={Row} controlId="formTimeInput">
                         <Form.Label id='time' > Running time </Form.Label>
                         <Row style={{ margin: '0', padding: '0' }} >
+
+                            {/* Input field for choosing number of years */}
                             <InputGroup style={timeLabelStyle}>
                                 <Form.Control
                                     type="number"
@@ -230,6 +257,8 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                                 />
                                 <InputGroup.Text>Years</InputGroup.Text>
                             </InputGroup>
+
+                            {/* Input field for choosing number of months */}
                             <InputGroup style={timeLabelStyle} >
                                 <Form.Control
                                     type="number"
@@ -241,6 +270,8 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                                 />
                                 <InputGroup.Text>Months</InputGroup.Text>
                             </InputGroup>
+
+                            {/* Input field for choosing number of days */}
                             <InputGroup style={timeLabelStyle} >
                                 <Form.Control
                                     type="number"
@@ -252,6 +283,8 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                                 />
                                 <InputGroup.Text>Days</InputGroup.Text>
                             </InputGroup>
+
+                            {/* Input field for choosing number of hours */}
                             <InputGroup style={timeLabelStyle} >
                                 <Form.Control
                                     type="number"
@@ -268,12 +301,12 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
                 </Row>
 
 
-                {/* Buttons */}
+                {/* Buttons for Adding, editing, saving, removing a resource or clearing the input fields*/}
                 <Row className={"mt-5"}>
-                    <Col style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Col className={styles.buttonCol}>
                         <TextButton text={buttonText[0]} type='button' onClick={() => handleClick(buttonText[0])} />
                     </Col>
-                    <Col style={{ display: 'flex', justifyContent: 'center' }}>
+                    <Col className={styles.buttonCol}>
                         <TextButton text={buttonText[1]} type='submit' onClick={() => setAction(buttonText[1])} />
                     </Col>
                    
