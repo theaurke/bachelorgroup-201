@@ -31,6 +31,7 @@ export default function Main({ activeTab, tabList, setLayout, layout, setActiveL
     // Returning the main part of the application with either the information page or the set layout.
     return (
         <Container fluid style={{ height: '100%', padding: '0em', border: '4px solid #45654C' }}>
+
             {/*Checking if there are any active tabs, and setting the main to the information page if not.*/ }
                 {!activeTab.id || home ? (
                     <Information />
@@ -53,10 +54,10 @@ export default function Main({ activeTab, tabList, setLayout, layout, setActiveL
 
                             <>
                                 <Col style={colStyle}> 
-                                        <ResourcePanel handleCalculate={handleCalculate} setLayout={setLayout} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={true} />
+                                    <ResourcePanel handleCalculate={handleCalculate} setLayout={setLayout} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={true} />
                                 </Col>
                                 <Col style={colStyle}>
-                                        <ResultPanel layout={layout} calcData={tabList[tabIndex]?.calcData || []} tabname={activeTab.title} />
+                                    <ResultPanel layout={layout} calcData={tabList[tabIndex]?.calcData || []} tabname={activeTab.title} />
                                 </Col>
                             </>
 

@@ -22,13 +22,16 @@ import TextButton from './TextButton';
 export default function ResourcePanel({ setLayout, layout, handleCalculate, addedResources, setAddedResources, calculated }) {
     const [showList, setShowList] = useState(false); // State managing the visibility of the list of resource to choose from.
 
-
     // Returning the correct content based on different conditions.
     return (
 
         showList ? ( // Returning the resource list if showList is true.
             <Container fluid style={{ height: '100%', padding: '0' }} >
-                <ResourceList setAddedResources={setAddedResources} addedResources={addedResources} setShowList={setShowList} />
+                <ResourceList
+                    setAddedResources={setAddedResources}
+                    addedResources={addedResources}
+                    setShowList={setShowList}
+                />
             </Container>
         ) : (
 
@@ -43,11 +46,25 @@ export default function ResourcePanel({ setLayout, layout, handleCalculate, adde
                 <Container fluid className={styles.panelContainer} style={{ padding: '0', borderRight: calculated ? '4px solid #45654C' : 'none', borderLeft: !calculated ? '4px solid #45654C' : 'none' }}>
 
                     <Row style={{ margin:'0' }} >
-                        <h4 data-testid='addedResourceList' className={styles.banner}> Added Resources </h4>
+                        <Col className={styles.banner} style={{ padding: '0' }} >
+
+                            {/* Arrow back button */}
+                            <button className={styles.backButton} style={{ visibility: layout === 'result' ? 'visible' : 'hidden' }} onClick={() => setLayout(layout === 'result' ? 'resource' : layout)}>
+                                <img src='backArrow.png' alt='Back' />
+                            </button>
+
+                            {/* Added Resources heading */}
+                            <h4 data-testid='addedResourceList' className={styles.bannerText}> Added Resources </h4>
+                        </Col>
                     </Row>
 
                     <Row className={styles.addedListRow} style={{ margin: '0' }}>
-                        <AddedResourcesList addedResources={addedResources} setAddedResources={setAddedResources} handleCalculate={handleCalculate} setLayout={setLayout} />
+                        <AddedResourcesList
+                            addedResources={addedResources}
+                            setAddedResources={setAddedResources}
+                            handleCalculate={handleCalculate}
+                            setLayout={setLayout}
+                            calculated={calculated} />
                     </Row>
 
                     {!calculated && ( // Rendering the TextButtons if resources are not calculated.

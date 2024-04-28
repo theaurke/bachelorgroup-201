@@ -14,9 +14,11 @@ import Select from 'react-select';
  * @param {Function} handleSubmit - Function handling submission of the form.
  * @param {boolean} edit - Indicates wether the inputfields should be disabled or not.
  * @param {Function} setEdit - Function to update the edit boolean.
+ * @param {Function} setShowInput - Function to update whether the input form should render or not.
+ * @param {Function} setShowList - Function to update whether the list of resources to choose from should be rednered or not.
  * @returns {JSX.Element} The JSX representation of input form.
  */
-export default function ResourceInput({ resourceText, resourceFormData, resourceID, handleSubmit, edit, setEdit }) {
+export default function ResourceInput({ resourceText, resourceFormData, resourceID, handleSubmit, edit, setEdit, setShowInput, setShowList }) {
     const buttonText = resourceFormData ? (edit ? ['Remove', 'Edit'] : ['Clear', 'Save']) : ['Clear', 'Add']; // Variable to set the right buttontext based on where the inputfield is and if it is editable or not.
     const [instance, setInstance] = useState('Choose instance'); // State to manage the chosen instance.
     const [region, setRegion] = useState('Choose region'); // State to manage the chosen region.
@@ -171,6 +173,14 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
         
     }
 
+    // Handles the click of back button based on layout
+    const handleBack = () => {
+
+        // Close input field and show resource list again
+        setShowList(true);
+        setShowInput(false);
+    }
+
 
     // Styling for the time input field
     const timeInputStyle = {
@@ -189,10 +199,22 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
     return (
         <Container className={styles.inputContainer} style={{ borderLeft: resourceFormData ? 'none' : '4px solid #45654C', padding: '0' }}>
 
-            {/* Banner with resourcename, only visible when adding a resource to the list */}
-            <h4 data-testid='inputTitle' className={styles.resourceBanner} style={{ display: resourceFormData ? 'none' : 'flex' } }> {resourceText} </h4>
+            {/* Banner with resourcename and back button, only visible when adding a resource to the list */}
+            {!resourceFormData && (
+                <Row style={{ margin: '0' }} className={styles.resourceRow} >
+                    <Col className={styles.banner} style={{ padding: '0' }} >
 
+                        {/* Arrow back button */}
+                        <button className={styles.backButton} onClick={handleBack}>
+                            <img src='backArrow.png' alt='Back' />
+                        </button>
 
+                        {/* Added Resources heading */}
+                        <h4 data-testid='inputTitle' className={styles.bannerText}> {resourceText} </h4>
+                    </Col>
+                </Row>
+            )}
+            
             <Form className={styles.formStyle} onSubmit={submitForm}>
 
                 {/*Dropdown with searchfield for choosing instance*/}

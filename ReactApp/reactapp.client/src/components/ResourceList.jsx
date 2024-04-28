@@ -13,7 +13,7 @@ import ResourceInput from './ResourceInput';
  */
 export default function ResourceList({ addedResources, setAddedResources, setShowList }) {
     const [showInput, setShowInput] = useState(false); // State to manage the visibility of the input field.
-    const [resource, setResource] = useState({}); // State mamanging adding a resource.
+    const [resource, setResource] = useState({}); // State managing adding a resource.
     const [resourceID, setResourceID] = useState(0); // State managing the resource ID.
     const resources = [{ long: 'Virtual Machine', short: 'VM' }]; // List of resources to choose from.
 
@@ -60,7 +60,16 @@ export default function ResourceList({ addedResources, setAddedResources, setSho
 
         ) : (
 
-            <ResourceInput resourceText={resource.resourceText} resourceFormData='' handleSubmit={handleSubmit} edit={false} />
+            <ResourceInput
+                resourceText={resource.resourceText}
+                resourceFormData=''
+                handleSubmit={handleSubmit}
+                edit={false}
+                resource={resource}
+                setResource={setResource}
+                setShowInput={setShowInput}
+                setShowList={setShowList}
+            />
         )
     );
 }

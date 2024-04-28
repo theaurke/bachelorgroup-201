@@ -50,16 +50,37 @@
 }
 
 .banner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin: 0em;
-    height: 50px;
     background-color: #45654C;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+}
+
+.bannerText {
     color: white;
+    margin: 0;
+    flex: 1;
+    padding-right: 3em;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 1.5em;
+}
+
+.backButton {
+    background: none;
+    border: none;
+    padding: 0;
+    transition: transform 0.3s ease;
+}
+
+.backButton:hover {
+    transform: scale(1.1);
+}
+
+.backButton > img {
+    width: 50px;
+    padding: 0.4em;
 }
 
 .addedListRow {
@@ -82,23 +103,15 @@
     height: 100%;
 }
 
-.resourceBanner {
-    padding: 0.5em;
+.resourceRow {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    background-color: #45654C;
-    color: white;
-    font-weight: bold;
-    font-size: 1.5em;
+    text-align: center;
 }
-
 
 .buttonCol {
     display: flex;
     justify-content: center;
 }
-
 
 .formStyle {
     display: flex;

@@ -55,6 +55,7 @@ export default function Navbar(props) {
         setActiveTab(newTab); 
     };
 
+
     // Function to edit the title of a tab
     const editTabName = (id, newName) => {
 
@@ -72,6 +73,7 @@ export default function Navbar(props) {
         setShowWarningPopup(true);
         setTabToDelete(id); // Store tab id to be deleted for confirmation
     };
+
 
     // Function to confirm tab deletion
     const confirmDeleteTab = () => {
@@ -109,7 +111,7 @@ export default function Navbar(props) {
             setActiveTab(editedTab); // Updating the activeTab with the new tab title
         }
 
-    }, [tabs]); 
+    }, [tabs]); // Only re-runs when tabs changes.
 
 
     // Function to copy tab
@@ -130,6 +132,7 @@ export default function Navbar(props) {
             setTabs([...tabs, {id: newTab.id, title: newTab.title}]); // Add the new tab to the tabs state
             setTabId(tabId + 1); // Increment tabId for the next tab
             setTabList([...tabList, newTab]); // Add the new tab and its data to tabList
+            setActiveTab({ id: newTab.id, title: newTab.title }); // Set newly copied tab as active
         }
     };
 
@@ -152,9 +155,11 @@ export default function Navbar(props) {
         }
     };
 
+
     return (
         // Container component to hold the navbar content
         <Container fluid className={styles.container} >
+
             {/* Display warning popup if showWarningPopup is true */}
             {showWarningPopup && (
                 <WarningPopup
@@ -179,6 +184,7 @@ export default function Navbar(props) {
 
             {/* Row for the tabs */}
             <Row className={styles.tabsRow} >
+
                 {/* Using Tab and Nav from react bootstrap to make pill tabs */}
                 {((!isWindowSmall) || (isWindowSmall && !isSidebarCollapsed)) && (
                     <Tab.Container
@@ -193,6 +199,7 @@ export default function Navbar(props) {
                     }>
                         <Col style={{ padding: '0' }}>
                             <Nav data-testid='navTabs' variant='pills' className={styles.navContainer}>
+
                                 {/* Map through the tabs and render each tab */}
                                 {tabs.map((tab) => {
                                     return (

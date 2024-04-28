@@ -9,9 +9,10 @@ import { useState, useEffect } from 'react';
  * @param {Function} setAddedResources - Function to update the list of added resources.
  * @param {Function} handleCalculate - Function to handle the calculation of the added resources.
  * @param {Function} setLayout - Function to updating the layout of the main content.
+ * @param {boolean} calculated - Indicates whether the calculation has happend or not.
  * @returns {JSX.Element} The JSX representation of the list.
  */
-export default function AddedResourcesList({ addedResources, setAddedResources, handleCalculate, setLayout }) {
+export default function AddedResourcesList({ addedResources, setAddedResources, handleCalculate, setLayout, calculated }) {
     const [openDropdown, setOpenDropdown] = useState({}); // State to manage opening the dropdown clicked on.
     const [edit, setEdit] = useState(true); // State to manage whether the input field is editable or not.
     const [saved, setSaved] = useState(false); // State to manage if resource is edited or not.
@@ -76,7 +77,7 @@ export default function AddedResourcesList({ addedResources, setAddedResources, 
     useEffect(() => {
 
         // Checking if save is true
-        if (saved) {
+        if (saved && calculated) {
             setSaved(false);
             handleCalculate('result'); // Re-calculating
         }

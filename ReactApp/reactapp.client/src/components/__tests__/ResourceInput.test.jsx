@@ -25,7 +25,7 @@ describe('ResourceInput Component', () => {
         const handleSubmit = jest.fn();
         const edit = false;
 
-        const { getByText, getByLabelText, getByTestId, getByPlaceholderText } = render(
+        const { getByText, getByAltText, getByLabelText, getByTestId, getByPlaceholderText } = render(
             <ResourceInput
                 resourceText={resourceText}
                 resourceFormData={resourceFormData}
@@ -55,8 +55,10 @@ describe('ResourceInput Component', () => {
         const instanceValue = getByText('Choose instance');
         const regionValue = getByText('Choose region');
         const inputTitle = getByTestId('inputTitle');
+        const backButton = getByAltText('Back');
 
-        expect(getComputedStyle(inputTitle).display).toBe('flex');
+        expect(inputTitle).toBeInTheDocument();
+        expect(backButton).toBeInTheDocument();
         expect(instanceValue).toBeInTheDocument();
         expect(regionValue).toBeInTheDocument();
         timeInputs.forEach((input, index) => {
@@ -87,7 +89,7 @@ describe('ResourceInput Component', () => {
         const handleSubmit = jest.fn();
         const edit = true;
 
-        const { getByText, getByLabelText, getByTestId, getByPlaceholderText } = render(
+        const { getByText, queryByTestId, queryByAltText, getByLabelText, getByPlaceholderText } = render(
             <ResourceInput
                 resourceText={resourceText}
                 resourceFormData={resourceFormData}
@@ -113,9 +115,11 @@ describe('ResourceInput Component', () => {
 
         const instanceValue = getByText('B1ms');
         const regionValue = getByText('Norway East');
-        const inputTitle = getByTestId('inputTitle');
+        const inputTitle = queryByTestId('inputTitle');
+        const backButton = queryByAltText('Back');
 
-        expect(getComputedStyle(inputTitle).display).toBe('none');
+        expect(inputTitle).not.toBeInTheDocument();
+        expect(backButton).not.toBeInTheDocument();
         expect(instanceValue).toBeInTheDocument();
         expect(regionValue).toBeInTheDocument();
         timeInputs.forEach((input, index) => {
@@ -144,7 +148,7 @@ describe('ResourceInput Component', () => {
         const handleSubmit = jest.fn();
         const edit = false;
 
-        const { getByText, getByLabelText, getByTestId, getByPlaceholderText } = render(
+        const { getByText, queryByAltText, getByLabelText, queryByTestId, getByPlaceholderText } = render(
             <ResourceInput
                 resourceText={resourceText}
                 resourceFormData={resourceFormData}
@@ -170,9 +174,11 @@ describe('ResourceInput Component', () => {
 
         const instanceValue = getByText('B1ms');
         const regionValue = getByText('Norway East');
-        const inputTitle = getByTestId('inputTitle');
+        const inputTitle = queryByTestId('inputTitle');
+        const backButton = queryByAltText('Back');
 
-        expect(getComputedStyle(inputTitle).display).toBe('none');
+        expect(inputTitle).not.toBeInTheDocument();
+        expect(backButton).not.toBeInTheDocument();
         expect(instanceValue).toBeInTheDocument();
         expect(regionValue).toBeInTheDocument();
         timeInputs.forEach((input, index) => {

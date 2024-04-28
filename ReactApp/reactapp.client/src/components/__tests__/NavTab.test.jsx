@@ -5,6 +5,7 @@ import '@testing-library/jest-dom';
 
 
 describe('NavTab Component Test', () => {
+
     test('renders tab title correctly', () => {
         const props = {
             id: 1,
@@ -64,6 +65,27 @@ describe('NavTab Component Test', () => {
         fireEvent.click(getByText('Delete'));
 
         expect(props.onDelete).toHaveBeenCalledWith(props.id);
+
+    });
+
+    test('allows copying a tab', () => {
+        const props = {
+            id: 1,
+            title: 'Test Tab Title',
+            isActive: true,
+            onDelete: jest.fn(),
+            isSidebarCollapsed: false,
+            onEdit: jest.fn(),
+            onCopy: jest.fn(),
+        };
+
+        const { getByAltText, getByText } = render(<NavTab {...props} />);
+
+        fireEvent.click(getByAltText('More options'));
+
+        fireEvent.click(getByText('Copy'));
+
+        expect(props.onCopy).toHaveBeenCalledWith(props.id);
 
     });
     
