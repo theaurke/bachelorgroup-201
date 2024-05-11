@@ -1,34 +1,20 @@
-
-.colStyle {
-    display: flex;
-    justify-content: space-around; /* Space child elements vertically */
-    align-items: center; /* Center child elements horizontally */
-    border: 2px solid transparent;
-}
-
 .buttonStyle {
     background: none;
     font-size: 1.5em;
     color: white;
-    flex: 4;
-    height: 100%;
     border: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0.5em;
 }
 
-.imgContainer {
-    flex: 1; /* Fill the rest of the space */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+.buttonStyle:hover {
+    border: 2px solid white;
 }
 
 .imgStyle {
-    width: 30px;
+   width: 3vh;
 }
 
-/* Border around Col on button and img (hoverStyle) hover */
-.colStyle:has(.buttonStyle:hover) {
-    border: 2px solid white;
-    border-radius: 5px;
-}
+

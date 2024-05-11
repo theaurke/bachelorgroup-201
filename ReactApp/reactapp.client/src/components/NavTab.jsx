@@ -61,7 +61,7 @@ export default function NavTab(props) {
             handleSaveName();
         }
 
-        // Allowing spce in tab names
+        // Allowing space in tab names
         if (event.key === " " || event.key === "Spacebar") {
             setNewTitle(prevTitle => prevTitle + ' ');
         }
@@ -140,7 +140,11 @@ export default function NavTab(props) {
         <Nav.Item className={styles.navItem}>
             <Nav.Link data-testid='navLink' eventKey={id}
                 className={`${styles.navLink} ${isActive ? styles.activeTab : ''}`}
-                style={{ color: isActive ? 'black' : 'white', display: 'flex', backgroundColor: isActive ? 'white' : '' }}>
+                style={{
+                    color: isActive ? 'black' : 'white', display: 'flex',
+                    backgroundColor: isActive ? 'white' : '',
+                    borderRadius: 0
+                }}>
 
                 {/* Render input field if in edit mode, otherwise render tab title */}
                 {editMode ? (

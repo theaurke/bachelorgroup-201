@@ -51,7 +51,9 @@ describe('Navbar Component Test', () => {
             isWindowSmall: false,
             tabList: [{ id: '1', title: 'Calculation 1', list: [], layout: 'resource' }],
             setTabList: jest.fn(),
-            setHome: jest.fn()
+            setHome: jest.fn(),
+            setShowInput: jest.fn(),
+            setShowList: jest.fn(),
         };
 
         const { getByText, queryByText, getByAltText } = render(<Navbar {...props} />);
@@ -80,7 +82,9 @@ describe('Navbar Component Test', () => {
             isWindowSmall: false,
             tabList: [{ id: '1', title: 'Calculation 1', list: [], layout: 'resource' }],
             setTabList: jest.fn(),
-            setHome: jest.fn()
+            setHome: jest.fn(),
+            setShowInput: jest.fn(),
+            setShowList: jest.fn(),
         };
 
         const { getByText, queryByText, getByAltText } = render(<Navbar {...props} />);

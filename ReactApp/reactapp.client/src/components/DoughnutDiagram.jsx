@@ -230,7 +230,7 @@ export default function DoughnutDiagram({ emissions, totalEmission, backgroundCo
     };
 
     return (
-        <div data-testId={"doughnutDiagram"} className={styles.doughnutDiv}>
+        <div data-testid={"doughnutDiagram"} className={styles.doughnutDiv}>
             <Doughnut data={data} options={options} plugins={[textCenter, doughnutLabelsLine, legendMargin]} />
         </div>
     );

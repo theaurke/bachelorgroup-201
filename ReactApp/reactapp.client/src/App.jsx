@@ -18,6 +18,8 @@ export default function App() {
     const [sidebarWidth, setSidebarWidth] = useState(isWindowSmall ? 1 : 3); // useState hook to manage state for sidebar width
     const [activeTab, setActiveTab] = useState({}); // useState to manage state for active calculation tab
     const [home, setHome] = useState(false); // State to manage if the information page should show or not
+    const [showList, setShowList] = useState(false); // State managing the visibility of the list of resource to choose from.
+    const [showInput, setShowInput] = useState(false); // State to manage the visibility of the input field.
 
     // Handling window resizing based on sidebarWidth
     useEffect(() => {
@@ -222,6 +224,8 @@ export default function App() {
                         tabList={tabList}
                         setTabList={setTabList}
                         setHome={setHome}
+                        setShowInput={setShowInput}
+                        setShowList={setShowList}
                     />
                 </Col>
                 <Col 
@@ -245,6 +249,10 @@ export default function App() {
                         activeList={activeList}
                         handleCalculate={handleCalculate}
                         home={home}
+                        showInput={showInput}
+                        setShowInput={setShowInput}
+                        showList={showList}
+                        setShowList={setShowList}
                     />
                 </Col>
             </Row >

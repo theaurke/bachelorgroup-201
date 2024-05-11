@@ -63,6 +63,7 @@ describe('ResourcePanel Component Test', () => {
         const addedResources = [];
         const setAddedResources = jest.fn();
         const calculated = false;
+        const setShowList = jest.fn();
 
 
         const { getByTestId, getByRole } = render(
@@ -71,7 +72,9 @@ describe('ResourcePanel Component Test', () => {
                 handleCalculate={handleCalculate}
                 addedResources={addedResources}
                 setAddedResources={setAddedResources}
-                calculated={calculated} />
+                calculated={calculated}
+                setShowList={setShowList}
+            />
         );
 
         const addResourceButton = getByTestId("addResourceButton");
@@ -112,6 +115,39 @@ describe('ResourcePanel Component Test', () => {
         expect(addedResourcesButtons).toBeInTheDocument();
     });
 
+    test('renders list with resource to choose from when clicking Add resource, when there are already resources added to the calculation', () => {
+        const layout = 'resource';
+        const handleCalculate = jest.fn();
+        const addedResources = [{ id: 1, resourceText: 'Virtual Machine', formdata: {} }];
+        const setAddedResources = jest.fn();
+        const calculated = false;
+        const setShowList = jest.fn();
+
+
+        const { getByTestId, getByText } = render(
+            <ResourcePanel
+                layout={layout}
+                handleCalculate={handleCalculate}
+                addedResources={addedResources}
+                setAddedResources={setAddedResources}
+                calculated={calculated}
+                setShowList={setShowList}
+            />
+        );
+
+        const addedResourceList = getByTestId("addedResourceList");
+        const addedResourcesButtons = getByTestId("addedResourcesButtons");
+
+        expect(addedResourceList).toBeInTheDocument();
+        expect(addedResourcesButtons).toBeInTheDocument();
+
+        fireEvent.click(getByText("Add Resource"));
+
+        waitFor(() => {
+            expect(setShowList).toHaveBeenCalledWith(true);
+        });
+    });
+
 
     test('Calls handlecalculate when clicking calculate button', () => {
         const layout = 'resource';
@@ -137,6 +173,7 @@ describe('ResourcePanel Component Test', () => {
 
 
         expect(handleCalculate).toHaveBeenCalledTimes(1);
+        expect(handleCalculate).toHaveBeenCalledWith("result");
     });
 
 
@@ -162,6 +199,43 @@ describe('ResourcePanel Component Test', () => {
 
         expect(addedResourceList).toBeInTheDocument();
         expect(addedResourcesButtons).not.toBeInTheDocument();
+    });
+
+    test('allows going back to after calculation to add more resources', () => {
+        const layout = 'result';
+        const handleCalculate = jest.fn();
+        const addedResources = [{ id: 1, resourceText: 'Virtual Machine', formdata: {} }];
+        const setAddedResources = jest.fn();
+        const calculated = true;
+        const showList = false;
+        const showInput = false;
+        const setLayout = jest.fn();
+
+
+        const { getByTestId, queryByTestId } = render(
+            <ResourcePanel
+                layout={layout}
+                handleCalculate={handleCalculate}
+                addedResources={addedResources}
+                setAddedResources={setAddedResources}
+                calculated={calculated}
+                showList={showList}
+                showInput={showInput}
+                setLayout={setLayout}
+            />
+        );
+
+        expect(getByTestId("backCalculation")).toHaveStyle('visibility: visible;');
+        expect(queryByTestId("Calculate")).not.toBeInTheDocument();
+
+        fireEvent.click(getByTestId("backCalculation"));
+
+        waitFor(() => {
+            expect(setLayout).toHaveBeenCalledWith("resource");
+            expect(getByTestId("backCalculation")).toHaveStyle('visibility: hidden;');
+            expect(queryByTestId("Calculate")).toBeInTheDocument();
+        });
+        
     });
    
 });

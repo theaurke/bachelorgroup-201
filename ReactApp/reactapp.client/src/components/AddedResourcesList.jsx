@@ -1,6 +1,7 @@
 import styles from '../styles/AddedResourceList.module.css';
 import ResourceInput from './ResourceInput';
 import { useState, useEffect } from 'react';
+import WarningPopup from './WarningPopup';
 
 
 /**
@@ -15,7 +16,9 @@ import { useState, useEffect } from 'react';
 export default function AddedResourcesList({ addedResources, setAddedResources, handleCalculate, setLayout, calculated }) {
     const [openDropdown, setOpenDropdown] = useState({}); // State to manage opening the dropdown clicked on.
     const [edit, setEdit] = useState(true); // State to manage whether the input field is editable or not.
-    const [saved, setSaved] = useState(false); // State to manage if resource is edited or not.
+    const [recalculate, setRecalculate] = useState(false); // State to manage when a re-calculation should happen.
+    const [showWarning, setShowWarning] = useState(false); // State to manage if the warning should show or not.
+    const [removeId, setRemoveId] = useState(null); // State to manage which resource to remove.
 
 
     // Initializing the openDropdown with the added resources, and setting them all to closed.
@@ -37,21 +40,31 @@ export default function AddedResourcesList({ addedResources, setAddedResources, 
         });
     };
 
+
+    // Function to handle removal of a resource
+    const handleResourceRemoval = () => {
+
+        // Making a new list with all resources expect the one matching the id.
+        setAddedResources(prev => prev.filter(resource => resource.id !== removeId));
+        setRecalculate(true); // Set recalculate to true to trigger re-calculation.
+        setShowWarning(false); // Set warning to not show.
+
+        // If removing all resources change layout from result to resource.
+        if (addedResources.length === 1) {
+            setLayout('resource');
+        }
+    };
+
     // Function that handles removal of resource from list, and saving new formdata to exsisting resource.
     const handleSubmit = (buttontext, id, formData) => {
 
         // Checking if button is remove
         if (buttontext === 'Remove') {
 
-            // Making a new list with all resources expect the one matching the id.
-            setAddedResources(prev => prev.filter(resource => resource.id !== id)); 
-
-            // If removing all resources change layout from result to resource.
-            if (addedResources.length === 1) {
-                setLayout('resource');
-            }
+            // Showing the warning and setting the id of the resource that should be removed.
+            setShowWarning(true);
+            setRemoveId(id);
                
-
         } else { // Button is save
 
             // Updating the formdata at the given index.
@@ -62,7 +75,7 @@ export default function AddedResourcesList({ addedResources, setAddedResources, 
                 if (index !== -1) {
                     const updatedResources = [...prev];
                     updatedResources[index] = { ...updatedResources[index], formData: formData }; // Updating the formdata.
-                    setSaved(true); // Set saved to true
+                    setRecalculate(true); // Set recalculate to true to trigger re-calculation
                     return updatedResources;
                 } else {
                     return prev; // Return prev if index is -1
@@ -73,12 +86,12 @@ export default function AddedResourcesList({ addedResources, setAddedResources, 
         
     }
 
-    // Call handleCalculate whenever addedResources changes and saved is true
+    // Call handleCalculate whenever addedResources changes and recalculate is true
     useEffect(() => {
 
-        // Checking if save is true
-        if (saved && calculated) {
-            setSaved(false);
+        // Checking if recalculate is true
+        if (recalculate && calculated) {
+            setRecalculate(false);
             handleCalculate('result'); // Re-calculating
         }
         
@@ -89,6 +102,15 @@ export default function AddedResourcesList({ addedResources, setAddedResources, 
     // Returning a list where each point is a dropdown button for a resource, and the dropdown contains the input field either editable or not.
     return (
         <ul className={styles.ul} style={{ padding: '0' }}>
+
+            {/* Display warning popup if showWarning is true */}
+            {showWarning && (
+                <WarningPopup
+                    warning="Are you sure you want to remove this resource?"
+                    onConfirm={handleResourceRemoval}
+                    onCancel={() => setShowWarning(false)}
+                />
+            )}
 
             {/* Going through the list and making a list point for each resource */}
             {addedResources.map(({ resourceText, id, formData }) => (

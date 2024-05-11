@@ -48,7 +48,7 @@ export default function BarDiagram({ info, emissions, backgroundColor }) {
             title: {
                 display: true,
                 // Setting the text based on what data to display.
-                text: `${info === "Energy" ? 'Energy Consumption per Hour' : (info === "Embodied" ? 'Hardware Emission per hour' : 'Region Carbon Emission')}`,
+                text: `${info === "Energy" ? 'Energy Consumption per Hour' : (info === "Embodied" ? 'Hardware Emission per hour' : 'Region Carbon Emission per kWh')}`,
             },
             legend: {
                 display: false,
@@ -131,7 +131,7 @@ export default function BarDiagram({ info, emissions, backgroundColor }) {
    
 
     return (
-        <div data-testId={`barDiagram${info}`} className={styles.barDiv} >
+        <div data-testid={`barDiagram${info}`} className={styles.barDiv} >
             <Bar data={data} options={options} plugins={[chartLabel]} />
         </div>
     );

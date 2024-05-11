@@ -34,7 +34,7 @@ describe('ResultPanel Component Test', () => {
             <ResultPanel layout={layout} />
         );
 
-        const textElement = getByText(/Convert to pdf/i);
+        const textElement = getByText(/Convert to PDF/i);
 
         expect(textElement).toBeInTheDocument();
     });

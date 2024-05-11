@@ -64,7 +64,12 @@
     font-weight: bold;
 }
 
+
+/* ----- Convert All to PDF button ----- */
+
 .pdfBtn {
+    display: flex;
+    justify-content: center;
     border: 2px solid transparent;
     background: white;
     border-radius: 5px;
@@ -79,7 +84,13 @@
     color: white;
 }
 
+.pdfImg {
+    width: 4vh;
+}
 
+.pdfBtn:hover .pdfImg {
+    filter: brightness(0) invert(1);
+}
 
 /* ----- ToggleButton ----- */
 .toggleContainer {

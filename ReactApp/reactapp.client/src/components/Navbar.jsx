@@ -22,10 +22,12 @@ import CalcResult from './CalcResult';
  * @param {list} props.tabList - List of tab content.
  * @param {Function} props.setTabList - Function to update the tabList.
  * @param {Function} props.setHome - Function to update the home boolean.
+ * @param {Function} props.setShowInput - Function to update the visibility of the input form.
+ * @param {Function} props.setShowList - Function to update the visibility of the resource list.
  * @returns {JSX.Element} The JSX representation of the navbar.
  */
 export default function Navbar(props) {
-    const { toggleSidebar, isSidebarCollapsed, activeTab, setActiveTab, isWindowSmall, tabList, setTabList, setHome } = props;
+    const { toggleSidebar, isSidebarCollapsed, activeTab, setActiveTab, isWindowSmall, tabList, setTabList, setHome, setShowInput, setShowList } = props;
 
     const [tabs, setTabs] = useState([]); // State management of tabs
     const [tabId, setTabId] = useState(1); // Using state so the id count won't re-render
@@ -63,6 +65,7 @@ export default function Navbar(props) {
         // specified id. If the tab id matches the provided id, 
         // update its title with the new name; otherwise, leave it unchanged.
         setTabs(tabs.map(tab => tab.id === id ? { ...tab, title: newName } : tab));
+        setTabList(tabList.map(tab => tab.id === id ? { ...tab, title: newName } : tab)); // Updating the tablist to have the same name.
     };
 
     
@@ -150,8 +153,9 @@ export default function Navbar(props) {
 
         // Checking if there are any tabs and that at least one of the tabs have completed its calculation.
         if (tabList.length !== 0 && resultTabs.length !== 0) {
+
             setPDFTabs(resultTabs); // Setting the list of tabs ready for converting.
-            setIsOpen(true); // Setting isOpen to reu, to open the print window.
+            setIsOpen(true); // Setting isOpen to true, to open the print window.
         }
     };
 
@@ -170,7 +174,7 @@ export default function Navbar(props) {
             )}
 
             {/* Row for the 'Start new calculation' button */}
-            <Row className={styles.navBtnRow }>
+            <Row className={styles.navBtnRow}>
                 {((!isWindowSmall) || (isWindowSmall && !isSidebarCollapsed)) && (
                     <NavButton
                         text='Start New Calculation'
@@ -183,13 +187,20 @@ export default function Navbar(props) {
             </Row>
 
             {/* Row for the tabs */}
-            <Row className={styles.tabsRow} >
+            <Row className={styles.tabsRow} style={{
+                borderTop: ((!isWindowSmall) || (isWindowSmall && !isSidebarCollapsed)) ? '1px solid white' : 'none',
+                borderBottom: ((!isWindowSmall) || (isWindowSmall && !isSidebarCollapsed)) ? '1px solid white' : 'none',
+            } }>
 
                 {/* Using Tab and Nav from react bootstrap to make pill tabs */}
                 {((!isWindowSmall) || (isWindowSmall && !isSidebarCollapsed)) && (
                     <Tab.Container
                         activeKey={activeTab.id || ''}
                         onSelect={(key) => {
+
+                            // Closing the input form and list if a resource has not been added so it wont overlay the other tabs content.
+                            setShowInput(false);
+                            setShowList(false);
                             setHome(false);
                             const selectedTab = tabs.find(tab => tab.id === key);
                             if (selectedTab) {
@@ -226,15 +237,21 @@ export default function Navbar(props) {
             <Row style={{ padding: '0.1em' }}>
                 {((!isWindowSmall) || (isWindowSmall && !isSidebarCollapsed)) && (
                     <div className={pdfstyles.buttonDiv}>
-                        <button type='button' className={styles.pdfBtn} onClick={handleConvertToPDF}>Convert All Tabs to PDF</button>
+                        <button type='button' className={styles.pdfBtn} onClick={handleConvertToPDF}>
+                            {isSidebarCollapsed ? (
+                                <img className={styles.pdfImg} src="pdf.png" alt="pdf-button" />
+                            ) : (
+                                'Convert All Tabs to PDF'
+                            )}
+                        </button>
                         {isOpen && (
 
                             //Rendering all tab content from the tabs in the PDFtabs list in a new window to print
-                            <NewWindow title={'Calculations'} onOpen={(w) => setTimeout(() => {
+                            <NewWindow data-testid="PDFWindow" title={'Calculations'} onOpen={(w) => setTimeout(() => {
                                 w.print();
                                 w.close();
                                 setIsOpen(false);
-                            }, 1000)}>
+                            }, 2000)}>
 
                                 <div className={pdfstyles.printDiv}>
                                 {PDFTabs.map((tab, index) => (

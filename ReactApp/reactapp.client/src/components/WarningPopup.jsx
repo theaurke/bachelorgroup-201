@@ -15,7 +15,7 @@ export default function WarningPopup({ warning, onConfirm, onCancel }) {
 
     return (
         <>
-            <Alert style={{position:'absolute', left:'40vw'}} variant="success">
+            <Alert style={{ position: 'absolute', left: '40vw', top: '40vh', zIndex: 2000 }} variant="success">
                 <Alert.Heading>Warning</Alert.Heading>
                 <p>{warning}</p>
                 <hr />

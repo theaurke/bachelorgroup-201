@@ -6,16 +6,20 @@
 }
 
 .logoRow {
-    height: 20%;
+    flex: 1;
+    height: 20vh;
     background-color: #45654C;
     padding-top: 1em;
+    margin-bottom: 1em;
 }
 
 .logo {
     height: 90%;
     object-fit: contain;
+    cursor: pointer;
 }
 
 .navbarRow {
     background-color: #45654C;
+    max-height: 81vh;
 }

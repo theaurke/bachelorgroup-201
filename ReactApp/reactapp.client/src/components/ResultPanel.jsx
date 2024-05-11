@@ -25,14 +25,14 @@ export default function ResultPanel({ layout, calcData, tabname }) {
                     <CalcResult calcData={calcData} tabname={tabname} scroll={'auto'} />
 
                     {/*Button for converting the calculation results to PDF*/}
-                    <div className={styles.buttonDiv}>
-                        <button type='button' className={stylesResource.addResourceButton} onClick={() => setOpen(true)}>Convert to pdf</button>
+                    <div data-testid='convertPDF' className={styles.buttonDiv}>
+                        <button type='button' className={stylesResource.addResourceButton} onClick={() => setOpen(true)}>Convert to PDF</button>
                         {open && (
                             <NewWindow title={tabname} onOpen={(w) => setTimeout(() => {
                                 w.print();
                                 w.close();
                                 setOpen(false);
-                            }, 1000) }>
+                            }, 1000)}>
                                 <CalcResult calcData={calcData} tabname={tabname} scroll={'visible'} />
                                 <style>
                                     {styles.print}

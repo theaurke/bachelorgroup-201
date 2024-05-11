@@ -8,17 +8,17 @@ import ResourceInput from './ResourceInput';
  * Renders either a list of resources to choose from or an input field for the chosen resource.
  * @param {list} addedResources - List of resources already added to the calculation.
  * @param {Function} setAddedResources - Function to update the list of resources added to the calculation.
- * @param {Function} setShowList - Function to update the visibility of the list of resoruces to choose from.
+ * @param {Function} setShowList - Function to update the visibility of the list of resources to choose from.
+ * @param {boolean} showInput - Boolean that indicates whether the input form should be visible or not.
+ * @param {Function} setShowInput - Function to update the visibility of the input form.
  * @returns {JSX.Element} The JSX representation of the list.
  */
-export default function ResourceList({ addedResources, setAddedResources, setShowList }) {
-    const [showInput, setShowInput] = useState(false); // State to manage the visibility of the input field.
+export default function ResourceList({ addedResources, setAddedResources, setShowList, showInput, setShowInput }) {
     const [resource, setResource] = useState({}); // State managing adding a resource.
     const [resourceID, setResourceID] = useState(0); // State managing the resource ID.
     const resources = [{ long: 'Virtual Machine', short: 'VM' }]; // List of resources to choose from.
 
-
-    // Setting the resourceID based on the last ID in the addedeResource list.
+    // Setting the resourceID based on the last ID in the addedResource list.
     useEffect(() => {
         if (addedResources.length !== 0) {
             setResourceID(addedResources[addedResources.length - 1].id + 1)
@@ -39,7 +39,7 @@ export default function ResourceList({ addedResources, setAddedResources, setSho
 
         !showInput ? (
 
-            <ul data-testid={'resourceList'}  className={styles.resourceList}>
+            <ul data-testid='resourceList' className={styles.resourceList}>
 
                 {/*Going through the list of resources and making a point with button for each.*/}
                 {resources.map((text, index) => (

@@ -11,7 +11,7 @@ export default function LoadDiagram({ emissions }) {
     return (
         <>
             <h6>Hourly Emissions Based on Load</h6>
-            <table data-testId={"loadDiagram"}>
+            <table data-testid={"loadDiagram"}>
                 <thead className={styles.tableHead}>
                     <tr>
                         <th></th>

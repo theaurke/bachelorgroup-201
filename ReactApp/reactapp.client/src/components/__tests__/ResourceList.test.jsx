@@ -46,9 +46,15 @@ describe('ResourceList Component', () => {
         const addedResources = [];
         const setAddedResources = jest.fn();
         const setShowList = jest.fn();
+        const setShowInput = jest.fn();
 
         const { getByTestId } = render(
-            <ResourceList setAddedResources={setAddedResources} addedResources={addedResources} setShowList={setShowList} />
+            <ResourceList
+                setAddedResources={setAddedResources}
+                addedResources={addedResources}
+                setShowList={setShowList}
+                setShowInput={setShowInput}
+            />
         );
 
         const resourceButton = getByTestId('resourceButton-0');

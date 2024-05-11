@@ -15,9 +15,13 @@ import ResultPanel from './ResultPanel';
  * @param {list} activeList - List of resources that correlates to the activeTab.
  * @param {Function} handleCalculate - Function for handling calculation.
  * @param {boolean} home - Boolean to decide if showing activeTab or information page.
+ * @param {boolean} showInput - Boolean to indicate whether the input form should be visible or not.
+ * @param {Function} setShowInput - Function to update if the input form should be visible or not.
+ * @param {boolean} showList - Boolean to indicate whether the list of resources should be visible or not.
+ * @param {Function} setShowList - Function to update if the list of resources should be visible or not.
  * @returns {JSX.Element} The JSX representation of the main content.
  */
-export default function Main({ activeTab, tabList, setLayout, layout, setActiveList, activeList, handleCalculate, home }) {
+export default function Main({ activeTab, tabList, setLayout, layout, setActiveList, activeList, handleCalculate, home, showInput, setShowInput, showList, setShowList }) {
 
     // Finding the index of the activeTab
     const tabIndex = tabList.findIndex(tab => tab.id === activeTab.id);
@@ -46,7 +50,18 @@ export default function Main({ activeTab, tabList, setLayout, layout, setActiveL
                                     <ResultPanel layout={layout} />
                                 </Col>
                                 <Col style={colStyle}>
-                                    <ResourcePanel handleCalculate={handleCalculate} setLayout={setLayout} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={false} />
+                                    <ResourcePanel
+                                        handleCalculate={handleCalculate}
+                                        setLayout={setLayout}
+                                        layout={layout}
+                                        setAddedResources={setActiveList}
+                                        addedResources={activeList}
+                                        calculated={false}
+                                        showInput={showInput}
+                                        setShowInput={setShowInput}
+                                        showList={showList}
+                                        setShowList={setShowList}
+                                    />
                                 </Col>
                             </>
 
@@ -54,7 +69,18 @@ export default function Main({ activeTab, tabList, setLayout, layout, setActiveL
 
                             <>
                                 <Col style={colStyle}> 
-                                    <ResourcePanel handleCalculate={handleCalculate} setLayout={setLayout} layout={layout} setAddedResources={setActiveList} addedResources={activeList} calculated={true} />
+                                        <ResourcePanel
+                                            handleCalculate={handleCalculate}
+                                            setLayout={setLayout}
+                                            layout={layout}
+                                            setAddedResources={setActiveList}
+                                            addedResources={activeList}
+                                            calculated={true}
+                                            showInput={showInput}
+                                            setShowInput={setShowInput}
+                                            showList={showList}
+                                            setShowList={setShowList}
+                                        />
                                 </Col>
                                 <Col style={colStyle}>
                                     <ResultPanel layout={layout} calcData={tabList[tabIndex]?.calcData || []} tabname={activeTab.title} />

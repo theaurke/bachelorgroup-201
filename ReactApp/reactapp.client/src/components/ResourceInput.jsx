@@ -197,7 +197,7 @@ export default function ResourceInput({ resourceText, resourceFormData, resource
 
 
     return (
-        <Container className={styles.inputContainer} style={{ borderLeft: resourceFormData ? 'none' : '4px solid #45654C', padding: '0' }}>
+        <Container data-testid='inputForm' className={styles.inputContainer} style={{ borderLeft: resourceFormData ? 'none' : '4px solid #45654C', padding: '0' }}>
 
             {/* Banner with resourcename and back button, only visible when adding a resource to the list */}
             {!resourceFormData && (

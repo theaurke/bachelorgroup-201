@@ -17,11 +17,14 @@ import TextButton from './TextButton';
  * @param {array} addedResources - Array of resources added to the calculation.
  * @param {Function} setAddedResources - Function to update the addedResources array.
  * @param {boolean} calculated - Boolean to change content based on if the resources are calculated or not.
+ * @param {boolean} showInput - Boolean to indicate whether the input form should be visible or not.
+ * @param {Function} setShowInput - Function to update if the input form should be visible or not.
+ * @param {boolean} showList - Boolean to indicate whether the list of resources should be visible or not.
+ * @param {Function} setShowList - Function to update if the list of resources should be visible or not.
  * @returns {JSX.Element} The JSX representation of the ResourcePanel.
  */
-export default function ResourcePanel({ setLayout, layout, handleCalculate, addedResources, setAddedResources, calculated }) {
-    const [showList, setShowList] = useState(false); // State managing the visibility of the list of resource to choose from.
-
+export default function ResourcePanel({ setLayout, layout, handleCalculate, addedResources, setAddedResources, calculated, showInput, setShowInput, showList, setShowList }) {
+    
     // Returning the correct content based on different conditions.
     return (
 
@@ -31,6 +34,8 @@ export default function ResourcePanel({ setLayout, layout, handleCalculate, adde
                     setAddedResources={setAddedResources}
                     addedResources={addedResources}
                     setShowList={setShowList}
+                    showInput={showInput}
+                    setShowInput={setShowInput}
                 />
             </Container>
         ) : (
@@ -38,7 +43,7 @@ export default function ResourcePanel({ setLayout, layout, handleCalculate, adde
             addedResources?.length === 0 ? ( // Returning the Add resource button if no resources added in the addedResources list.
 
                 <Container className={styles.addBtnContainer}>
-                    <button data-testid='addResourceButton'  className={styles.addResourceButton} onClick={() => setShowList(!showList)}> Add Resource </button>
+                        <button data-testid='addResourceButton' className={styles.addResourceButton} onClick={() => setShowList(!showList)}> Add Resource </button>
                 </Container>
 
             ) : ( // Returning the list of Added resources
@@ -49,7 +54,7 @@ export default function ResourcePanel({ setLayout, layout, handleCalculate, adde
                         <Col className={styles.banner} style={{ padding: '0' }} >
 
                             {/* Arrow back button */}
-                            <button className={styles.backButton} style={{ visibility: layout === 'result' ? 'visible' : 'hidden' }} onClick={() => setLayout(layout === 'result' ? 'resource' : layout)}>
+                            <button data-testid="backCalculation" className={styles.backButton} style={{ visibility: layout === 'result' ? 'visible' : 'hidden' }} onClick={() => setLayout(layout === 'result' ? 'resource' : layout)}>
                                 <img src='backArrow.png' alt='Back' />
                             </button>
 

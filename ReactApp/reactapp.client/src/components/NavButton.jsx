@@ -20,37 +20,15 @@ export default function NavButton(props) {
 
     // Return the NavButton component
     return (
-        // Column for the button
-        <Col className={styles.colStyle}>
-            {/* Render different button styles based on sidebar collapse state */}
-            {isSidebarCollapsed ? (
-
-                // Render button with image only when sidebar is collapsed
-                <button
-                    onClick={onClick}
-                    className={`${styles.imgContainer} ${styles.buttonStyle}`}
-                    style={{padding:'0.5em'}}
-                >
-                    <img data-testid='navBtnImg' className={styles.imgStyle} src={src} alt={alt} />
-                </button>
-            ) : (
-
-                // Render both text and image buttons when sidebar is expanded
+        <button data-testid='navBtn' onClick={onClick} className={styles.buttonStyle} style={{ paddingLeft: 0, paddingRight: 0 }}>
+            {!isSidebarCollapsed ? (
                 <>
-                    {/* Button with text */}
-                    <button data-testid='navBtn' onClick={onClick} className={styles.buttonStyle} style={{ padding: '0.5em' }}>
-                        {text}
-                    </button>
-
-                    {/* Button with image */}
-                    <button
-                        onClick={onClick}
-                        className={`${styles.imgContainer} ${styles.buttonStyle}`}
-                    >
-                        <img data-testid='navBtnImg' className={styles.imgStyle} src={src} alt={alt} />
-                    </button>
+                <img data-testid='navBtnImg' className={styles.imgStyle} src={src} alt={alt} />
+                {text}
                 </>
+            ) : (
+                <img data-testid='navBtnImg' className={styles.imgStyle} src={src} alt={alt} />
             )}
-        </Col>
+        </button>
     );
 }

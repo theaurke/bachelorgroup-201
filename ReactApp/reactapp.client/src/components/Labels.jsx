@@ -13,8 +13,8 @@ export default function Labels({ emissions, backgroundColor }) {
         <>
             {emissions.map((item, index) => (
                 <span key={index} style={{ display: 'flex', width: '8em', padding: '0 0.2em 0.2em 0.2em' }}>
-                    <p data-testId={"labelColor"} className={styles.colorKey} style={{ backgroundColor: backgroundColor[index] }}>&nbsp;&nbsp;</p>
-                    <p data-testId={"labelName"} className={styles.resourceText}>&nbsp;&nbsp;{item.resource.toString()}</p>
+                    <p data-testid={"labelColor"} className={styles.colorKey} style={{ backgroundColor: backgroundColor[index] }}>&nbsp;&nbsp;</p>
+                    <p data-testid={"labelName"} className={styles.resourceText}>&nbsp;&nbsp;{item.resource.toString()}</p>
                 </span>
             ))}
         </> 

@@ -15,10 +15,12 @@ import styles from '../styles/Sidebar.module.css';
  * @param {list} props.tabList - List containing the content of the tabs.
  * @param {Function} props.setTabList - Function to update the tabList.
  * @param {Function} props.setHome - Function to update if the information page should be shown or not.
+ * @param {Function} props.setShowInput - Function to update if the input form should be visible or not.
+ * @param {Function} props.setShowList - Function to update if the list of resources should be visible or not.
  * @returns {JSX.Element} The JSX representation of the sidebar.
  */
 export default function Sidebar(props) {
-    const { toggleSidebar, sidebarWidth, activeTab, setActiveTab, isWindowSmall, tabList, setTabList, setHome } = props;
+    const { toggleSidebar, sidebarWidth, activeTab, setActiveTab, isWindowSmall, tabList, setTabList, setHome, setShowInput, setShowList } = props;
 
     // Check if sidebar is collapsed
     const isSidebarCollapsed = sidebarWidth === 1;
@@ -29,13 +31,11 @@ export default function Sidebar(props) {
 
             {/* Logo row */ }
             <Row className={styles.logoRow}>
-                {!isSidebarCollapsed && (
-                    <img alt='logo' src='logo.png' className={styles.logo} onClick={() => { setHome(true); setActiveTab({}); }} />
-                )}
+                <img alt='logo' src={!isSidebarCollapsed ? 'logo.png' : 'logoSmall.png'} className={styles.logo} onClick={() => { setHome(true); setActiveTab({}); }} />
             </Row>
 
             {/* Navigation bar row */}
-            <Row className={styles.navbarRow} style={{ height: isWindowSmall ? '81%' : '78%' }} >
+            <Row className={styles.navbarRow} style={{ height: isWindowSmall ? '81vh' : '76vh' }}>
 
                 {/* Navbar component */}
                 <Navbar
@@ -48,6 +48,8 @@ export default function Sidebar(props) {
                     tabList={tabList}
                     setTabList={setTabList}
                     setHome={setHome}
+                    setShowInput={setShowInput}
+                    setShowList={setShowList}
                 />
             </Row>
         </Container>

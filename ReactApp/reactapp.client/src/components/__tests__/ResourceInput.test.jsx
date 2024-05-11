@@ -428,7 +428,11 @@ describe('ResourceInput Component', () => {
             fireEvent.submit(editButton);
         });
 
-        waitFor(() => expect(setEdit).toHaveBeenCalledTimes(1));
+        waitFor(() => {
+            expect(setEdit).toHaveBeenCalledTimes(1);
+            expect(setEdit).toHaveBeenCalledWith(false);
+
+        });
 
     });
 
@@ -471,7 +475,7 @@ describe('ResourceInput Component', () => {
         const edit = false;
 
 
-        const { getByText, getByRole } = render(
+        const { getByText, getByPlaceholderText } = render(
             <ResourceInput
                 resourceText={resourceText}
                 resourceFormData={resourceFormData}
@@ -501,6 +505,50 @@ describe('ResourceInput Component', () => {
             timeInputs.forEach(input => {
                 expect(input).toHaveValue(0);
             });
+        });
+    });
+
+    test('allows going back to choose different resource', () => {
+        const resourceText = 'Virtual Machine'
+        const resourceFormData = '';
+        const resourceID = 1;
+        const handleSubmit = jest.fn();
+        const edit = false;
+        const setShowInput = jest.fn();
+        const setShowList = jest.fn();
+
+        const { getByText, getByTestId, getByAltText } = render(
+            <ResourceInput
+                resourceText={resourceText}
+                resourceFormData={resourceFormData}
+                resourceID={resourceID}
+                edit={edit}
+                handleSubmit={handleSubmit}
+                setShowInput={setShowInput}
+                setShowList={setShowList}
+            />
+        );
+
+        const instanceValue = getByText('Choose instance');
+        const regionValue = getByText('Choose region');
+        const inputTitle = getByTestId('inputTitle');
+        const backButton = getByAltText('Back');
+
+        expect(inputTitle).toBeInTheDocument();
+        expect(backButton).toBeInTheDocument();
+        expect(instanceValue).toBeInTheDocument();
+        expect(regionValue).toBeInTheDocument();
+
+        fireEvent.click(backButton);
+
+        waitFor(() => {
+            expect(setShowInput).toHaveBeenCalledWith(false);
+            expect(setShowList).toHaveBeenCalledWith(true);
+
+            expect(inputTitle).not.toBeInTheDocument();
+            expect(backButton).not.toBeInTheDocument();
+            expect(instanceValue).not.toBeInTheDocument();
+            expect(regionValue).not.toBeInTheDocument();
         });
     });
 

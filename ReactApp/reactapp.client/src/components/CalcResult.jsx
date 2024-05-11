@@ -98,7 +98,7 @@ export default function CalcResult({ calcData, tabname, scroll}) {
                 <>
                     <Row className={diagramStyles.labelRow} >
                         <Labels emissions={emissions} backgroundColor={backgroundColor} />
-                    </Row>
+                    </Row> 
                     <Row style={{ width: '100%' }}>
                         <DoughnutDiagram emissions={emissions} totalEmission={totalEmission} backgroundColor={backgroundColor} />
                     </Row>
@@ -107,7 +107,7 @@ export default function CalcResult({ calcData, tabname, scroll}) {
                         <BarDiagram info={'Region'} emissions={emissions} backgroundColor={backgroundColor} />
                         <BarDiagram info={'Embodied'} emissions={emissions} backgroundColor={backgroundColor} />
                     </Row>
-                    <Row className={diagramStyles.tableRow} data-testId={"labels"}>
+                    <Row className={diagramStyles.tableRow} data-testid={"labels"}>
                         <LoadDiagram emissions={emissions} backgroundColor={backgroundColor} />
                     </Row>
                 </>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, handleKeyPress } from '@testing-library/react';
 import NavTab from '../NavTab.jsx';
 import '@testing-library/jest-dom';
 
@@ -86,6 +86,58 @@ describe('NavTab Component Test', () => {
         fireEvent.click(getByText('Copy'));
 
         expect(props.onCopy).toHaveBeenCalledWith(props.id);
+
+    });
+
+    test('allows using spece when editing name', () => {
+        const props = {
+            id: 1,
+            title: 'Test Tab Title',
+            isActive: true,
+            onDelete: jest.fn(),
+            isSidebarCollapsed: false,
+            onEdit: jest.fn(),
+            onCopy: jest.fn(),
+        };
+
+        const { getByAltText, getByText, getByTestId } = render(<NavTab {...props} />);
+
+        fireEvent.click(getByAltText('More options'));
+
+        fireEvent.click(getByText('Edit'));
+
+        const inputField = getByTestId('inputField');
+
+        fireEvent.keyDown(inputField, { key: ' ', code: 'Spacebar' });
+
+        expect(inputField.value).toContain("Test Tab Title ");
+
+    });
+
+    test('clicking enter saves the edited title', () => {
+        const props = {
+            id: 1,
+            title: 'Test Tab Title',
+            isActive: true,
+            onDelete: jest.fn(),
+            isSidebarCollapsed: false,
+            onEdit: jest.fn(),
+            onCopy: jest.fn(),
+        };
+
+        const { getByAltText, getByText, getByTestId } = render(<NavTab {...props} />);
+
+        fireEvent.click(getByAltText('More options'));
+
+        fireEvent.click(getByText('Edit'));
+
+        const inputField = getByTestId('inputField');
+
+        fireEvent.change(inputField, { target: { value: 'Edited Tab Title' } });
+        fireEvent.keyDown(inputField, { key: 'Enter', code: 'Enter' });
+
+        expect(inputField.value).toContain("Edited Tab Title");
+        expect(inputField).not.toBeInTheDocument();
 
     });
     
