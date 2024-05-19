@@ -41,10 +41,10 @@ stages:
       inputs:
         restoreSolution: '$(solution)'
     
-    - task: AzureKeyVault@2
+    - task: AzureKeyVault@1
       inputs:
         azureSubscription: $(azureServiceConnection)
-        KeyVaultName: 'Bachelor-keyvault-all'
+        KeyVaultName: 'EcoEstimate-vault'
         SecretsFilter: '*'
         RunAsPreJob: true
 
