@@ -41,12 +41,6 @@ stages:
       inputs:
         restoreSolution: '$(solution)'
     
-    - task: AzureKeyVault@1
-      inputs:
-        azureSubscription: $(azureServiceConnection)
-        KeyVaultName: 'EcoEstimate-vault'
-        SecretsFilter: '*'
-        RunAsPreJob: true
 
     - task: VSBuild@1
       inputs:
