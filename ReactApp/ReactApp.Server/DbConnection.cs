@@ -29,16 +29,7 @@ public class DbConnection
     {
         string keyVaultUri = $"https://{keyVaultName}.vault.azure.net/";
 
-        var client = new SecretClient(new Uri(keyVaultUri), new DefaultAzureCredential(new DefaultAzureCredentialOptions()
-        {
-            TenantId = "0b933fc9-3391-4302-9d86-85fe9bb5370e", 
-            ExcludeEnvironmentCredential = true,
-            ExcludeManagedIdentityCredential = true,
-            ExcludeSharedTokenCacheCredential = true,
-            ExcludeVisualStudioCodeCredential = true,
-            ExcludeVisualStudioCredential = true,
-            ExcludeInteractiveBrowserCredential = true
-        }));
+        var client = new SecretClient(new Uri(keyVaultUri), new AzureCliCredential());
 
         try
         {
