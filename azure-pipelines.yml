@@ -44,7 +44,7 @@ stages:
     - task: AzureKeyVault@2
       inputs:
         azureSubscription: $(azureServiceConnection)
-        KeyVaultName: 'EcoEstimate-vault'
+        KeyVaultName: 'Bachelor-keyvault-all'
         SecretsFilter: '*'
         RunAsPreJob: true
 
