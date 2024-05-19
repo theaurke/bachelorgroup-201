@@ -12,7 +12,7 @@ public static class DatabaseAPI
         try
         {
             // Establish connection to db
-            using (SqlConnection connection = await DbConnection.GetOpenConnectionAsync("EcoEstimate-vault", "dbcontext"))
+            using (SqlConnection connection = await DbConnection.GetOpenConnectionAsync("Bachelor-keyvault-all", "dbConnection"))
             {
                 // Create a SqlCommand object with the provided query and connection
                 SqlCommand command = new SqlCommand(query, connection);
