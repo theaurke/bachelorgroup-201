@@ -8,16 +8,17 @@ namespace ReactApp.Server.Controllers
     public class RegionController : ControllerBase
     {
         private readonly ILogger<RegionController> _logger;
+        private readonly IDatabaseApi _databaseApi;
 
-        public RegionController(ILogger<RegionController> logger)
+        public RegionController(ILogger<RegionController> logger, IDatabaseApi databaseApi)
         {
             _logger = logger;
+            _databaseApi = databaseApi;
         }
-
-
+        
         // Fetch all available region country names from db
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<string>>> Get()
+        public async Task<ActionResult<IEnumerable<string>>> GetAllCountries()
         {
             try
             {
@@ -26,7 +27,7 @@ namespace ReactApp.Server.Controllers
                 SqlParameter[] parameters = new SqlParameter[] { };
 
                 // Execute the query asynchronously and retrieve the result
-                var countryNames = await DatabaseAPI.ExtractDataDB(query, parameters, reader =>
+                var countryNames = await _databaseApi.ExtractDataDb(query, parameters, reader =>
                 {
                     List<string> names = new List<string>();
                     while (reader.Read())
@@ -59,7 +60,7 @@ namespace ReactApp.Server.Controllers
                 SqlParameter[] parameters = [new SqlParameter("@region", region)];
 
                 // Execute query and retrieve the result
-                var intensity = await DatabaseAPI.ExtractDataDB(query, parameters, reader =>
+                var intensity = await _databaseApi.ExtractDataDb(query, parameters, reader =>
                 {
                     if (reader.Read())
                     {
@@ -96,7 +97,7 @@ namespace ReactApp.Server.Controllers
                 SqlParameter[] parameters = [new SqlParameter("@region", region)];
 
                 // Execute query and retrieve the result
-                var pue = await DatabaseAPI.ExtractDataDB(query, parameters, reader =>
+                var pue = await _databaseApi.ExtractDataDb(query, parameters, reader =>
                 {
                     if (reader.Read())
                     {

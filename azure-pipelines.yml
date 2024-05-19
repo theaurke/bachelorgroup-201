@@ -48,18 +48,39 @@ stages:
         platform: '$(buildPlatform)'
         configuration: '$(buildConfiguration)'
     
-
-  #  - task: VSTest@2
-   #   inputs:
-    #    platform: '$(buildPlatform)'
-     #   configuration: '$(buildConfiguration)'
-    
+        
     - task: CopyFiles@2
       displayName: 'Include templates in the artifact'
       inputs:
         Contents: |
           main.bicep
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet restore'    
+      inputs:
+        command: restore
+        projects: '**/*.csproj' 
+        
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet build'
+      inputs:
+        command: build
+        projects: '**/*.csproj'
+        arguments: '--configuration $(BuildConfiguration)'    
+
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet test'
+      inputs:
+        command: test
+        projects: '**/ServerTest.csproj'
+        arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage"'
+        publishTestResults: true
+    
+    - task: PublishCodeCoverageResults@2
+      displayName: 'Publish code coverage .csproj'
+      inputs:
+        summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
 
     - task: Npm@1
       displayName: npm run test
@@ -74,10 +95,9 @@ stages:
       inputs:
         testResultsFiles: 'ReactApp/reactapp.client/junit.xml'
 
-    - task: PublishCodeCoverageResults@1
+    - task: PublishCodeCoverageResults@2
       displayName: 'Publish code coverage'
       inputs:
-        codeCoverageTool: Cobertura
         summaryFileLocation: 'ReactApp/reactapp.client/coverage/cobertura-coverage.xml'
 
     - task: PublishBuildArtifacts@1

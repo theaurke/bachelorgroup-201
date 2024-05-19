@@ -1,60 +1,18 @@
-﻿using ReactApp;
-using Microsoft.Data.SqlClient;
-using System.Data.SqlTypes;
+﻿using Microsoft.Data.SqlClient;
 
+namespace ReactApp.Server;
 
 public static class DatabaseAPI
 {
-    private static string GetConnectionString()
+    public static async Task<T> ExtractDataDb<T>(string query, SqlParameter[] parameters,
+        Func<SqlDataReader, T> processResult)
     {
-        // Azure SQL Database connection string
-        SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-        builder.DataSource = "tcp:ecoestimate-sqlserver.database.windows.net";
-        builder.UserID = "group11";
-        builder.Password = "Prog-jentene123";
-        builder.InitialCatalog = "EcoEstimateDB";
-        return builder.ConnectionString;
-    }
+        var result = default(T); // variable to store the result of db query
 
-    private static async Task<SqlConnection> GetOpenConnectionAsync()
-    {
-        SqlConnection connection = new SqlConnection(GetConnectionString());
-        await connection.OpenAsync();
-        return connection;
-    }
-
-    public static async Task InsertDataDB()
-    {
         try
         {
-            using (SqlConnection connection = await GetOpenConnectionAsync())
-            {
-                connection.Open();
-                
-                // Fetch data from API and parse response
-                var carbonDataList = await ElMapAPI.CarbonIntensityList();
-                
-                foreach (var data in carbonDataList)
-                {
-                    ElMapAPI.CheckAndUpdateDatabase(connection, data);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"An error during insertion/update: {ex.Message}");
-        }
-    }
-
-
-    public static async Task<T> ExtractDataDB<T>(string query, SqlParameter[] parameters, Func<SqlDataReader, T> processResult)
-    {
-        T result = default(T);   // variable to store the result of db query
-
-        try
-        { 
             // Establish connection to db
-            using (SqlConnection connection = await GetOpenConnectionAsync())
+            using (SqlConnection connection = await DbConnection.GetOpenConnectionAsync("EcoEstimate-vault", "dbcontext"))
             {
                 // Create a SqlCommand object with the provided query and connection
                 SqlCommand command = new SqlCommand(query, connection);
@@ -63,13 +21,14 @@ public static class DatabaseAPI
                 command.Parameters.AddRange(parameters);
 
                 // Execute the query asynchronously
-                using (SqlDataReader reader = await command.ExecuteReaderAsync()) 
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
                     // Process the result using the provided delegate
                     result = processResult(reader);
                 }
             }
         }
+
         catch (Exception ex)
         {
             // Handle any exceptions that occur during database interaction
@@ -78,6 +37,5 @@ public static class DatabaseAPI
 
         // Return the result of the query (or null if an error occurred)
         return result;
-
     }
 }

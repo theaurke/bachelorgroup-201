@@ -59,7 +59,7 @@ describe('AddedResourcesList component', () => {
         const resourceName = listPoint1.querySelector('h6');
         const buttonImage = listPoint1.querySelector('img');
 
-        expect(resourceName).toHaveTextContent('Virtual Machine 1');
+        expect(resourceName).toHaveTextContent('Virtual Machine');
         expect(buttonImage).toHaveAttribute('src', 'downarrow.png');
 
     });

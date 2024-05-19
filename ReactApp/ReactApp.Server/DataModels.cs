@@ -1,7 +1,9 @@
+namespace ReactApp.Server;
+
 public class ZoneResponse
 {
     public required string ZoneName { get; set; }
-    public string CountryName { get; set; }
+    public string? CountryName { get; set; }
 }
 
 public class CarbonIntensityResponse
@@ -12,16 +14,14 @@ public class CarbonIntensityResponse
 
 public class CarbonData
 {
-    public string ZoneID { get; set; }
-    public string ZoneName { get; set; }
-    public string CountryName { get; set; }
+    public required string ZoneID { get; set; }
+    public required string ZoneName { get; set; }
+    public string? CountryName { get; set; }
     public int CarbonIntensity { get; set; }
     public DateTime UpdatedAt { get; set; }
-    public DateTime Now { get; }
 }
 
-
-public class VMData 
+public class VMData
 {
     public int CPU_Num { get; set; }
     public decimal? GPU_Num { get; set; } // Using nullable decimal for GPU Num because the value can be null
