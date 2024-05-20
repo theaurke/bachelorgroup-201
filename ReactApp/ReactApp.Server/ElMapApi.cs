@@ -119,13 +119,12 @@ public class ElMapApi
         try
         {
             var updateData =
-                "UPDATE dbo.Region SET region_value = @region_value, updatedAt = @updatedAt, nowTime = @nowTime WHERE name = @name";
+                "UPDATE dbo.Region SET region_value = @region_value, updatedAt = @updatedAt WHERE name = @name";
             using (var updateCommand = new SqlCommand(updateData, connection))
             {
                 updateCommand.Parameters.AddWithValue("@region_value", data.CarbonIntensity);
                 updateCommand.Parameters.AddWithValue("@updatedAt", data.UpdatedAt);
                 updateCommand.Parameters.AddWithValue("@name", data.ZoneID);
-                updateCommand.Parameters.AddWithValue("@nowTime", DateTime.Now);
                 updateCommand.ExecuteNonQuery();
             }
 

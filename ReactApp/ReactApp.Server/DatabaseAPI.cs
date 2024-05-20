@@ -8,7 +8,6 @@ public static class DatabaseAPI
         Func<SqlDataReader, T> processResult)
     {
         var result = default(T); // variable to store the result of db query
-
         try
         {
             // Establish connection to db
