@@ -12,7 +12,7 @@ public static class DatabaseAPI
         try
         {
             // Establish connection to db
-            using (SqlConnection connection = await DbConnection.GetOpenConnectionAsync("EcoEstimate-vault", "dbcontext"))
+            using (SqlConnection connection = await DbConnection.GetOpenConnectionAsync("Server=tcp:ecoestimate-sqlserver.database.windows.net,1433;Initial Catalog=EcoEstimateDB;Persist Security Info=False;User ID=group11;Password=Prog-jentene123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;", null))
             {
                 // Create a SqlCommand object with the provided query and connection
                 SqlCommand command = new SqlCommand(query, connection);
